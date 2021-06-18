@@ -1787,7 +1787,8 @@ MonoBehaviour:
   stopTime: 0
   currentTime: 0
   size: 0
-  spherePrefab: {fileID: 8584337089220081970, guid: 5321727625d04bc4a891cdcd9d50336b, type: 3}
+  canvas: {fileID: 1271266868}
+  spherePrefab: {fileID: 8584337089220081970, guid: e4071119dc6f2de49a9390abe284e511, type: 3}
 --- !u!4 &438271660
 Transform:
   m_ObjectHideFlags: 0
@@ -4746,7 +4747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   a: {fileID: 438271659}
-  spherePrefab: {fileID: 8584337089220081970, guid: 5321727625d04bc4a891cdcd9d50336b, type: 3}
+  spherePrefab: {fileID: 8584337089220081970, guid: e4071119dc6f2de49a9390abe284e511, type: 3}
   canvas: {fileID: 1271266868}
   speedSlider: {fileID: 1888905653}
   inputText: {fileID: 1056875328}

@@ -17,7 +17,7 @@ public class AVL : Algorithm
     protected int[] heights;
     protected static float[] Xcoords;
     protected static float[] Ycoords;
-
+    [SerializeField] public GameObject canvas;
     [SerializeField] GameObject spherePrefab;
     public AVL(int size, GameObject spherePrefab)
     {
@@ -58,6 +58,11 @@ public class AVL : Algorithm
         }
     }
 
+    void Start()
+    {
+        canvas = GameObject.Find("Canvas");
+    }
+
     public void insertRandom(int keyAmount)
     {
         size = keyAmount; // number of keys to be inserted
@@ -83,10 +88,17 @@ public class AVL : Algorithm
         }
 
         Debug.Log(order); // prints the keys in order of insertion
+        q.Enqueue(new AVLCommand(-1,0,0,"Starting AVL Insertion."));
+        q.Enqueue(new AVLCommand(-1,0,0,"Starting AVL Insertion."));
+        q.Enqueue(new AVLCommand(-1,0,0,"Starting AVL Insertion."));
 
         for (int i = 0; i < keys.Length; i++) // insertion of keys
         {
+            q.Enqueue(new AVLCommand(-1,0,0,("Inserting " + keys[i])));
+            q.Enqueue(new AVLCommand(-1,0,0,""));
             insert(keys[i], 0);
+            q.Enqueue(new AVLCommand(-1,0,0,( keys[i] + " inserted!")));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         }
 
         printIntTree();
@@ -103,7 +115,7 @@ public class AVL : Algorithm
 
 
 
-    void customInserts() // starts here
+    public void customInserts() // starts here
     {
         string text = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,62,63";
 
@@ -218,30 +230,68 @@ public class AVL : Algorithm
             
             if (I != 0) // if the new node isn't at index 0 (the root of the tree) draw a line to the parent node 
             {
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 q.Enqueue(new AVLCommand(1, I, parentI(I), "Linking node to it's new parent."));
             }
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
             q.Enqueue(new AVLCommand(-1, 0, 0, ""));
             return;
         }
 
-        q.Enqueue(new AVLCommand(2, I, 1, "Null node not found")); // null node not found, highlight current node to show insertion path
+        q.Enqueue(new AVLCommand(2, I, 1, "Current node is not null, beginning comparison")); // null node not found, highlight current node to show insertion path
         q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         if (inttree[I] > key) // go left
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node's key: " + inttree[I] + " > Inserted key: " + key + ". continue down left subtree")));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node's key: " + inttree[I] + " > Inserted key: " + key)));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down left subtree."));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(2, I, 10, ""));
+            if(I != 0 )
+            {
+                q.Enqueue(new AVLCommand(5, I, 1, ""));
+            }
             insert(key, leftCI(I));
         }
         else // go right
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node's key: " + inttree[I] + " < Inserted key: " + key + ". continue down right subtree")));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node's key: " + inttree[I] + " <= Inserted key: " + key)));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down right subtree."));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new AVLCommand(2, I, 10, ""));
+            if(I != 0 )
+            {
+                q.Enqueue(new AVLCommand(5, I, 1, ""));
+            }
+            
             insert(key, rightCI(I));
         }
 
-        q.Enqueue(new AVLCommand(2, I, 0, "Return to parent."));
+        q.Enqueue(new AVLCommand(2, I, 1, "Return to parent."));
+        if(I != 0 )
+            {
+                q.Enqueue(new AVLCommand(5, I, 0, ""));
+            }
         q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, "Check balance of the node"));
+        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new AVLCommand(-1, 0, 0, ("Check balance of " + inttree[I])));
+        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        
 
         heights[I] = max(heights[leftCI(I)], heights[rightCI(I)]) + 1;
+
+        q.Enqueue(new AVLCommand(6, I, heights[leftCI(I)],""));
+        q.Enqueue(new AVLCommand(7, I, heights[rightCI(I)],""));
 
         int balance = heights[leftCI(I)] - heights[rightCI(I)];
 
@@ -250,35 +300,68 @@ public class AVL : Algorithm
             if (key >= inttree[leftCI(I)]) // if left-right
             {
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is right heavy: Left-Right case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on left subtree."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 lRotate(leftCI(I));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on node."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 rRotate(I);
             }
             else // if left-left
             {
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is left heavy: Left-Left case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on node."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 rRotate(I);
             }
+            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
         }
         else if (balance < -1)
         {
             if (key < inttree[rightCI(I)]) // right -left
             {
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is left heavy: Right-Left case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on left subtree."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 rRotate(rightCI(I));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on node."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 lRotate(I);
             }
             else // right-right
             {
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is right heavy: Right-Right case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on node."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
                 lRotate(I);
             }
+
+            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
         }
+        else
+        {
+            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is already balanced!")));
+            
+
+        }
+        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+
+        q.Enqueue(new AVLCommand(2, I, 0, ""));
 
         return;
     }
@@ -864,6 +947,60 @@ public class AVL : Algorithm
                     colorTree(instr.arg1, instr.arg2);
                     break;
 
+                case 5: // color branch(5, index, color)
+                     if(Nodetree[instr.arg1] != null)
+                    {
+                        switch (instr.arg2)
+                        {
+                            case 0:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = Color.white;
+                                break;
+
+                            case 1:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color= Color.red;
+                                break;
+
+                            case 2:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = new Color(0.945f, 0.518f, 0.031f, 1.0f);
+                                break;
+
+                            case 3:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = Color.yellow;
+                                break;
+
+                            case 4:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color= Color.green;
+                                break;
+
+                            case 5:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = Color.blue;
+                                break;
+
+                            case 6:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = Color.magenta;
+                                break;
+
+                            default:
+                                Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = Color.black;
+                                break;
+
+                        }
+                    }
+                    break;
+                case 6: // update balance on the left nodes. (6, index, value, "")
+                
+                    Nodetree[instr.arg1].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "Left Balance: " + instr.arg2;
+                    break;
+                
+                case 7: // update balance on the right nodes. (6, index, value, "")
+                
+                    Nodetree[instr.arg1].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "Right Balance: " + instr.arg2;
+                    break;
+                
+                case 8:// make balance visable
+                {
+                    break;
+                }
                 default:
                     yield return new WaitForSeconds(time);
                     break;

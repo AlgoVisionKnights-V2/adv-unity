@@ -19,7 +19,10 @@ public class AVLUI : MonoBehaviour
         a = new AVL(0, spherePrefab);
         int startSize = FindObjectOfType<TMP_Dropdown>().value;
         //FindObjectOfType<TMP_InputField>.SetActive(false); // makes input field invisible
-
+        //a.time = speedSlider.value;
+        canvas = GameObject.Find("Canvas");
+        speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
+       // inputText = canvas.transform.GetChild(13);
         switch (startSize)
         {
             case 0:
@@ -44,6 +47,7 @@ public class AVLUI : MonoBehaviour
                 {
                     inputText.SetActive(false);
                     Debug.Log("HADFJAEFHIUEFHIUSEF");
+                    a.customInserts();
                     //convert input field value to integers, if possible
                     //send integers to insertion
                     break;
