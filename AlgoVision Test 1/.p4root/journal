@@ -1,0 +1,91 @@
+@rv@ 7 @db.domain@ @mweston-dvcs-1620747631@ 99 @@ @/home/mweston/Perforce/Matthew_workspace/AlgoVision Test 1@ @@ @@ @mweston@ 1620747651 1620747644 4164 @Created by mweston.@ @//stream/main@ @@ 1 
+@ex@ 71182 1620747651
+@pv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 0 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@pv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 0 0 
+@ex@ 71203 1620747678
+@pv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs.meta@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 0 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@pv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 0 0 
+@ex@ 71204 1620747681
+@pv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/TreeBuilder.cs@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 0 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@pv@ 2 @db.locks@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 0 0 
+@pv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 0 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@pv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 0 0 
+@pv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs.meta@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 0 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@pv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 0 0 
+@ex@ 71208 1620747699
+@pv@ 1 @db.counters@ @change@ @1@ 
+@pv@ 0 @db.desc@ 1 @Adding AVL and Binary Tree files. AVL is not properly functional yet.
+@ 
+@pv@ 6 @db.change@ 1 1 @mweston-dvcs-1620747631@ @mweston@ 1620747725 0 @Adding AVL and Binary Tree file@ @@ @@ @@ 0 0 @@ 
+@pv@ 6 @db.changex@ 1 1 @mweston-dvcs-1620747631@ @mweston@ 1620747725 0 @Adding AVL and Binary Tree file@ @@ @@ @@ 0 0 @@ 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 0 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs.meta@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 0 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 0 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs.meta@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 0 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/TreeBuilder.cs@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 0 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 0 1 
+@ex@ 71214 1620747725
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 1 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs.meta@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 1 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 1 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs.meta@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 1 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/TreeBuilder.cs@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 0 1 00000000000000000000000000000000 -1 0 0 0 @@ 0 
+@rv@ 2 @db.locks@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@ex@ 71214 1620747725
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620745829 1 7154B14996E492F6B300174137C8AEDC 2969 0 0 0 @@ 0 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs.meta@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620735188 1 6A7333FB266ADEA26952C1869DC7491D 243 0 0 0 @@ 0 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620737859 1 5EB4C97A1E7F4E062533FE2CD2AE655A 1998 0 0 0 @@ 0 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs.meta@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620737057 1 65CD04119A00205F8895D675CCD108F1 243 0 0 0 @@ 0 
+@rv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/TreeBuilder.cs@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620737866 1 9096A63AF5C137F1FCB6B02C83F0C70A 5785 0 0 0 @@ 0 
+@ex@ 71214 1620747726
+@dv@ 6 @db.changex@ 1 1 @mweston-dvcs-1620747631@ @mweston@ 1620747725 0 @Adding AVL and Binary Tree file@ @@ @@ @@ 0 0 @@ 
+@rv@ 6 @db.change@ 1 1 @mweston-dvcs-1620747631@ @mweston@ 1620747726 1 @Adding AVL and Binary Tree file@ @//stream/main/Assets/Scripts/*@ @@ @@ 0 0 @@ 
+@pv@ 9 @db.rev@ @//stream/main/Assets/Scripts/AVL.cs@ 1 0 0 1 1620747726 1620745829 7154B14996E492F6B300174137C8AEDC 2969 0 0 @//stream/main/Assets/Scripts/AVL.cs@ @1.1@ 0 
+@pv@ 1 @db.storage@ @//stream/main/Assets/Scripts/AVL.cs@ @1.1@ 0 1 7154B14996E492F6B300174137C8AEDC 2969 -1 00000000000000000000000000000000 1620747726 
+@pv@ 9 @db.revhx@ @//stream/main/Assets/Scripts/AVL.cs@ 1 0 0 1 1620747726 1620745829 7154B14996E492F6B300174137C8AEDC 2969 0 0 @//stream/main/Assets/Scripts/AVL.cs@ @1.1@ 0 
+@pv@ 0 @db.revcx@ 1 @//stream/main/Assets/Scripts/AVL.cs@ 1 0 
+@pv@ 9 @db.rev@ @//stream/main/Assets/Scripts/AVL.cs.meta@ 1 0 0 1 1620747726 1620735188 6A7333FB266ADEA26952C1869DC7491D 243 0 0 @//stream/main/Assets/Scripts/AVL.cs.meta@ @1.1@ 0 
+@pv@ 1 @db.storage@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @1.1@ 0 1 6A7333FB266ADEA26952C1869DC7491D 243 -1 00000000000000000000000000000000 1620747726 
+@pv@ 9 @db.revhx@ @//stream/main/Assets/Scripts/AVL.cs.meta@ 1 0 0 1 1620747726 1620735188 6A7333FB266ADEA26952C1869DC7491D 243 0 0 @//stream/main/Assets/Scripts/AVL.cs.meta@ @1.1@ 0 
+@pv@ 0 @db.revcx@ 1 @//stream/main/Assets/Scripts/AVL.cs.meta@ 1 0 
+@pv@ 9 @db.rev@ @//stream/main/Assets/Scripts/BinaryTree.cs@ 1 0 0 1 1620747726 1620737859 5EB4C97A1E7F4E062533FE2CD2AE655A 1998 0 0 @//stream/main/Assets/Scripts/BinaryTree.cs@ @1.1@ 0 
+@pv@ 1 @db.storage@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @1.1@ 0 1 5EB4C97A1E7F4E062533FE2CD2AE655A 1998 -1 00000000000000000000000000000000 1620747726 
+@pv@ 9 @db.revhx@ @//stream/main/Assets/Scripts/BinaryTree.cs@ 1 0 0 1 1620747726 1620737859 5EB4C97A1E7F4E062533FE2CD2AE655A 1998 0 0 @//stream/main/Assets/Scripts/BinaryTree.cs@ @1.1@ 0 
+@pv@ 0 @db.revcx@ 1 @//stream/main/Assets/Scripts/BinaryTree.cs@ 1 0 
+@pv@ 9 @db.rev@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ 1 0 0 1 1620747726 1620737057 65CD04119A00205F8895D675CCD108F1 243 0 0 @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @1.1@ 0 
+@pv@ 1 @db.storage@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @1.1@ 0 1 65CD04119A00205F8895D675CCD108F1 243 -1 00000000000000000000000000000000 1620747726 
+@pv@ 9 @db.revhx@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ 1 0 0 1 1620747726 1620737057 65CD04119A00205F8895D675CCD108F1 243 0 0 @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @1.1@ 0 
+@pv@ 0 @db.revcx@ 1 @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ 1 0 
+@pv@ 9 @db.rev@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ 1 0 0 1 1620747726 1620737866 9096A63AF5C137F1FCB6B02C83F0C70A 5785 0 0 @//stream/main/Assets/Scripts/TreeBuilder.cs@ @1.1@ 0 
+@pv@ 1 @db.storage@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @1.1@ 0 1 9096A63AF5C137F1FCB6B02C83F0C70A 5785 -1 00000000000000000000000000000000 1620747726 
+@pv@ 9 @db.revhx@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ 1 0 0 1 1620747726 1620737866 9096A63AF5C137F1FCB6B02C83F0C70A 5785 0 0 @//stream/main/Assets/Scripts/TreeBuilder.cs@ @1.1@ 0 
+@pv@ 0 @db.revcx@ 1 @//stream/main/Assets/Scripts/TreeBuilder.cs@ 1 0 
+@ex@ 71214 1620747726
+@rv@ 1 @db.counters@ @maxCommitChange@ @1@ 
+@ex@ 71214 1620747726
+@pv@ 3 @db.have@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs@ @//stream/main/Assets/Scripts/AVL.cs@ 1 0 1620745829 
+@dv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@dv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs@ @//stream/main/Assets/Scripts/AVL.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620745829 1 7154B14996E492F6B300174137C8AEDC 2969 0 0 0 @@ 0 
+@pv@ 3 @db.have@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs.meta@ @//stream/main/Assets/Scripts/AVL.cs.meta@ 1 0 1620735188 
+@dv@ 2 @db.locks@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@dv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/AVL.cs.meta@ @//stream/main/Assets/Scripts/AVL.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620735188 1 6A7333FB266ADEA26952C1869DC7491D 243 0 0 0 @@ 0 
+@pv@ 3 @db.have@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs@ @//stream/main/Assets/Scripts/BinaryTree.cs@ 1 0 1620737859 
+@dv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@dv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs@ @//stream/main/Assets/Scripts/BinaryTree.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620737859 1 5EB4C97A1E7F4E062533FE2CD2AE655A 1998 0 0 0 @@ 0 
+@pv@ 3 @db.have@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs.meta@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ 1 0 1620737057 
+@dv@ 2 @db.locks@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@dv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/BinaryTree.cs.meta@ @//stream/main/Assets/Scripts/BinaryTree.cs.meta@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620737057 1 65CD04119A00205F8895D675CCD108F1 243 0 0 0 @@ 0 
+@pv@ 3 @db.have@ @//mweston-dvcs-1620747631/Assets/Scripts/TreeBuilder.cs@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ 1 0 1620737866 
+@dv@ 2 @db.locks@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 1 
+@dv@ 10 @db.working@ @//mweston-dvcs-1620747631/Assets/Scripts/TreeBuilder.cs@ @//stream/main/Assets/Scripts/TreeBuilder.cs@ @mweston-dvcs-1620747631@ @mweston@ 0 1 0 0 0 1 1620737866 1 9096A63AF5C137F1FCB6B02C83F0C70A 5785 0 0 0 @@ 0 
+@ex@ 71214 1620747726
+@rv@ 2 @db.stream@ @//stream/main@ @none@ @//stream/main@ 0 1620747644 1 0 0 0 0 0 1 
+@ex@ 71214 1620747726

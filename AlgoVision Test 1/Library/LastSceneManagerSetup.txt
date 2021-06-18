@@ -1,0 +1,5 @@
+sceneSetups:
+- path: Assets/Scenes/Trees/AVLTest.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
