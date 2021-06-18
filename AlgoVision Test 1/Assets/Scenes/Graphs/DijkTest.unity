@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: f09d80cb85927e6458bf2e05b5303bd6, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -1096,7 +1096,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: 340}
   m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &305506256
@@ -1146,8 +1146,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1655,6 +1655,7 @@ MonoBehaviour:
   spherePrefab: {fileID: 8584337089220081970, guid: 5321727625d04bc4a891cdcd9d50336b, type: 3}
   edgeValue: {fileID: 5025605395965048926, guid: 60cf495194e9c7d4eba9d4c3fbfbf9b0, type: 3}
   vertexInfo: {fileID: 5299587562845438950, guid: 070450f7da32b2644a0ab95eb41a143c, type: 3}
+  canvas: {fileID: 1271266868}
 --- !u!4 &438271660
 Transform:
   m_ObjectHideFlags: 0
@@ -1876,7 +1877,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Medium (N = 13)
+  m_text: Head = node 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -4639,11 +4640,17 @@ MonoBehaviour:
   m_Value: 1
   m_Options:
     m_Options:
-    - m_Text: Small (N = 7)
+    - m_Text: Head = node 0
       m_Image: {fileID: 0}
-    - m_Text: Medium (N = 13)
+    - m_Text: Head = node 1
       m_Image: {fileID: 0}
-    - m_Text: Large (N = 21)
+    - m_Text: Head = node 2
+      m_Image: {fileID: 0}
+    - m_Text: Head = node 3
+      m_Image: {fileID: 0}
+    - m_Text: Head = node 4
+      m_Image: {fileID: 0}
+    - m_Text: Head = node 5
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

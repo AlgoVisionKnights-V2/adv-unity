@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class DijkstraUI : MonoBehaviour
 {
     [SerializeField] Dijkstra a;
@@ -15,8 +16,9 @@ public class DijkstraUI : MonoBehaviour
     { 
         canvas = GameObject.Find("Canvas");
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
+        int headNode = FindObjectOfType<TMP_Dropdown>().value;
         //isPlay = true;
-        a.Setup(3);
+        a.Setup(headNode);
         StartCoroutine(a.readQueue());
     }
 
@@ -24,7 +26,7 @@ public class DijkstraUI : MonoBehaviour
     void Update()
     {
         // temp until I figure out how to set up a slider
-        //a.time = speedSlider.value;
+        a.time = speedSlider.value;
     }
     public void restartScene()
     {

@@ -18,6 +18,7 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
     public static int edge = 9;
     public static Vertex[] vertices = new Vertex[vertex];
     public static Edge[] edges = new Edge[edge];
+    protected TMP_Text showText;
 
     public class Vertex{
         public int value;
@@ -85,22 +86,32 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
         public short commandId, additionalInfo;
         public int v1,v2, edge;
         public string message;
+        // standard message that updates nodes
         public QueueCommand(short commandId, int v1, int v2, short additionalInfo){
             this.commandId = commandId;
             this.v1 = v1;
             this.v2 = v2;
             this.additionalInfo = additionalInfo;
         }
+        // standard message that updates edges
         public QueueCommand(short commandId, int edge, short additionalInfo){
             this.commandId = commandId;
             this.edge = edge;
             this.additionalInfo = additionalInfo;            
         }
+        // command used to update info variable in each node
         public QueueCommand(short commandId, int v1, string message)
         {
             this.commandId = commandId;
             this.v1 = v1;
             this.message = message;
+        }
+        // command that updates showText
+        public QueueCommand(short commandId, string message, short additionalInfo)
+        {
+            this.commandId = commandId;
+            this.message = message;
+            this.additionalInfo = additionalInfo;
         }
     }
     public IEnumerator readQueue(){
@@ -109,7 +120,7 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
 
             switch(q.commandId){
                 case 0: 
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(time);
                     break;
                 case 1: // change the color of a single vertex. q.additionalInfo provides the colorId
                     changeVertexColor(q.v1, q.additionalInfo);
@@ -124,17 +135,41 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
                 case 4: // Update a text info field
                     vertices[q.v1].info.text = q.message;
                     break;
+                case 5:// update the displayed message
+                    showText.text = q.message;
+                    showText.color = colorChangeText(q.additionalInfo);
+                    break;
                 default:
                     extendCommands(q);
                     break;
             }
         }
     }
-
-    protected void changeVertexColor(int vertex, short colorId){
-        if (colorId > 3){
-            extendVertexColors(vertex, colorId);
+    private Color colorChangeText(int colorCode)
+    {
+        switch (colorCode)
+        {
+            case 0:
+                return Color.white;
+            case 1:
+                var blue = new Color(0.6f, 0.686f, 0.761f);
+                return Color.blue;
+            case 2:
+                var red = new Color(1f, .2f, .361f, 1);
+                return Color.red;
+            case 3:
+                return Color.black;
+            case 4:
+                var green = new Color(0.533f, 0.671f, 0.459f);
+                return Color.green;
+            case 5:
+                return Color.yellow;
+            default:
+                blue = new Color(0.6f, 0.686f, 0.761f);
+                return blue;
         }
+    }
+    protected void changeVertexColor(int vertex, short colorId){
         switch(colorId){
             case 0:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.white;
@@ -147,7 +182,16 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
                 break;
             case 3:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.black;
-                break;            
+                break;
+            case 4:
+                vertices[vertex].o.GetComponent<Renderer>().material.color = Color.green;
+                break;
+            case 5:
+                vertices[vertex].o.GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+            default:
+                extendVertexColors(vertex, colorId);
+                break;
         }
     }
     protected void changeEdgeColor(int edge, short colorId){
