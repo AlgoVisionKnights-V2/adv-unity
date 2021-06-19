@@ -58,9 +58,10 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-/AlgoVision Test 1/Library
-/AlgoVision Test 1/Logs
-/AlgoVision Test 1/ProjectSettings/ProjectVersion.txt
-/AlgoVision Test 1/Temp
-/AlgoVision Test 1/UserSettings
-/AlgoVision Test 1/Assets/Resources
+/AlgoVision/Library
+/AlgoVision/Logs
+/AlgoVision/ProjectSettings/ProjectVersion.txt
+/AlgoVision/Temp
+/AlgoVision/UserSettings
+/AlgoVision/Assets/Resources
+/AlgoVision/Assets/TextMesh Pro/Examples & Extras
