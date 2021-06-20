@@ -11,8 +11,10 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
+using Random = System.Random;
+using UnityEngine; // needed for Unity stuff
+using TMPro;
 public class Prim : Graph
 {
     [SerializeField] GameObject spherePrefab;
@@ -81,38 +83,54 @@ public class Prim : Graph
         // Lock the main and remove the junk data
         ((PrimVertex)vertices[main]).visited = true;
         head = head.next;
-        queue.Enqueue(new QueueCommand(1,main,-1, 4));
+        queue.Enqueue(new QueueCommand(1,main,-1, 3));
         // Make writing easier by setting references to precast values
-        PrimVertex a,b;
-
+        PrimVertex a,b,c,d;
+        Color original;
         while (head != null){
+
+            original = head.edge.edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color;
+            Debug.Log(original);
+            queue.Enqueue(new QueueCommand(3, head.edge.id, 3));
+            queue.Enqueue(new QueueCommand(0,-1,-1));
+
             a = (PrimVertex)vertices[head.edge.i];
             b = (PrimVertex)vertices[head.edge.j];
+
             if (a.visited && b.visited){
+                if (original == Color.white){
+                    queue.Enqueue(new QueueCommand(3, head.edge.id, 2));
+                }
+                else{
+                    queue.Enqueue(new QueueCommand(3, head.edge.id, 1));
+                }
                 head = head.next;
+                queue.Enqueue(new QueueCommand(0,-1,-1));
+
                 continue;
             }
-            foreach(Edge e in a.neighborEdges){
-                if (!a.visited){
-                    head.insert(e);
+
+            if (!a.visited){
+                a.visited = true;
+                foreach(Edge e in a.neighborEdges){
+                    c = (PrimVertex)vertices[e.i];
+                    d = (PrimVertex)vertices[e.j];
+                    if (!c.visited || !d.visited)
+                        head.insert(e);
                 }
             }
-            foreach(Edge e in b.neighborEdges){
-                if (!b.visited){
-                    head.insert(e);
+            if (!b.visited){
+                b.visited = true;
+                foreach(Edge e in b.neighborEdges){
+                    c = (PrimVertex)vertices[e.i];
+                    d = (PrimVertex)vertices[e.j];
+                    if (!c.visited || !d.visited)
+                        head.insert(e);
                 }
             }
-            if(a.value != main){
-                queue.Enqueue(new QueueCommand(1,a.value,-1,1));
 
-            }
-            if (b.value != main){
-                queue.Enqueue(new QueueCommand(1,b.value,-1,1));
-
-            }
-
-            a.visited = true;
-            b.visited = true;
+            queue.Enqueue(new QueueCommand(1,a.value,-1,3));
+            queue.Enqueue(new QueueCommand(1,b.value,-1,3));
             queue.Enqueue(new QueueCommand(3, head.edge.id, 1));
             queue.Enqueue(new QueueCommand(0,-1,-1));
 

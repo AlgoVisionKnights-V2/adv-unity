@@ -23,7 +23,7 @@ public class PrimUI : MonoBehaviour
     void Update()
     {
         // temp until I figure out how to set up a slider
-        //a.time = speedSlider.value;
+        a.time = speedSlider.value;
     }
     public void restartScene()
     {

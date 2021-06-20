@@ -116,7 +116,6 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
     }
     public IEnumerator readQueue(){
         foreach(QueueCommand q in queue){
-            Debug.Log(q.commandId);
 
             switch(q.commandId){
                 case 0: 
