@@ -28,7 +28,7 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
         public TextMeshPro info;
         public GameObject o;
 
-        public Vertex(int value, GameObject spherePrefab, GameObject vertexInfo){
+        public Vertex(int value, GameObject spherePrefab, GameObject vertexInfo, string defaultText){
             this.value = value;
             name = (char)(value + 'A');
             neighbors = new List<Vertex>();
@@ -40,7 +40,7 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             var text = GameObject.Instantiate(vertexInfo);
             text.transform.position = new Vector3(vertexText[value, 0], vertexText[value, 1], 0);
             
-            text.GetComponent<TextMeshPro>().text = "Parent:N/A" + "\n" + "Distance:∞";
+            text.GetComponent<TextMeshPro>().text = defaultText;// "Parent:N/A" + "\n" + "Distance:∞";
             this.info = text.GetComponent<TextMeshPro>();
             
             //t.transform.position = new Vector3(o.transform.position.x,o.transform.position.y,o.transform.position.z - 1);

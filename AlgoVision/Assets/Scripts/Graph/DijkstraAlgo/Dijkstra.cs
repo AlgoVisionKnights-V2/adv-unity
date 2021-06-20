@@ -17,7 +17,7 @@ int main; // The primary vertex which all other vertices must reach
         public Edge parentEdge;
         public double weight;
         public bool visited;
-        public DijkstraVertex(int value, GameObject spherePrefab, GameObject vertexInfo) : base(value, spherePrefab, vertexInfo)
+        public DijkstraVertex(int value, GameObject spherePrefab, GameObject vertexInfo, string defaultMessage) : base(value, spherePrefab, vertexInfo, defaultMessage)
         {
             weight = double.PositiveInfinity;
         }
@@ -48,7 +48,7 @@ int main; // The primary vertex which all other vertices must reach
         vertices = new DijkstraVertex[vertex];
         canvas = GameObject.Find("Canvas");
         for (int i = 0; i < vertex; i++){
-            vertices[i] = new DijkstraVertex(i, spherePrefab, vertexInfo);
+            vertices[i] = new DijkstraVertex(i, spherePrefab, vertexInfo, "Parent:N/A" + "\n" + "Distance:∞");
         }
         for(int i = 0; i < edge; i++){
             edges[i] = new Edge(i, r.Next(1,21), edgeValue);

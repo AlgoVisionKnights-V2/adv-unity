@@ -1,3 +1,14 @@
+/*
+    Prim's algorithm creates a minimum spanning tree.
+    One vertex is randomly selected and each of its edges are placed in a priority queue
+    For each edge in the queue, the two vertices it connects are checked.
+    If a vertex is unvisited, add all its edges into the priority queue, 
+        add the edge to the MST, and set the vertex as visited
+    Otherwise, discard the edge
+
+    End result is a minimum spanning tree with the smallest total edge value possible
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +20,20 @@ public class Prim : Graph
     [SerializeField] GameObject vertexInfo;
     int main;
     protected static List head;
-    // Start is called before the first frame update
+
+    // This extends the Graph.Vertex class by adding a visited bool
+    // visited tracks if a vertex has been added to the minimum spanning tree
+
     protected class PrimVertex : Vertex{
         public bool visited;
-        public PrimVertex(int value, GameObject spherePrefab, GameObject vertexInfo) : base(value, spherePrefab, vertexInfo)
+        public PrimVertex(int value, GameObject spherePrefab, GameObject vertexInfo, string defaultMessage) : base(value, spherePrefab, vertexInfo, defaultMessage)
         {
-
+            visited = false;
         }
     }    
+
+    // The priority queue is a linked list
+    // The list is sorted based on the edge weight
     protected class List{
         public Edge edge;
         public List next;
@@ -43,15 +60,15 @@ public class Prim : Graph
     {
         vertices = new PrimVertex[vertex];
         for(int i = 0; i < vertex; i++){
-            vertices[i] = new PrimVertex(i, spherePrefab, vertexInfo);
+            vertices[i] = new PrimVertex(i, spherePrefab, vertexInfo, "");
         }
         for(int i = 0; i < edge; i++){
             edges[i] = new Edge(i, r.Next(1,21), edgeValue);
         }
         //setCam();
         this.main = main; //= r.Next(vertex);
-        //PrimAlgorithm();
-        BreadthFirstSearch(main);
+        PrimAlgorithm();
+        //BreadthFirstSearch(main);
         //StartCoroutine(readQueue());        
     }
     void PrimAlgorithm(){
