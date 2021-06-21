@@ -68,7 +68,7 @@ public class Prim : Graph
             edges[i] = new Edge(i, r.Next(1,21), edgeValue);
         }
         //setCam();
-        this.main = main; //= r.Next(vertex);
+        this.main = main;
         PrimAlgorithm();
         //BreadthFirstSearch(main);
         //StartCoroutine(readQueue());        
