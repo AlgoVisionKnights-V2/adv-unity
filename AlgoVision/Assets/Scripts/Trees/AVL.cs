@@ -200,6 +200,7 @@ public class AVL : Algorithm
         {
             insert(keys[i], 0);
         }
+        delete(0, 48);
 
         printIntTree();
         printHeights();
@@ -209,7 +210,7 @@ public class AVL : Algorithm
         setCoords();
 
         
-        StartCoroutine(readQueue());
+        
     }
 
     void insert(int key, int I)
@@ -692,6 +693,125 @@ public class AVL : Algorithm
 
     private int max(int a, int b) => a > b ? a : b;
 
+    void delete(int I, int key)
+    {
+        if(inttree[I] == -1) // key was not found
+        {
+            return;
+        }
+        if (inttree[I] == key)
+        {
+
+            int tempI = findLeftmostNode(rightCI(I));
+
+            inttree[I] = inttree[tempI];
+
+            if(inttree[rightCI(tempI)] != -1)
+            {
+                inttree[tempI] = inttree[rightCI(tempI)];
+                inttree[rightCI(tempI)] = -1;
+                heights[rightCI(tempI)] = 0;
+            }
+            else
+            {
+                inttree[tempI] = -1;
+                heights[tempI] = 0;
+            }
+
+            updateHeights(I);
+
+            while(tempI > I)
+            {
+                heights[tempI] = max(heights[leftCI(tempI)], heights[rightCI(tempI)]) + 1;
+
+                int b = heights[leftCI(tempI)] - heights[rightCI(tempI)];
+
+                if (b > 1)
+                {
+                    if (key >= inttree[leftCI(tempI)]) // if left-right
+                    {
+                        lRotate(leftCI(tempI));
+                        rRotate(tempI);
+                    }
+                    else // if left-left
+                    {
+                        rRotate(tempI);
+                    }
+                }
+                else if (b < -1)
+                {
+                    if (key < inttree[rightCI(tempI)]) // right -left
+                    {
+                        rRotate(rightCI(tempI));
+                        lRotate(tempI);
+                    }
+                    else // right-right
+                    {
+                        lRotate(tempI);
+                    }
+                }
+
+                tempI = parentI(tempI);
+            }
+            return;
+        }
+        else
+        {
+            if (key < inttree[I])
+            {
+                delete(leftCI(I), key);
+            }
+            else
+            {
+                delete(rightCI(I), key);
+            }
+        }
+
+        heights[I] = max(heights[leftCI(I)], heights[rightCI(I)]) + 1;
+
+        int balance = heights[leftCI(I)] - heights[rightCI(I)];
+
+        if (balance > 1)
+        {
+            if (key >= inttree[leftCI(I)]) // if left-right
+            {
+                lRotate(leftCI(I));
+                rRotate(I);
+            }
+            else // if left-left
+            {
+                rRotate(I);
+            }
+        }
+        else if (balance < -1)
+        {
+            if (key < inttree[rightCI(I)]) // right -left
+            {
+                rRotate(rightCI(I));
+                lRotate(I);
+            }
+            else // right-right
+            {
+                lRotate(I);
+            }
+        }
+
+        return;
+    }
+
+    int findLeftmostNode(int I)
+    {
+        if(inttree[I] == -1)
+        {
+            return -1;
+        }
+        if(inttree[leftCI(I)] == -1)
+        {
+            return I;
+        }
+        return findLeftmostNode(leftCI(I));
+    }
+
     void printIntTree()
     {
         for (int i = 0; i < treeDepth; i++)
@@ -957,11 +1077,16 @@ public class AVL : Algorithm
                     break;
                 
                 case 8:// make balance invisable (8, index, null, "")
-                {
-                        Nodetree[instr.arg1].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
-                        Nodetree[instr.arg1].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "";
-                        break;
-                }
+                
+                    Nodetree[instr.arg1].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
+                    Nodetree[instr.arg1].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "";
+                    break;
+                case 9: // delete node (9, index, null, "")
+
+                    Destroy(Nodetree[instr.arg1].o);
+                    Destroy(Nodetree[instr.arg1].parentEdge);
+                    break;
+
                 default:
                     yield return new WaitForSeconds(time);
                     break;

@@ -48,6 +48,7 @@ public class AVLUI : MonoBehaviour
                     inputText.SetActive(false);
                     Debug.Log("HADFJAEFHIUEFHIUSEF");
                     a.customInserts();
+                    StartCoroutine(a.readQueue());
                     //convert input field value to integers, if possible
                     //send integers to insertion
                     break;
