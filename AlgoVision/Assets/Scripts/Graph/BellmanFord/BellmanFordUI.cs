@@ -3,31 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class BellmanFordUI : MonoBehaviour
 {
     [SerializeField] BellmanFord a;
 
-    //SerializeField] Slider speedSlider;
+    [SerializeField] Slider speedSlider;
     private bool isPlay;
     public GameObject canvas;
     // Start is called before the first frame update
     void Start()
     {
         canvas = GameObject.Find("Canvas");
-        //speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
-        a.Setup(3);
+        speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
+        int headNode = FindObjectOfType<TMP_Dropdown>().value;
+        a.Setup(headNode);
         StartCoroutine(a.readQueue());
     }
 
     // Update is called once per frame
     void Update()
     {
-        // temp until I figure out how to set up a slider
-        //a.time = speedSlider.value;
+        a.time = speedSlider.value;
     }
     public void restartScene()
     {
-        SceneManager.LoadScene("BellmanFordScene");
+        SceneManager.LoadScene("BellmanTest");
     }
     public void pauseAndPlay()
     {

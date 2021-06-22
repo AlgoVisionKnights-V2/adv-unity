@@ -17,7 +17,6 @@ public class DijkstraUI : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
         int headNode = FindObjectOfType<TMP_Dropdown>().value;
-        //isPlay = true;
         a.Setup(headNode);
         StartCoroutine(a.readQueue());
     }
@@ -30,7 +29,7 @@ public class DijkstraUI : MonoBehaviour
     }
     public void restartScene()
     {
-        SceneManager.LoadScene("DijkstraScene");
+        SceneManager.LoadScene("DijkTest");
     }
     public void pauseAndPlay()
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 public class PrimUI : MonoBehaviour
 {
     [SerializeField] Prim a;
@@ -15,7 +16,8 @@ public class PrimUI : MonoBehaviour
     {
         canvas = GameObject.Find("Canvas");
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
-        a.Setup(3);
+        int headNode = FindObjectOfType<TMP_Dropdown>().value;
+        a.Setup(headNode);
         StartCoroutine(a.readQueue());
     }
 
@@ -27,7 +29,7 @@ public class PrimUI : MonoBehaviour
     }
     public void restartScene()
     {
-        SceneManager.LoadScene("PrimScene");
+        SceneManager.LoadScene("PrimTest");
     }
     public void pauseAndPlay()
     {
