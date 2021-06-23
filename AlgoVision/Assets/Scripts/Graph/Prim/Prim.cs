@@ -15,7 +15,7 @@ using System;
 using Random = System.Random;
 using UnityEngine; // needed for Unity stuff
 using TMPro;
-public class Prim : Graph
+public class Prim : GraphPrim
 {
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject edgeValue;
