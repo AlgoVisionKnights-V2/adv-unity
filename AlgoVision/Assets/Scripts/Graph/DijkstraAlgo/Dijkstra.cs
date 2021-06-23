@@ -53,7 +53,7 @@ int main; // The primary vertex which all other vertices must reach
         for(int i = 0; i < edge; i++){
             edges[i] = new Edge(i, r.Next(1,21), edgeValue);
         }
-        showText = canvas.transform.GetChild(5).GetComponent<TMP_Text>();
+        showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
         this.main = main;
         vertices[main].info.text = "Parent:N/A" + "\n" + "Distance:0";
         DijkstraAlgorithm();
