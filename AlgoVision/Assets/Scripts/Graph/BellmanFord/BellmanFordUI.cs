@@ -17,6 +17,7 @@ public class BellmanFordUI : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
         int headNode = FindObjectOfType<TMP_Dropdown>().value;
+        Debug.Log(a);
         a.Setup(headNode);
         StartCoroutine(a.readQueue());
     }
@@ -24,7 +25,7 @@ public class BellmanFordUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        a.time = speedSlider.value;
+       a.time = speedSlider.value;
     }
     public void restartScene()
     {

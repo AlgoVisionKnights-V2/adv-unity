@@ -96,7 +96,7 @@ int main; // The primary vertex which all other vertices must reach
                      v.parentEdge = head.vertex.neighborEdges[i];
                  
 
-                     queue.Enqueue(new QueueCommand(3, v.parentEdge.id, 1));
+                    queue.Enqueue(new QueueCommand(3, v.parentEdge.id, 1));
                     queue.Enqueue(new QueueCommand(5, "Distance through " + head.vertex.value + " is less than the current distance.", 1));
                     queue.Enqueue(new QueueCommand(0, -1, -1, -1));
                     queue.Enqueue(new QueueCommand(5, ""+v.value+"'s parent is now "+head.vertex.value, 1));
