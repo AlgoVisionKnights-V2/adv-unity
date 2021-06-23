@@ -10,7 +10,7 @@ public abstract class SortingAlgorithm1 : Algorithm
     protected ArrayIndex[] array;
     public int size;
     public int[] arr;
-    public int comparisons, swaps;
+    public int comparisons, swaps, accesses;
     protected Queue<QueueCommand> queue = new Queue<QueueCommand>();
     private GameObject canvas;
     protected TMP_Text showText;
@@ -164,7 +164,7 @@ public abstract class SortingAlgorithm1 : Algorithm
         this.size = size;
         arr = new int[size];
         array = new ArrayIndex[size];
-        comparisons = swaps = 0;
+        comparisons = swaps = accesses = 0;
         sort();
         setCam();
     }
@@ -256,7 +256,7 @@ public abstract class SortingAlgorithm1 : Algorithm
             completionPercent = 1 - (float)queue.Count / totalCommands;
             canvas.transform.GetChild(10).GetChild(2).GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = "" + (int)(completionPercent * 100) + "%";
             currentTime = q.time;
-            canvas.transform.GetChild(11).GetComponent<TMP_Text>().text = "Actual Runtime: " + (int)(stopTime * completionPercent) + " ms";
+            canvas.transform.GetChild(11).GetComponent<TMP_Text>().text = "" + (int)(stopTime * completionPercent) + " ms";
             canvas.transform.GetChild(12).GetChild(0).GetComponent<TMP_Text>().text = "Comparisons: " + comparisons;
             canvas.transform.GetChild(12).GetChild(1).GetComponent<TMP_Text>().text = "Swaps: " + swaps;
 
@@ -271,15 +271,14 @@ public abstract class SortingAlgorithm1 : Algorithm
                     case 0: // wait
                         yield return new WaitForSeconds(time);
                         break;
-                    
                     case 1: // change the color of two indices
                         colorChange(q.index1, q.colorId, array);
                         colorChange(q.index2, q.colorId, array);
-                        // Debug.Log("Comparing values at Index "+ q.index1 + " and "+ q.index2);
                         break;
                     case 2: // swap the positions of two indices
                         swap(ref array[q.index1], ref array[q.index2]);
                         swaps++;
+                        accesses += 2;
                         // Debug.Log("Swapping values at Index "+ q.index1 + " and "+ q.index2);
                         showText.text = q.message;
                         showText.color = colorChangeText(1);
@@ -295,6 +294,7 @@ public abstract class SortingAlgorithm1 : Algorithm
                         showText.enabled = true;
                         showText.text = q.message;
                         comparisons++;
+                        accesses += 2;
                         // red color
                         var red = new Color(1f, .2f, .361f, 1);
                         showText.color = red;//colorChangeText(1);
@@ -316,6 +316,18 @@ public abstract class SortingAlgorithm1 : Algorithm
                         array[q.index1].o.transform.GetChild(1).gameObject.SetActive(!array[q.index1].o.transform.GetChild(1).gameObject.activeInHierarchy);
                         array[q.index1].o.transform.GetChild(1).GetChild(0).GetComponentInChildren<TextMeshPro>().text = q.message;
                         break;
+
+                    case 9: // raise up every index from q.index1 to q.index2 inclusively. Used for partitions
+                        for(int i = q.index1; i <= q.index2; i++){
+                            array[i].o.transform.position = new Vector3(array[i].o.transform.position.x, array[i].o.transform.position.y + .25f, 0);
+                        }
+                        break;
+                    case 10: // lower every index from q.index1 to q.index2 inclusively. Used for partitions
+                        for(int i = q.index1; i <= q.index2; i++){
+                            array[i].o.transform.position = new Vector3(array[i].o.transform.position.x, array[i].o.transform.position.y - .25f, 0);
+                        }
+                        break;
+
                     default:
                         extendCommands(q);
                         break;
@@ -477,7 +489,6 @@ array[instr[1]].o.transform.position = new Vector3(array[instr[1]].o.transform.p
     {
         Debug.Log(x + " "+ y);
         queue.Enqueue(new QueueCommand(4, x, y, arrayId, "Comparing " + arr[x] + " to " + arr[y]));
-        queue.Enqueue(new QueueCommand());
 
         queue.Enqueue(new QueueCommand(1, x, y, arrayId, 1));
         queue.Enqueue(new QueueCommand());
@@ -507,16 +518,8 @@ array[instr[1]].o.transform.position = new Vector3(array[instr[1]].o.transform.p
     public void setCam()//C.O Change camera set
     {
         float z = (float)((-1 * size) / (2 * Math.Tan(Math.PI / 6)));
-        if (size != 21)
-        {
-            Camera.main.transform.position = new Vector3(array[size / 2].o.transform.position.x, array[size / 2].o.transform.position.y + 2, (float)(z * 1.1));
-            Camera.main.farClipPlane = (float)(-1.1 * z + 200);
-        }
-        else
-        {
-            Camera.main.transform.position = new Vector3(array[size / 2].o.transform.position.x, array[size / 2].o.transform.position.y + 2, (float)(z * 1.7));
-            Camera.main.farClipPlane = (float)(-1.1 * z + 200);
-        }
+        Camera.main.transform.position = new Vector3(array[size / 2].o.transform.position.x, array[size / 2].o.transform.position.y + 2, (float)(z*1.1) );
+        Camera.main.farClipPlane = (float)(-1.1*z + 200);
     }
 
    /* protected GameObject[] array; // Will need to move this into a constructor later
