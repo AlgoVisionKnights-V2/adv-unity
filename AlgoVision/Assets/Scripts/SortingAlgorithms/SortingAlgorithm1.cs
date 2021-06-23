@@ -507,7 +507,7 @@ array[instr[1]].o.transform.position = new Vector3(array[instr[1]].o.transform.p
     public void setCam()//C.O Change camera set
     {
         float z = (float)((-1 * size) / (2 * Math.Tan(Math.PI / 6)));
-        if (size != 7)
+        if (size != 21)
         {
             Camera.main.transform.position = new Vector3(array[size / 2].o.transform.position.x, array[size / 2].o.transform.position.y + 2, (float)(z * 1.1));
             Camera.main.farClipPlane = (float)(-1.1 * z + 200);
