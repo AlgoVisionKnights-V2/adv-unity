@@ -11,7 +11,7 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
     public static float[,] vertexText = new float[,] { { -2.5f, 2f }, { 2f, 5.5f }, { 2f, -1.5f }, { 6f, 5.5f }, { 6f, -1.5f }, { 10f, 2f } };
     // Store edge values of vertex neighbors
     public static int [,] edgeBluePrints = new int[,]{{0,1},{0,2},{1,2},{1,3},{2,3},{2,4},{3,4},{3,5},{4,5}};
-    public static float[,] edgePosition = new float[,] { { 0.75f, 3.33f }, { 0.75f, 0.67f }, { 1.6f, 2f }, { 3.9f, 4.5f }, { 4f, 2.5f }, { 4f, -0.5f }, { 6.35f, 2f }, { 7.25f, 3.33f }, { 7.25f, 0.67f } };
+    public static float[,] edgePosition = new float[,] { { 0.50f, 3.33f }, { 0.50f, 0.67f }, { 1.37f, 2f }, { 3.9f, 4.5f }, { 3.6f, 2.5f }, { 4f, -0.5f }, { 6.6f, 2f }, { 7.5f, 3.33f }, { 7.5f, 0.67f } };
     protected Queue queue = new Queue();
 
     public static int vertex = 6;
@@ -56,10 +56,12 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
         public int i; 
         public int j;
         public int weight;
+        public char name;
         public LineRenderer edge;
         public TextMeshPro edgeWeigth;
         public Edge(int id, int weight, GameObject edgeWeigthObj){
             this.id = id;
+            name = (char)(id + 'A');
             i = edgeBluePrints[id,0];
             j = edgeBluePrints[id,1];
             this.weight = weight;
@@ -72,8 +74,10 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
             //edge.GetComponent<LineRenderer>().enabled = false;
             var edgeWeigthObject = GameObject.Instantiate(edgeWeigthObj);
             this.edgeWeigth = edgeWeigthObject.GetComponent<TextMeshPro>();
-            edgeWeigth.text = weight.ToString();
+            edgeWeigth.text = name + ":"+weight.ToString();
+            //edgeWeigth.enabled = false;
             edgeWeigthObject.transform.position = new Vector3(edgePosition[id, 0], edgePosition[id, 1], 0);
+
             edge.SetPosition(0, new Vector3(vertices[i].o.transform.position.x, vertices[i].o.transform.position.y, 0));
             edge.SetPosition(1, new Vector3(vertices[j].o.transform.position.x, vertices[j].o.transform.position.y, 0));
 
