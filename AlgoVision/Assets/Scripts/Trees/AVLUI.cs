@@ -45,9 +45,13 @@ public class AVLUI : MonoBehaviour
                 }
             case 3:
                 {
-                    inputText.SetActive(false);
-                    Debug.Log("HADFJAEFHIUEFHIUSEF");
-                    a.customInserts();
+                    //inputText.SetActive(false);
+                    //a.testInserts();
+                    int[] arrayA = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 16, -12, -14, -6, -7, -8 };
+                    int[] arrayB = { 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 30, 32, -30, -30, -14 };
+                    a.customInserts(arrayA);
+                    StartCoroutine(a.readQueue());
+                    a.customInserts(arrayB);
                     StartCoroutine(a.readQueue());
                     //convert input field value to integers, if possible
                     //send integers to insertion
