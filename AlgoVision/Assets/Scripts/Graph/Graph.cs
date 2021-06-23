@@ -19,7 +19,6 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
     public static Vertex[] vertices = new Vertex[vertex];
     public static Edge[] edges = new Edge[edge];
     protected TMP_Text showText;
-    public float time;
     public class Vertex{
         public int value;
         public char name;
