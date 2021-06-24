@@ -10,6 +10,7 @@ public class AVLUI : MonoBehaviour
     [SerializeField] AVL a;
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject canvas;
+    [SerializeField] GameObject cam;
     [SerializeField] Slider speedSlider;
 
     // Start is called before the first frame update
@@ -26,12 +27,14 @@ public class AVLUI : MonoBehaviour
         {
             case 0:
                 {
+                    Camera.main.orthographicSize = 14;
                     a.insertRandom(7);
                     StartCoroutine(a.readQueue());
                     break;
                 }
             case 1:
                 {
+                    Camera.main.orthographicSize = 14;
                     a.insertRandom(15);
                     StartCoroutine(a.readQueue());
                     break;
@@ -39,12 +42,14 @@ public class AVLUI : MonoBehaviour
             case 2:
                 {
 
+                    Camera.main.orthographicSize = 24;
                     a.insertRandom(31);
                     StartCoroutine(a.readQueue());
                     break;
                 }
             case 3:
                 {
+                    Camera.main.orthographicSize = 14;
                     canvas.transform.GetChild(5).GetComponent<TMP_Text>().text = "Choose Values To Insert or Delete!";
                     canvas.transform.GetChild(13).gameObject.SetActive(true);
                     //inputText.SetActive(false);
