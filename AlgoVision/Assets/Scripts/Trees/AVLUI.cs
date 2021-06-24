@@ -37,6 +37,7 @@ public class AVLUI : MonoBehaviour
                 }
             case 2:
                 {
+
                     a.insertRandom(31);
                     StartCoroutine(a.readQueue());
                     break;

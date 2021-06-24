@@ -139,8 +139,9 @@ public class AVL : Algorithm
         q.Enqueue(new AVLCommand(-1, 0, 0, "Completed AVL insertions"));
 
         printIntTree();
+        printHeights();
 
-        if(Nodetree == null)
+        if (Nodetree == null)
         {
             Nodetree = new AVLNode[inttree.Length * 2 + 1];
             for(int n = 0; n < Nodetree.Length; n++)
@@ -185,7 +186,7 @@ public class AVL : Algorithm
 
     public void testInserts() // starts here
     {
-        string text = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,30,32";
+        string text = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,62,63";
 
         size = 31; // number of keys to be inserted
         int[] keys; // where the keys are stored in insertion order
@@ -781,7 +782,19 @@ public class AVL : Algorithm
             if(tempI == -1) // right subtree not found
             {
                 q.Enqueue(new AVLCommand(-1, 0, 0, "No right subtree found, moving left subtree instead."));
+                
+
+                if(inttree[leftCI(I)] == -1)
+                {
+                    q.Enqueue(new AVLCommand(-1, 0, 0, "No left subtree found, removing " + inttree[I]));
+                    q.Enqueue(new AVLCommand(9, I, 0, ""));
+                    inttree[I] = -1;
+                    heights[I] = 0;
+                    return;
+                }
                 q.Enqueue(new AVLCommand(9, I, 0, ""));
+                inttree[I] = -1;
+                heights[I] = 0;
                 movetree(leftCI(I), I);
                 return;
             }
