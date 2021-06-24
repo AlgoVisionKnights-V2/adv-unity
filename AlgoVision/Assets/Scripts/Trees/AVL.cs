@@ -49,6 +49,7 @@ public class AVL : Algorithm
         public void updateCoords()
         {
             this.o.transform.position = new Vector3(Xcoords[this.I], Ycoords[this.I], 0);
+
         }
     }
 
@@ -172,6 +173,11 @@ public class AVL : Algorithm
                 if(n != null)
                 {
                     n.updateCoords();
+                    if(n.I != 0)
+                    {
+                        n.parentEdge.SetPosition(0, new Vector3(Xcoords[n.I], Ycoords[n.I], 0));
+                        n.parentEdge.SetPosition(1, new Vector3(Xcoords[parentI(n.I)], Ycoords[parentI(n.I)], 0));
+                    }
                 }
             }
         }
@@ -466,7 +472,7 @@ public class AVL : Algorithm
         return 2 * i + 2; 
     }
 
-    int parentI(int i)
+    static int parentI(int i)
     {
         if(i % 2 == 0)
         {
@@ -483,7 +489,6 @@ public class AVL : Algorithm
         heights[i] = 0;
         //Debug.Log("Moved " + inttree[d] + " from " + i + " to " + d);
     }
-
 
     void shiftUp(int i, int d)
     {
@@ -1261,6 +1266,7 @@ public class AVL : Algorithm
 
                     Destroy(Nodetree[instr.arg1].o);
                     Destroy(Nodetree[instr.arg1].parentEdge);
+                    Nodetree[instr.arg1] = null;
                     break;
                 case 10: // delete node (9, index, null, "")
 
