@@ -104,6 +104,7 @@ public class AVL : Algorithm
         for (int i = 0; i < keys.Length; i++) // insertion of keys
         {
             q.Enqueue(new AVLCommand(-1,0,0,("Inserting " + keys[i])));
+            q.Enqueue(new AVLCommand(10, keys[i], 0, ""));
             insert(keys[i], 0);
             q.Enqueue(new AVLCommand(-1,0,0,( keys[i] + " inserted!")));
         }
@@ -1174,7 +1175,6 @@ public class AVL : Algorithm
                     break;
                     
 
-
                 case 3: // move node (3, node, destination)
                     Nodetree[instr.arg2] = new AVLNode(Nodetree[instr.arg1].value, instr.arg2);
                     Nodetree[instr.arg2].o = GameObject.Instantiate(spherePrefab);
@@ -1267,6 +1267,10 @@ public class AVL : Algorithm
                     Destroy(Nodetree[instr.arg1].o);
                     Destroy(Nodetree[instr.arg1].parentEdge);
                     Nodetree[instr.arg1] = null;
+                    break;
+                case 10: // delete node (9, index, null, "")
+
+                    canvas.transform.GetChild(14).GetChild(1).GetComponent<TMP_Text>().text = "" + instr.arg1;
                     break;
 
                 default:
