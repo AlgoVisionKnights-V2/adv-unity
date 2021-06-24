@@ -3319,6 +3319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spherePrefab: {fileID: 8584337089220081970, guid: e4071119dc6f2de49a9390abe284e511, type: 3}
+  speedSlider: {fileID: 1888905653}
 --- !u!1 &1084583022
 GameObject:
   m_ObjectHideFlags: 0
