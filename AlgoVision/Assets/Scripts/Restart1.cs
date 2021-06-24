@@ -7,12 +7,11 @@ using UnityEngine.SceneManagement;
 public class Restart1 : MonoBehaviour
 {
     [SerializeField] Slider timeSlider;
-    [SerializeField] AVLInput pppwhateverreally;
     
     public void restartScene()
     {
+        
         timeSlider.value = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        pppwhateverreally.umsthing();
     }
 }

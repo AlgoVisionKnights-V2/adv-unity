@@ -2010,7 +2010,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 15 Inserts
+  m_text: Custom Inserts
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3221,8 +3221,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1056875333}
-        m_TargetAssemblyTypeName: AVLInput, Assembly-CSharp
-        m_MethodName: readInput
+        m_TargetAssemblyTypeName: ObjectFuncGrabber, Assembly-CSharp
+        m_MethodName: Locate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3315,11 +3315,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056875328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4edc8c9882d4f84eb793edc756d80a2, type: 3}
+  m_Script: {fileID: 11500000, guid: 572668d6b95638c46859e70709d40b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spherePrefab: {fileID: 8584337089220081970, guid: e4071119dc6f2de49a9390abe284e511, type: 3}
-  speedSlider: {fileID: 1888905653}
+  thing: {fileID: 1981504371}
 --- !u!1 &1084583022
 GameObject:
   m_ObjectHideFlags: 0
@@ -4308,7 +4307,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1443512926}
-        m_TargetAssemblyTypeName: Restart, Assembly-CSharp
+        m_TargetAssemblyTypeName: Restart1, Assembly-CSharp
         m_MethodName: restartScene
         m_Mode: 1
         m_Arguments:
@@ -4366,7 +4365,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1443512921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15ff2e4e44b3a864d9f4136d7807cc82, type: 3}
+  m_Script: {fileID: 11500000, guid: b64aebff557dabd43bf4c533ef862ddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeSlider: {fileID: 1232836094}
@@ -5135,7 +5134,7 @@ MonoBehaviour:
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 389835204}
   m_ItemImage: {fileID: 0}
-  m_Value: 1
+  m_Value: 3
   m_Options:
     m_Options:
     - m_Text: 7 Inserts
@@ -5951,6 +5950,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1981504371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1981504373}
+  - component: {fileID: 1981504372}
+  m_Layer: 0
+  m_Name: InputUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1981504372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981504371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4edc8c9882d4f84eb793edc756d80a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spherePrefab: {fileID: 8584337089220081970, guid: e4071119dc6f2de49a9390abe284e511, type: 3}
+  b: {fileID: 0}
+  speedSlider: {fileID: 1888905653}
+  inputField: {fileID: 0}
+--- !u!4 &1981504373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981504371}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.5622591, y: 1.345002, z: -53.106266}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2024837949
 GameObject:
