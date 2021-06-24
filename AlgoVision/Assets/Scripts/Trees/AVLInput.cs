@@ -8,10 +8,15 @@ using System;
 public class AVLInput : MonoBehaviour
 {
     [SerializeField] GameObject spherePrefab;
-    AVL b;
+    public AVL b;
     [SerializeField] Slider speedSlider;
 
     void Start()
+    {
+        b = new AVL(0, spherePrefab);
+        speedSlider = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Slider>();
+    }
+    public void umsthing()
     {
         b = new AVL(0, spherePrefab);
         speedSlider = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Slider>();
