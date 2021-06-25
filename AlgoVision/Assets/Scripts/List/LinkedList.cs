@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
+using TMPro;
 
 public class LinkedList : Algorithm
 {
+    [SerializeField] public GameObject canvas;
+    [SerializeField] GameObject boxPrefab;
     LinkedListNode head;
     Queue<QueueCommand> queue = new Queue<QueueCommand>();
     public class LinkedListNode{
@@ -27,7 +30,13 @@ public class LinkedList : Algorithm
         public short commandId;
         public LinkedListNode node1, node2;
         public short additionalInfo;
+        public short textColorId;
+        public string message;
 
+        public QueueCommand()
+        {
+            commandId = 0;
+        }
         public QueueCommand(short commandId,LinkedListNode node1, short additionalInfo){
             this.commandId = commandId;
             this.node1 = node1;
@@ -38,7 +47,13 @@ public class LinkedList : Algorithm
             this.node1 = node1;
             this.node2 = node2;
             this.additionalInfo = additionalInfo;
-        }   
+        }
+        public QueueCommand(short commandId, string message, short textColorId, int nums)
+        {
+            this.commandId = commandId;
+            this.message = message;
+            this.textColorId = textColorId;
+        } 
     }
 
     public bool compare(LinkedListNode a, LinkedListNode b){
@@ -56,6 +71,14 @@ public class LinkedList : Algorithm
     }
     public void insert(int value){
         short steps = 0; // number of steps through the list while traversing
+
+        if (head == null)
+        {
+            queue.Enqueue(new QueueCommand(6, "List is empty, creating new Head node", 1, 1));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
+        }
+        
         LinkedListNode newNode = new LinkedListNode(value);
         queue.Enqueue(new QueueCommand(3, newNode, -1));
         queue.Enqueue(new QueueCommand(4, newNode, steps));
@@ -65,6 +88,11 @@ public class LinkedList : Algorithm
             head = newNode;
             queue.Enqueue(new QueueCommand(2, null, -1));
             queue.Enqueue(new QueueCommand(0, null, -1));
+
+            queue.Enqueue(new QueueCommand(6, "Node has been entered", 1, 1));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
+
             return;
         }
 
@@ -112,15 +140,24 @@ public class LinkedList : Algorithm
         queue.Enqueue(new QueueCommand(0, null, -1));  
         queue.Enqueue(new QueueCommand(2, null, -1));
         queue.Enqueue(new QueueCommand(0, null, -1));
+
+        queue.Enqueue(new QueueCommand(6, "Node has been entered", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
     }
     // Start is called before the first frame update
     void Start()
     {
-        Random r = new Random();
+        canvas = GameObject.Find("Canvas");
+        queue.Enqueue(new QueueCommand(6, "New Linked List, Enter First Node", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
+
+        /*Random r = new Random();
         for(int i = 0; i < 5; i++){
             insert(r.Next(1, 21));
         }
-        traverse();
+        traverse();*/
         StartCoroutine(readQueue());
 
     }
@@ -168,8 +205,9 @@ public class LinkedList : Algorithm
                     reposition();
                     break;
                 case 3: // build the node
-                    q.node1.Object = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    q.node1.Object = GameObject.Instantiate(boxPrefab);
                     q.node1.Object.name = q.node1.value.ToString();
+                    q.node1.Object.transform.GetChild(0).GetComponent<TMP_Text>().text = q.node1.value.ToString();
                     break;
                 case 4: // Relocate the new node
                     q.node1.Object.transform.position = new Vector3(q.additionalInfo*2 - 1, 2, 0);
@@ -177,6 +215,9 @@ public class LinkedList : Algorithm
                 case 5: // connect the nextEdge of node1 to node2
                     q.node1.nextEdge.SetPosition(0, new Vector3(q.node1.Object.transform.position.x, q.node1.Object.transform.position.y, 0));
                     q.node1.nextEdge.SetPosition(1, new Vector3(q.node2.Object.transform.position.x, q.node2.Object.transform.position.y, 0));
+                    break;
+                case 6: // ChangeText
+                    canvas.transform.GetChild(3).GetComponent<TMP_Text>().text = q.message;
                     break;
             }
         }
@@ -190,5 +231,12 @@ public class LinkedList : Algorithm
                 node.Object.GetComponent<Renderer>().material.color = Color.red;
                 break;
         }
+    }
+
+    public void insertNode(int value, int pos)
+    {
+        insert(value);
+        traverse();
+        StartCoroutine(readQueue());
     }
 }
