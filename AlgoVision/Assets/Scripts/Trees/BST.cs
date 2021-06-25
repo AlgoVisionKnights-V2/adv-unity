@@ -10,9 +10,9 @@ public class BST : Algorithm
 {
     protected int treeDepth; // lowest level of tree
     public int size;
-    protected Queue<AVLCommand> q = new Queue<AVLCommand>();
+    protected Queue<BSTCommand> q = new Queue<BSTCommand>();
     protected Random r = new Random();
-    protected AVLNode[] Nodetree;
+    protected BSTNode[] Nodetree;
     protected int[] inttree;
     protected int[] heights;
     protected static float[] Xcoords;
@@ -23,7 +23,7 @@ public class BST : Algorithm
     {
         this.size = size;
         this.spherePrefab = spherePrefab;
-        inttree = new int[(int)Math.Pow(2, treeDepth) - 1]; // initializes the array where the keys are stored in the AVL tree
+        inttree = new int[(int)Math.Pow(2, treeDepth) - 1]; // initializes the array where the keys are stored in the BST tree
         heights = new int[(int)Math.Pow(2, treeDepth) - 1]; // initialized the array where node heights are stored
         Nodetree = null;
 
@@ -34,13 +34,13 @@ public class BST : Algorithm
         }
     }
 
-    protected class AVLNode // class used to make node for visualization
+    protected class BSTNode // class used to make node for visualization
     {
         public GameObject o;
         public int value, I;
         public LineRenderer parentEdge;
 
-        public AVLNode(int value, int I)
+        public BSTNode(int value, int I)
         {
             this.value = value;
             this.I = I;
@@ -53,13 +53,13 @@ public class BST : Algorithm
         }
     }
 
-    protected class AVLCommand // class to hold commands for the visualizer
+    protected class BSTCommand // class to hold commands for the visualizer
     {
         public short commandId;
         public int arg1, arg2;
         public string message;
 
-        public AVLCommand(short commandId, int a1, int a2, string m)
+        public BSTCommand(short commandId, int a1, int a2, string m)
         {
             this.commandId = commandId;
             this.arg1 = a1;
@@ -80,7 +80,7 @@ public class BST : Algorithm
         string order = ""; // for debugging purposes. stores the keys in order inserted
         treeDepth = 2; // the depth of the tree is initialized. can/will be updated by program as the tree is added to as needed.
 
-        inttree = new int[(int)Math.Pow(2, treeDepth) - 1]; // initializes the array where the keys are stored in the AVL tree
+        inttree = new int[(int)Math.Pow(2, treeDepth) - 1]; // initializes the array where the keys are stored in the BST tree
         heights = new int[(int)Math.Pow(2, treeDepth) - 1]; // initialized the array where node heights are stored
 
         for (int i = 0; i < inttree.Length; i++)
@@ -98,20 +98,20 @@ public class BST : Algorithm
         }
 
         Debug.Log(order); // prints the keys in order of insertion
-        q.Enqueue(new AVLCommand(-1,0,0,"Starting AVL Insertion."));
-        q.Enqueue(new AVLCommand(-1, 0, 0, "Starting AVL Insertion."));
+        q.Enqueue(new BSTCommand(-1,0,0,"Starting BST Insertion."));
+        q.Enqueue(new BSTCommand(-1, 0, 0, "Starting BST Insertion."));
 
         for (int i = 0; i < keys.Length; i++) // insertion of keys
         {
-            q.Enqueue(new AVLCommand(10, keys[i], 0, ""));
-            q.Enqueue(new AVLCommand(-1,0,0,("Inserting " + keys[i])));
+            q.Enqueue(new BSTCommand(10, keys[i], 0, ""));
+            q.Enqueue(new BSTCommand(-1,0,0,("Inserting " + keys[i])));
             insert(keys[i], 0);
-            q.Enqueue(new AVLCommand(-1,0,0,( keys[i] + " inserted!")));
+            q.Enqueue(new BSTCommand(-1,0,0,( keys[i] + " inserted!")));
         }
 
         printIntTree();
         printHeights();
-        Nodetree = new AVLNode[inttree.Length * 2 + 1];
+        Nodetree = new BSTNode[inttree.Length * 2 + 1];
         Xcoords = new float[Nodetree.Length];
         Ycoords = new float[Nodetree.Length];
         setCoords();
@@ -127,25 +127,25 @@ public class BST : Algorithm
         {
             if(i < 0)
             {
-                q.Enqueue(new AVLCommand(10, -i, 1, ""));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Deleting " + (i * -1)));
+                q.Enqueue(new BSTCommand(10, -i, 1, ""));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Deleting " + (i * -1)));
                 delete(0, (i * -1));
             }
             else
             {
-                q.Enqueue(new AVLCommand(10, i, 0, ""));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Inserting " + i));
+                q.Enqueue(new BSTCommand(10, i, 0, ""));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Inserting " + i));
                 insert(i, 0);
             }
         }
-        q.Enqueue(new AVLCommand(-1, 0, 0, "Completed AVL insertions"));
+        q.Enqueue(new BSTCommand(-1, 0, 0, "Completed BST insertions"));
 
         printIntTree();
         printHeights();
 
         if (Nodetree == null)
         {
-            Nodetree = new AVLNode[inttree.Length * 2 + 1];
+            Nodetree = new BSTNode[inttree.Length * 2 + 1];
             for(int n = 0; n < Nodetree.Length; n++)
             {
                 Nodetree[n] = null;
@@ -156,7 +156,7 @@ public class BST : Algorithm
         }
         else
         {
-            AVLNode[] tempTree = new AVLNode[inttree.Length * 2 + 1];
+            BSTNode[] tempTree = new BSTNode[inttree.Length * 2 + 1];
             for(int i = 0; i < Nodetree.Length; i++)
             {
                 tempTree[i] = Nodetree[i];
@@ -171,7 +171,7 @@ public class BST : Algorithm
             Ycoords = new float[Nodetree.Length];
             setCoords();
 
-            foreach(AVLNode n in Nodetree)
+            foreach(BSTNode n in Nodetree)
             {
                 if(n != null)
                 {
@@ -195,7 +195,7 @@ public class BST : Algorithm
         string order = ""; // for debugging purposes. stores the keys in order inserted
         treeDepth = 2; // the depth of the tree is initialized. can/will be updated by program as the tree is added to as needed.
 
-        inttree = new int[(int)Math.Pow(2, treeDepth) - 1]; // initializes the array where the keys are stored in the AVL tree
+        inttree = new int[(int)Math.Pow(2, treeDepth) - 1]; // initializes the array where the keys are stored in the BST tree
         heights = new int[(int)Math.Pow(2, treeDepth) - 1]; // initialized the array where node heights are stored
 
         for (int i = 0; i < inttree.Length; i++)
@@ -280,7 +280,7 @@ public class BST : Algorithm
 
         printIntTree();
         printHeights();
-        Nodetree = new AVLNode[inttree.Length * 2 + 1];
+        Nodetree = new BSTNode[inttree.Length * 2 + 1];
         Xcoords = new float[Nodetree.Length];
         Ycoords = new float[Nodetree.Length];
         setCoords();
@@ -300,109 +300,56 @@ public class BST : Algorithm
             inttree[I] = key; 
             heights[I] = 1;
 
-            q.Enqueue(new AVLCommand(0, I, key, ("Null node found, creating a new node with the value " + key))); // make new node
+            q.Enqueue(new BSTCommand(0, I, key, ("Null node found, creating a new node with the value " + key))); // make new node
             
             if (I != 0) // if the new node isn't at index 0 (the root of the tree) draw a line to the parent node 
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-                q.Enqueue(new AVLCommand(1, I, parentI(I), "Linking node to it's new parent."));
+                q.Enqueue(new BSTCommand(-1, 0, 0, ""));
+                q.Enqueue(new BSTCommand(1, I, parentI(I), "Linking node to it's new parent."));
             }
-            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
             return;
         }
 
-        q.Enqueue(new AVLCommand(2, I, 1, "Current node is not null, beginning comparison")); // null node not found, highlight current node to show insertion path
+        q.Enqueue(new BSTCommand(2, I, 1, "Current node is not null, beginning comparison")); // null node not found, highlight current node to show insertion path
         if (inttree[I] > key) // go left
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " > Inserted Node: " + key)));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " > Inserted Node: " + key)));
             
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down left subtree."));
-            q.Enqueue(new AVLCommand(2, I, 10, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down left subtree."));
+            q.Enqueue(new BSTCommand(2, I, 10, ""));
             if(leftCI(I) < inttree.Length && inttree[leftCI(I)] != -1 )
             {
-                q.Enqueue(new AVLCommand(5, leftCI(I), 1, ""));
+                q.Enqueue(new BSTCommand(5, leftCI(I), 1, ""));
             }
             insert(key, leftCI(I));
         }
         else // go right
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Inserted Node: " + key)));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Inserted Node: " + key)));
             
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down right subtree."));
-            q.Enqueue(new AVLCommand(2, I, 10, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down right subtree."));
+            q.Enqueue(new BSTCommand(2, I, 10, ""));
             if (rightCI(I) < inttree.Length && inttree[rightCI(I)] != -1)
             {
-                q.Enqueue(new AVLCommand(5, rightCI(I), 1, ""));
+                q.Enqueue(new BSTCommand(5, rightCI(I), 1, ""));
             }
 
             insert(key, rightCI(I));
         }
         if (inttree[leftCI(I)] != -1)
         {
-            q.Enqueue(new AVLCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(5, leftCI(I), 0, ""));
         }
         if (inttree[rightCI(I)] != -1)
         {
-            q.Enqueue(new AVLCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(5, rightCI(I), 0, ""));
         }
-        q.Enqueue(new AVLCommand(2, I, 1, "Return to parent."));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ("Check balance of " + inttree[I])));
-
-        heights[I] = max(heights[leftCI(I)], heights[rightCI(I)]) + 1;
-
-        q.Enqueue(new AVLCommand(6, I, heights[leftCI(I)],""));
-        q.Enqueue(new AVLCommand(7, I, heights[rightCI(I)],""));
-
-        int balance = heights[leftCI(I)] - heights[rightCI(I)];
-
-        if (balance > 1)
-        {
-            if (key >= inttree[leftCI(I)]) // if left-right
-            {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Left-Right Case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(I)]));
-                lRotate(leftCI(I));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
-                rRotate(I);
-            }
-            else // if left-left
-            {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Left-Left Case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
-                rRotate(I);
-            }
-            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
-        }
-        else if (balance < -1)
-        {
-            if (key < inttree[rightCI(I)]) // right -left
-            {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Right-Left Case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(I)]));
-                rRotate(rightCI(I));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
-                lRotate(I);
-            }
-            else // right-right
-            {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Right-Right Case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
-                lRotate(I);
-            }
-
-            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
-        }
-        else
-        {
-            q.Enqueue(new AVLCommand(-1, 0, 0, ("|Left - Right| < 2. " + inttree[I] + " is already balanced!")));
-        }
-        q.Enqueue(new AVLCommand(8, I, 0, ""));
-        q.Enqueue(new AVLCommand(2, I, 0, ""));
+        /*q.Enqueue(new BSTCommand(2, I, 1, "Return to parent."));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));*/
+        
+        q.Enqueue(new BSTCommand(8, I, 0, ""));
+        q.Enqueue(new BSTCommand(2, I, 0, ""));
 
         return;
     }
@@ -441,7 +388,7 @@ public class BST : Algorithm
 
                 for (int j = (int)Math.Pow(2, i) - 1; j < (int)Math.Pow(2, i + 1) - 1; j++)
                 {
-                    float x = (float)n / 3.1f * (float)Xcoords.Length / (float)d;
+                    float x = (float)n / 10f * (float)Xcoords.Length / (float)d;
                     n = n + 2;
 
                     Xcoords[j] = x;
@@ -459,7 +406,7 @@ public class BST : Algorithm
 
                 for (int j = (int)Math.Pow(2, i) - 1; j < (int)Math.Pow(2, i + 1) - 1; j++)
                 {
-                    float x = (float)n / 3.1f * (float)Xcoords.Length / (float)d;
+                    float x = (float)n / 10f * (float)Xcoords.Length / (float)d;
                     n = n + 2;
 
                     Xcoords[j] = x;
@@ -513,7 +460,7 @@ public class BST : Algorithm
             int[] dudes = shifts.Dequeue();
 
             swap(dudes[0], dudes[1]);
-            q.Enqueue(new AVLCommand(3, dudes[0], dudes[1], ""));
+            q.Enqueue(new BSTCommand(3, dudes[0], dudes[1], ""));
 
             if (leftCI(dudes[0]) < inttree.Length && inttree[leftCI(dudes[0])] != -1)
             {
@@ -548,7 +495,7 @@ public class BST : Algorithm
 
         
 
-        q.Enqueue(new AVLCommand(3, i, d, ""));
+        q.Enqueue(new BSTCommand(3, i, d, ""));
 
     }
 
@@ -571,7 +518,7 @@ public class BST : Algorithm
 
 
 
-        q.Enqueue(new AVLCommand(3, i, d, ""));
+        q.Enqueue(new BSTCommand(3, i, d, ""));
 
     }
 
@@ -629,71 +576,71 @@ public class BST : Algorithm
 
         if(t1 < inttree.Length && inttree[t1] != -1)
         {
-            q.Enqueue(new AVLCommand(4, t1, c--, ""));
+            q.Enqueue(new BSTCommand(4, t1, c--, ""));
         }
 
-        q.Enqueue(new AVLCommand(2, x, c--, ""));
+        q.Enqueue(new BSTCommand(2, x, c--, ""));
 
         if (t2 < inttree.Length && inttree[t2] != -1)
         {
-            q.Enqueue(new AVLCommand(4, t2, c--, ""));
+            q.Enqueue(new BSTCommand(4, t2, c--, ""));
         }
 
-        q.Enqueue(new AVLCommand(2, y, c--, ""));
+        q.Enqueue(new BSTCommand(2, y, c--, ""));
 
         if (t3 < inttree.Length && inttree[t3] != -1)
         {
-            q.Enqueue(new AVLCommand(4, t3, c--, ""));
+            q.Enqueue(new BSTCommand(4, t3, c--, ""));
         }
         
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
 
 
         // move tree1 downleft
         if (t1 < inttree.Length && inttree[t1] != -1)
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] +"'s left subtree down left."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] +"'s left subtree down left."));
             movetree(t1, leftCI(t1));
-            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         }
         
 
         // move x downleft
-        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " +inttree[x] + " down left."));
+        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " +inttree[x] + " down left."));
         swap(x, leftCI(x));
-        q.Enqueue(new AVLCommand(3, x, leftCI(x), ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(3, x, leftCI(x), ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
 
 
         // move tree2 left 1
         if (t2 < inttree.Length && inttree[t2] != -1)
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + "'s left subtree to be " + inttree[x] + "'s right subtree."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + "'s left subtree to be " + inttree[x] + "'s right subtree."));
             movetree(t2, rightCI(t1));
-            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         }
 
 
 
         // move move y up
-        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + " up."));
+        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + " up."));
         inttree[parentI(y)] = inttree[y];
         inttree[y] = -1;
-        q.Enqueue(new AVLCommand(3, y, parentI(y), ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(3, y, parentI(y), ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
 
 
         // move tree 3 up
         if (t3 < inttree.Length && inttree[t3] != -1)
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree up."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree up."));
             movetree(t3, parentI(t3));
-            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         }
         
 
-        q.Enqueue(new AVLCommand(4, I, 0, ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(4, I, 0, ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         heights[I] = updateHeights(I);
 
     }
@@ -709,72 +656,72 @@ public class BST : Algorithm
 
         if (t3 < inttree.Length && inttree[t3] != -1)
         {
-            q.Enqueue(new AVLCommand(4, t3, c--, ""));
+            q.Enqueue(new BSTCommand(4, t3, c--, ""));
         }
 
-        q.Enqueue(new AVLCommand(2, y, c--, ""));
+        q.Enqueue(new BSTCommand(2, y, c--, ""));
 
         if (t2 < inttree.Length && inttree[t2] != -1)
         {
-            q.Enqueue(new AVLCommand(4, t2, c--, ""));
+            q.Enqueue(new BSTCommand(4, t2, c--, ""));
         }
 
-        q.Enqueue(new AVLCommand(2, x, c--, ""));
+        q.Enqueue(new BSTCommand(2, x, c--, ""));
 
         if (t1 < inttree.Length && inttree[t1] != -1)
         {
-            q.Enqueue(new AVLCommand(4, t1, c--, ""));
+            q.Enqueue(new BSTCommand(4, t1, c--, ""));
         }
 
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
 
 
         // move tree3 downright
         if (t3 < inttree.Length && inttree[t3] != -1)
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree down-right."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree down-right."));
             movetree(t3, rightCI(t3));
-            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         }
 
 
         // move y downright
-        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + " down-right."));
+        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + " down-right."));
         inttree[rightCI(y)] = inttree[y];
         inttree[y] = -1;
-        q.Enqueue(new AVLCommand(3, y, rightCI(y), ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(3, y, rightCI(y), ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
 
 
         // movetree2 right 1
         if (t2 < inttree.Length && inttree[t2] != -1)
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree to " + inttree[x] + "'s right subtree."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree to " + inttree[x] + "'s right subtree."));
             movetree(t2, leftCI(t3));
-            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         }
 
 
         // move x up
-        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] + " up."));
+        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] + " up."));
         inttree[parentI(x)] = inttree[x];
         inttree[x] = -1;
-        q.Enqueue(new AVLCommand(3, x, parentI(x), ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(3, x, parentI(x), ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
 
 
         // move tree1 up
         if (t1 < inttree.Length && inttree[t1] != -1)
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree up."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree up."));
             movetree(t1, parentI(t1));
-            q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         }
         
 
 
-        q.Enqueue(new AVLCommand(4, I, 0, ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(4, I, 0, ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         heights[I] = updateHeights(I);
 
     }
@@ -785,14 +732,14 @@ public class BST : Algorithm
     {
         if(inttree[I] == -1) // key was not found
         {
-            q.Enqueue(new AVLCommand(-1,0,0,key + " was not found, exiting the tree."));
+            q.Enqueue(new BSTCommand(-1,0,0,key + " was not found, exiting the tree."));
             return;
         }
         if (inttree[I] == key)
         {
-            q.Enqueue(new AVLCommand(2, I, 10, ""));
-            q.Enqueue(new AVLCommand(-1, 0, 0, key + " has been found."));
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Finding leftmost node of right sub-tree"));
+            q.Enqueue(new BSTCommand(2, I, 10, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, key + " has been found."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Finding leftmost node of right sub-tree"));
             int tempI = findLeftmostNode(rightCI(I));
 
             if(tempI == -1) // right subtree not found
@@ -800,26 +747,26 @@ public class BST : Algorithm
                 
                 if(inttree[leftCI(I)] == -1) // if not left subtree found
                 {
-                    q.Enqueue(new AVLCommand(-1, 0, 0, inttree[I] + " is a leaf node, removing without replacement."));
-                    q.Enqueue(new AVLCommand(9, I, 0, ""));
+                    q.Enqueue(new BSTCommand(-1, 0, 0, inttree[I] + " is a leaf node, removing without replacement."));
+                    q.Enqueue(new BSTCommand(9, I, 0, ""));
                     inttree[I] = -1;
                     heights[I] = 0;
                     return;
                 }
                 else
                 {
-                    q.Enqueue(new AVLCommand(-1, 0, 0, "No right subtree found, moving left subtree instead."));
+                    q.Enqueue(new BSTCommand(-1, 0, 0, "No right subtree found, moving left subtree instead."));
                 }
-                q.Enqueue(new AVLCommand(9, I, 0, ""));
+                q.Enqueue(new BSTCommand(9, I, 0, ""));
                 inttree[I] = -1;
                 heights[I] = 0;
                 movetree(leftCI(I), I);
                 return;
             }
 
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Found " + inttree[tempI] + ", moving to " + inttree[I]));
-            q.Enqueue(new AVLCommand(9, I, 0, ""));
-            q.Enqueue(new AVLCommand(3, tempI, I, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Found " + inttree[tempI] + ", moving to " + inttree[I]));
+            q.Enqueue(new BSTCommand(9, I, 0, ""));
+            q.Enqueue(new BSTCommand(3, tempI, I, ""));
             inttree[I] = inttree[tempI];
 
             if(rightCI(tempI) >= inttree.Length || inttree[rightCI(tempI)] == -1)
@@ -829,7 +776,7 @@ public class BST : Algorithm
             }
             else
             {
-                q.Enqueue(new AVLCommand(3, rightCI(tempI), tempI, ""));
+                q.Enqueue(new BSTCommand(3, rightCI(tempI), tempI, ""));
                 inttree[tempI] = inttree[rightCI(tempI)];
                 inttree[rightCI(tempI)] = -1;
                 heights[rightCI(tempI)] = 0;
@@ -842,19 +789,19 @@ public class BST : Algorithm
             {
                 if (inttree[leftCI(tempI)] != -1)
                 {
-                    q.Enqueue(new AVLCommand(5, leftCI(tempI), 0, ""));
+                    q.Enqueue(new BSTCommand(5, leftCI(tempI), 0, ""));
                 }
                 
-                q.Enqueue(new AVLCommand(2, tempI, 1, "Return to parent."));
-                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-                q.Enqueue(new AVLCommand(-1, 0, 0, ("Check balance of " + inttree[tempI])));
+                q.Enqueue(new BSTCommand(2, tempI, 1, "Return to parent."));
+                q.Enqueue(new BSTCommand(-1, 0, 0, ""));
+                q.Enqueue(new BSTCommand(-1, 0, 0, ("Check balance of " + inttree[tempI])));
 
 
                 heights[tempI] = max(heights[leftCI(tempI)], heights[rightCI(tempI)]) + 1;
 
-                q.Enqueue(new AVLCommand(6, tempI, heights[leftCI(tempI)], ""));
-                q.Enqueue(new AVLCommand(7, tempI, heights[rightCI(tempI)], ""));
-                q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+                q.Enqueue(new BSTCommand(6, tempI, heights[leftCI(tempI)], ""));
+                q.Enqueue(new BSTCommand(7, tempI, heights[rightCI(tempI)], ""));
+                q.Enqueue(new BSTCommand(-1, 0, 0, ""));
 
                 int b = heights[leftCI(tempI)] - heights[rightCI(tempI)];
 
@@ -863,48 +810,48 @@ public class BST : Algorithm
                     int sb = heights[leftCI(leftCI(tempI))] - heights[leftCI(rightCI(tempI))];
                     if (sb < 0) // if left-right
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy."));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Right case"));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(tempI)]));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy."));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Left-Right case"));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(tempI)]));
                         lRotate(leftCI(tempI));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[tempI]));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Performing right rotate on " + inttree[tempI]));
                         rRotate(tempI);
                     }
                     else // if left-left
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy."));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Left case"));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[tempI]));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy."));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Left-Left case"));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Performing right rotate on " + inttree[tempI]));
                         rRotate(tempI);
                     }
-                    q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
+                    q.Enqueue(new BSTCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
                 }
                 else if (b < -1)
                 {
                     int sb = heights[rightCI(leftCI(tempI))] - heights[rightCI(rightCI(tempI))];
                     if (sb > 0) // right -left
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy."));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Left case"));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(tempI)]));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy."));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Right-Left case"));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(tempI)]));
                         rRotate(rightCI(tempI));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[tempI]));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Performing left rotate on " + inttree[tempI]));
                         lRotate(tempI);
                     }
                     else // right-right
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy."));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Right case"));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[tempI]));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy."));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Right-Right case"));
+                        q.Enqueue(new BSTCommand(-1, 0, 0, "Performing left rotate on " + inttree[tempI]));
                         lRotate(tempI);
                     }
-                    q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[tempI] + " is now balanced")));
+                    q.Enqueue(new BSTCommand(-1, 0, 0, (inttree[tempI] + " is now balanced")));
                 }
                 else
                 {
-                    q.Enqueue(new AVLCommand(-1, 0, 0, ("|Left - Right| < 2. " + inttree[tempI] + " is already balanced!")));
-                    q.Enqueue(new AVLCommand(2, tempI, 0, ""));
-                    q.Enqueue(new AVLCommand(8, tempI, 0, ""));
+                    q.Enqueue(new BSTCommand(-1, 0, 0, ("|Left - Right| < 2. " + inttree[tempI] + " is already balanced!")));
+                    q.Enqueue(new BSTCommand(2, tempI, 0, ""));
+                    q.Enqueue(new BSTCommand(8, tempI, 0, ""));
                 }
 
                 tempI = parentI(tempI);
@@ -915,25 +862,25 @@ public class BST : Algorithm
         {
             if (key < inttree[I])
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " > Deleting Node: " + key)));
+                q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " > Deleting Node: " + key)));
 
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down left subtree."));
-                q.Enqueue(new AVLCommand(2, I, 10, ""));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down left subtree."));
+                q.Enqueue(new BSTCommand(2, I, 10, ""));
                 if (leftCI(I) < inttree.Length && inttree[leftCI(I)] != -1)
                 {
-                    q.Enqueue(new AVLCommand(5, leftCI(I), 1, ""));
+                    q.Enqueue(new BSTCommand(5, leftCI(I), 1, ""));
                 }
                 delete(leftCI(I), key);
             }
             else
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Deleting Node: " + key)));
+                q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Deleting Node: " + key)));
 
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down right subtree."));
-                q.Enqueue(new AVLCommand(2, I, 10, ""));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down right subtree."));
+                q.Enqueue(new BSTCommand(2, I, 10, ""));
                 if (rightCI(I) < inttree.Length && inttree[rightCI(I)] != -1)
                 {
-                    q.Enqueue(new AVLCommand(5, rightCI(I), 1, ""));
+                    q.Enqueue(new BSTCommand(5, rightCI(I), 1, ""));
                 }
 
                 delete(rightCI(I), key);
@@ -942,20 +889,20 @@ public class BST : Algorithm
 
         if (inttree[leftCI(I)] != -1)
         {
-            q.Enqueue(new AVLCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(5, leftCI(I), 0, ""));
         }
         if (inttree[rightCI(I)] != -1)
         {
-            q.Enqueue(new AVLCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(5, rightCI(I), 0, ""));
         }
-        q.Enqueue(new AVLCommand(2, I, 1, "Return to parent."));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-        q.Enqueue(new AVLCommand(-1, 0, 0, ("Check balance of " + inttree[I])));
+        q.Enqueue(new BSTCommand(2, I, 1, "Return to parent."));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ("Check balance of " + inttree[I])));
 
         heights[I] = max(heights[leftCI(I)], heights[rightCI(I)]) + 1;
 
-        q.Enqueue(new AVLCommand(6, I, heights[leftCI(I)], ""));
-        q.Enqueue(new AVLCommand(7, I, heights[rightCI(I)], ""));
+        q.Enqueue(new BSTCommand(6, I, heights[leftCI(I)], ""));
+        q.Enqueue(new BSTCommand(7, I, heights[rightCI(I)], ""));
 
         int balance = heights[leftCI(I)] - heights[rightCI(I)];
 
@@ -964,50 +911,50 @@ public class BST : Algorithm
             int sb = heights[leftCI(leftCI(I))] - heights[leftCI(rightCI(I))];
             if (sb < 0) // if left-right
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy."));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Right case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(I)]));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy."));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Left-Right case"));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(I)]));
                 lRotate(leftCI(I));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
                 rRotate(I);
             }
             else // if left-left
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy."));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Left case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy."));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Left-Left case"));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
                 rRotate(I);
             }
-            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
+            q.Enqueue(new BSTCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
         }
         else if (balance < -1)
         {
             int sb = heights[rightCI(leftCI(I))] - heights[rightCI(rightCI(I))];
             if (sb > 0) // right -left
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy."));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Left case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(I)]));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy."));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Right-Left case"));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(I)]));
                 rRotate(rightCI(I));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
                 lRotate(I);
             }
             else // right-right
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy."));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Right case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy."));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Beggining Right-Right case"));
+                q.Enqueue(new BSTCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
                 lRotate(I);
             }
 
-            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
+            q.Enqueue(new BSTCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
         }
         else
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, ("|Left - Right| < 2. " + inttree[I] + " is already balanced!")));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ("|Left - Right| < 2. " + inttree[I] + " is already balanced!")));
         }
-        q.Enqueue(new AVLCommand(8, I, 0, ""));
-        q.Enqueue(new AVLCommand(2, I, 0, ""));
+        q.Enqueue(new BSTCommand(8, I, 0, ""));
+        q.Enqueue(new BSTCommand(2, I, 0, ""));
 
         return;
     }
@@ -1016,23 +963,23 @@ public class BST : Algorithm
     {
         if(I >= inttree.Length || inttree[I] == -1) // subtree not found
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, "No right subtree found."));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "No right subtree found."));
             return -1;
         }
         if(leftCI(I) >= inttree.Length || inttree[leftCI(I)] == -1) // leftmost node found
         {
-            q.Enqueue(new AVLCommand(2, I, 1, ""));
-            q.Enqueue(new AVLCommand(-1, 0, 0, "Left most node found!"));
+            q.Enqueue(new BSTCommand(2, I, 1, ""));
+            q.Enqueue(new BSTCommand(-1, 0, 0, "Left most node found!"));
             return I;
         }
-        q.Enqueue(new AVLCommand(2, I, 10, "")); // color node black
-        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-        q.Enqueue(new AVLCommand(5, leftCI(I), 1, "")); // color branch red
+        q.Enqueue(new BSTCommand(2, I, 10, "")); // color node black
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(5, leftCI(I), 1, "")); // color branch red
 
         int p = findLeftmostNode(leftCI(I)); // search deeper
 
-        q.Enqueue(new AVLCommand(5, leftCI(I), 0, "")); // make node and branch white again.
-        q.Enqueue(new AVLCommand(2, I, 0, ""));
+        q.Enqueue(new BSTCommand(5, leftCI(I), 0, "")); // make node and branch white again.
+        q.Enqueue(new BSTCommand(2, I, 0, ""));
 
         return p;
     }
@@ -1136,7 +1083,7 @@ public class BST : Algorithm
         GameObject canvas = GameObject.Find("Canvas");
         while(q.Count != 0)
         {
-            AVLCommand instr = q.Dequeue();
+            BSTCommand instr = q.Dequeue();
 
             if(instr.message != "" && instr.message != null)
             {
@@ -1152,7 +1099,7 @@ public class BST : Algorithm
                     break;
 
                 case 0: // create a node, (0, index, value)
-                    Nodetree[instr.arg1] = new AVLNode(instr.arg2, instr.arg1);
+                    Nodetree[instr.arg1] = new BSTNode(instr.arg2, instr.arg1);
                     Nodetree[instr.arg1].o = GameObject.Instantiate(spherePrefab);
                     var t = Nodetree[instr.arg1].o.GetComponentInChildren<TextMeshPro>();
                     t.text = Nodetree[instr.arg1].value.ToString();
@@ -1219,7 +1166,7 @@ public class BST : Algorithm
                     
 
                 case 3: // move node (3, node, destination)
-                    Nodetree[instr.arg2] = new AVLNode(Nodetree[instr.arg1].value, instr.arg2);
+                    Nodetree[instr.arg2] = new BSTNode(Nodetree[instr.arg1].value, instr.arg2);
                     Nodetree[instr.arg2].o = GameObject.Instantiate(spherePrefab);
                     var T = Nodetree[instr.arg2].o.GetComponentInChildren<TextMeshPro>();
                     T.text = Nodetree[instr.arg2].value.ToString();
@@ -1367,7 +1314,7 @@ public class BST : Algorithm
         Camera.main.farClipPlane = (float)(-1.1 * z + 200);
     }
 
-    void resetPositions(AVLNode root)
+    void resetPositions(BSTNode root)
     {
         // for each TreeNode in the array, check if it has a left or right child and adjust their locations
 
@@ -1389,7 +1336,7 @@ public class BST : Algorithm
 
     public IEnumerator readQueue(float time)
     {
-        foreach (AVLCommand instr in q)
+        foreach (BSTCommand instr in q)
         {
             switch (instr.commandId)
             {
@@ -1460,19 +1407,19 @@ public class BST : Algorithm
         {
             root = insertNode(root, null, i, 0);
         }
-        //q.Enqueue(new AVLCommand(0, root, null, 0));
+        //q.Enqueue(new BSTCommand(0, root, null, 0));
         preOrderPrint(root);
         setCam();
         StartCoroutine(readQueue(.1f));
     }
 
-    private int getBalance(AVLNode node) => node == null ? 0 : height(node.children[0]) - height(node.children[1]);
+    private int getBalance(BSTNode node) => node == null ? 0 : height(node.children[0]) - height(node.children[1]);
 
     private int max(int a, int b) => a > b ? a : b;
 
-    private int height(AVLNode node) => node == null ? 0 : node.height;
+    private int height(BSTNode node) => node == null ? 0 : node.height;
 
-    private AVLNode updateDepth(AVLNode root, int depth)
+    private BSTNode updateDepth(BSTNode root, int depth)
     {
         if(root == null)
         {
@@ -1484,9 +1431,9 @@ public class BST : Algorithm
         return root;
     }
     
-    private int fetchChildren(AVLNode root) => root == null ? 0 : fetchChildren(root.children[0]) + fetchChildren(root.children[1]) + 1;
+    private int fetchChildren(BSTNode root) => root == null ? 0 : fetchChildren(root.children[0]) + fetchChildren(root.children[1]) + 1;
 
-    private AVLNode updateChildren(AVLNode root)
+    private BSTNode updateChildren(BSTNode root)
     {
         if(root == null)
         {
@@ -1509,7 +1456,7 @@ public class BST : Algorithm
         return root;
     }
 
-    private void preOrderPrint(AVLNode root)
+    private void preOrderPrint(BSTNode root)
     {
         if(root == null)
         {
@@ -1523,11 +1470,11 @@ public class BST : Algorithm
             
             for(int i = 0; i < leftC; i++)
             {
-                //q.Enqueue(new AVLCommand(4, root, null, 0));
+                //q.Enqueue(new BSTCommand(4, root, null, 0));
             }
 
-            //q.Enqueue(new AVLCommand(0, root.children[0], null, 0));
-            //q.Enqueue(new AVLCommand(3, root.children[0], root, 0));
+            //q.Enqueue(new BSTCommand(0, root.children[0], null, 0));
+            //q.Enqueue(new BSTCommand(3, root.children[0], root, 0));
             preOrderPrint(root.children[0]);
         }
 
@@ -1537,21 +1484,21 @@ public class BST : Algorithm
 
             for (int i = 0; i < rightC; i++)
             {
-                //q.Enqueue(new AVLCommand(4, root, null, 1));
+                //q.Enqueue(new BSTCommand(4, root, null, 1));
             }
 
-            //q.Enqueue(new AVLCommand(0, root.children[1], null, 0));
-            //q.Enqueue(new AVLCommand(3, root.children[1], root, 0));
+            //q.Enqueue(new BSTCommand(0, root.children[1], null, 0));
+            //q.Enqueue(new BSTCommand(3, root.children[1], root, 0));
             preOrderPrint(root.children[1]);
         }
     }
     
 
-    protected AVLNode rRotate(AVLNode root)
+    protected BSTNode rRotate(BSTNode root)
     {
         int rootDepth = root.depth;
-        AVLNode newRoot = root.children[0];
-        AVLNode newRightLeft = newRoot.children[1];
+        BSTNode newRoot = root.children[0];
+        BSTNode newRightLeft = newRoot.children[1];
 
         newRoot.children[1] = root;
         root.children[0] = newRightLeft;
@@ -1564,11 +1511,11 @@ public class BST : Algorithm
         return newRoot;
     }
 
-    protected AVLNode lRotate(AVLNode root)
+    protected BSTNode lRotate(BSTNode root)
     {
         int rootDepth = root.depth;
-        AVLNode newRoot = root.children[1];
-        AVLNode newLeftRight = newRoot.children[0];
+        BSTNode newRoot = root.children[1];
+        BSTNode newLeftRight = newRoot.children[0];
 
         newRoot.children[0] = root;
         root.children[1] = newLeftRight;
@@ -1581,7 +1528,7 @@ public class BST : Algorithm
         return newRoot;
     }
 
-    private AVLNode insertNode(AVLNode root, AVLNode parent, int key, int depth)
+    private BSTNode insertNode(BSTNode root, BSTNode parent, int key, int depth)
     {
         if(root == null) // no node found with key, make new node
         {
@@ -1590,31 +1537,31 @@ public class BST : Algorithm
                 treeDepth = depth;
                 setCam();
             }
-            AVLNode newNode = new AVLNode(key, depth, 1, 2);
+            BSTNode newNode = new BSTNode(key, depth, 1, 2);
 
-            q.Enqueue(new AVLCommand(0, newNode, null, 0));
+            q.Enqueue(new BSTCommand(0, newNode, null, 0));
             if(parent != null)
             {
-                q.Enqueue(new AVLCommand(3, newNode, parent, 0));
+                q.Enqueue(new BSTCommand(3, newNode, parent, 0));
             }
 
             return newNode;
         }
 
-        q.Enqueue(new AVLCommand(1, root, null, 0));
+        q.Enqueue(new BSTCommand(1, root, null, 0));
 
         if (key < root.value) // inserted key is less than node's key, go left
         {
-            q.Enqueue(new AVLCommand(4, root, null, 0));
+            q.Enqueue(new BSTCommand(4, root, null, 0));
             root.children[0] = insertNode(root.children[0], root, key, depth+1);
         }
         else if(key > root.value) // inserted key is more than node's key, go right
         {
-            q.Enqueue(new AVLCommand(4, root, null, 1));
+            q.Enqueue(new BSTCommand(4, root, null, 1));
             root.children[1] = insertNode(root.children[1], root, key, depth + 1);
         }
 
-        q.Enqueue(new AVLCommand(2, root, null, 0));
+        q.Enqueue(new BSTCommand(2, root, null, 0));
 
         root.height = max(height(root.children[0]), height(root.children[1])) + 1; // update height
 
@@ -1646,22 +1593,22 @@ public class BST : Algorithm
     */
 
 /*
- // extends the TreeNode class by adding AVL elements
-    // NOTES: AVLNode.children is inherited but 
-    protected class AVLNode : TreeNode{
+ // extends the TreeNode class by adding BST elements
+    // NOTES: BSTNode.children is inherited but 
+    protected class BSTNode : TreeNode{
         public short balanceFactor;
         public int height;
-        public override AVLNode[] children;
-        public AVLNode(int value, int depth, int NoOfChildren) : base(value, depth, NoOfChildren)
+        public override BSTNode[] children;
+        public BSTNode(int value, int depth, int NoOfChildren) : base(value, depth, NoOfChildren)
         {
             balanceFactor = 0;
             height = 1;
         }
     }
     
-    /* stuff to keep track of for AVLNodes:
+    /* stuff to keep track of for BSTNodes:
      * GameObject o: the sphere in the visualizer
-     * AVLNode children[]: 0 is the node to the left, 1 to the right
+     * BSTNode children[]: 0 is the node to the left, 1 to the right
      * int value: the key
      * int depth: 
      //
@@ -1670,22 +1617,22 @@ public class BST : Algorithm
 void Start()
 {
     depth = 0; // unecessary
-    size = 20; // # of nodes in AVL tree
+    size = 20; // # of nodes in BST tree
                // set the root node
-    root = new AVLNode(r.Next(100), 0, 2); // making root of the tree
+    root = new BSTNode(r.Next(100), 0, 2); // making root of the tree
     Debug.Log(root.GetType());
     q.Enqueue(new QueueCommand(0, root, null, 0)); // queues visualization of root
                                                    // set all the other nodes
     for (int i = 0; i < size; i++)
     {
-        root = addNode((AVLNode)root, null, r.Next(100), 0); //inserts new node
+        root = addNode((BSTNode)root, null, r.Next(100), 0); //inserts new node
         q.Enqueue(new QueueCommand(6, null, null, 0)); // wait
     }
     StartCoroutine(readQueue(.5f));  // starts visualization queue      
 }
 // add a node to the tree
 // recursively call the function until we hit the point it gets added
-protected AVLNode addNode(AVLNode root, AVLNode parent, int x, int depth)
+protected BSTNode addNode(BSTNode root, BSTNode parent, int x, int depth)
 {
     // build the node and its line renderer
     if (root == null)
@@ -1696,7 +1643,7 @@ protected AVLNode addNode(AVLNode root, AVLNode parent, int x, int depth)
             this.depth = depth; // update tree's depth
             setCam(); // update camera
         }
-        AVLNode node = new AVLNode(x, depth, 2); // make and insert new node
+        BSTNode node = new BSTNode(x, depth, 2); // make and insert new node
         q.Enqueue(new QueueCommand(0, node, null, 0)); // queue creation of new node
         q.Enqueue(new QueueCommand(3, node, parent, 0)); // link new node to tree
 
@@ -1709,14 +1656,14 @@ protected AVLNode addNode(AVLNode root, AVLNode parent, int x, int depth)
         {
             q.Enqueue(new QueueCommand(4, root, null, 0)); // increases the stored number of left children
 
-            root.children[0] = addNode((AVLNode)(root.children[0]), root, x, depth + 1); // continues insertion down left child
+            root.children[0] = addNode((BSTNode)(root.children[0]), root, x, depth + 1); // continues insertion down left child
             if (root.children[1] == null) // if the node has no right children
             {
                 root.balanceFactor = -1; // set the node's balance to -1
             }
             else // else set the node's balance to the
             {
-                root.balanceFactor = (short)((AVLNode)(root.children[1]).height - (AVLNode)(root.children[0]).height); // 
+                root.balanceFactor = (short)((BSTNode)(root.children[1]).height - (BSTNode)(root.children[0]).height); // 
             }
             root.childEdges[0] = root.children[0].parentEdge;
 

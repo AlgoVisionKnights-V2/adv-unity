@@ -7,7 +7,7 @@ using System;
 public class BSTUI : MonoBehaviour
 {
 
-    [SerializeField] AVL a;
+    [SerializeField] BST a;
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject cam;
@@ -16,7 +16,7 @@ public class BSTUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        a = new AVL(0, spherePrefab);
+        a = new BST(0, spherePrefab);
         int startSize = FindObjectOfType<TMP_Dropdown>().value;
         //FindObjectOfType<TMP_InputField>.SetActive(false); // makes input field invisible
         //a.time = speedSlider.value;

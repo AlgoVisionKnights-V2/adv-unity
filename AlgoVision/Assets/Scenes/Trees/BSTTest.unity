@@ -3221,7 +3221,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1056875333}
-        m_TargetAssemblyTypeName: ObjectFuncGrabber, Assembly-CSharp
+        m_TargetAssemblyTypeName: ObjectFuncGrabberBST, Assembly-CSharp
         m_MethodName: Locate
         m_Mode: 1
         m_Arguments:
@@ -3315,7 +3315,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1056875328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 572668d6b95638c46859e70709d40b9e, type: 3}
+  m_Script: {fileID: 11500000, guid: c9e1e2b98b0a4a74fac09ca991a52215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   thing: {fileID: 1981504371}
