@@ -50,6 +50,7 @@ public class AVLInput : MonoBehaviour
             {
                 GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TMP_Text>().text = "Can not insert " + textInputs[i] + " because it is not a number";
                 Debug.Log("Cant convert " + textInputs[i] + " to int");
+                keys[i] = -1;
                 yagud = false;
             }
 
@@ -68,7 +69,7 @@ public class AVLInput : MonoBehaviour
 
         if(yagud)
         {
-            
+            inputField.GetComponent<TMP_InputField>().text = "";
             b.customInserts(keys);
             StartCoroutine(b.readQueue());
         }

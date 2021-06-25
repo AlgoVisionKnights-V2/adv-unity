@@ -652,12 +652,14 @@ public class AVL : Algorithm
         // move tree1 downleft
         if (t1 < inttree.Length && inttree[t1] != -1)
         {
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] +"'s left subtree down left."));
             movetree(t1, leftCI(t1));
             q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         }
         
 
         // move x downleft
+        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " +inttree[x] + " down left."));
         swap(x, leftCI(x));
         q.Enqueue(new AVLCommand(3, x, leftCI(x), ""));
         q.Enqueue(new AVLCommand(-1, 0, 0, ""));
@@ -666,13 +668,15 @@ public class AVL : Algorithm
         // move tree2 left 1
         if (t2 < inttree.Length && inttree[t2] != -1)
         {
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + "'s left subtree to be " + inttree[x] + "'s right subtree."));
             movetree(t2, rightCI(t1));
             q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         }
-        
+
 
 
         // move move y up
+        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + " up."));
         inttree[parentI(y)] = inttree[y];
         inttree[y] = -1;
         q.Enqueue(new AVLCommand(3, y, parentI(y), ""));
@@ -682,6 +686,7 @@ public class AVL : Algorithm
         // move tree 3 up
         if (t3 < inttree.Length && inttree[t3] != -1)
         {
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree up."));
             movetree(t3, parentI(t3));
             q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         }
@@ -727,12 +732,14 @@ public class AVL : Algorithm
         // move tree3 downright
         if (t3 < inttree.Length && inttree[t3] != -1)
         {
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree down-right."));
             movetree(t3, rightCI(t3));
             q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         }
-        
+
 
         // move y downright
+        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[y] + " down-right."));
         inttree[rightCI(y)] = inttree[y];
         inttree[y] = -1;
         q.Enqueue(new AVLCommand(3, y, rightCI(y), ""));
@@ -742,12 +749,14 @@ public class AVL : Algorithm
         // movetree2 right 1
         if (t2 < inttree.Length && inttree[t2] != -1)
         {
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree to " + inttree[x] + "'s right subtree."));
             movetree(t2, leftCI(t3));
             q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         }
-        
+
 
         // move x up
+        q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] + " up."));
         inttree[parentI(x)] = inttree[x];
         inttree[x] = -1;
         q.Enqueue(new AVLCommand(3, x, parentI(x), ""));
@@ -757,6 +766,7 @@ public class AVL : Algorithm
         // move tree1 up
         if (t1 < inttree.Length && inttree[t1] != -1)
         {
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree up."));
             movetree(t1, parentI(t1));
             q.Enqueue(new AVLCommand(-1, 0, 0, ""));
         }
@@ -787,16 +797,18 @@ public class AVL : Algorithm
 
             if(tempI == -1) // right subtree not found
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "No right subtree found, moving left subtree instead."));
                 
-
-                if(inttree[leftCI(I)] == -1)
+                if(inttree[leftCI(I)] == -1) // if not left subtree found
                 {
-                    q.Enqueue(new AVLCommand(-1, 0, 0, "No left subtree found, removing " + inttree[I]));
+                    q.Enqueue(new AVLCommand(-1, 0, 0, inttree[I] + " is a leaf node, removing without replacement."));
                     q.Enqueue(new AVLCommand(9, I, 0, ""));
                     inttree[I] = -1;
                     heights[I] = 0;
                     return;
+                }
+                else
+                {
+                    q.Enqueue(new AVLCommand(-1, 0, 0, "No right subtree found, moving left subtree instead."));
                 }
                 q.Enqueue(new AVLCommand(9, I, 0, ""));
                 inttree[I] = -1;
