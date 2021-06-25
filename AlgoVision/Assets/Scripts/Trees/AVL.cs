@@ -360,8 +360,8 @@ public class AVL : Algorithm
         {
             if (key >= inttree[leftCI(I)]) // if left-right
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is right heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Left-Right Rotation"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Left-Right Case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(I)]));
                 lRotate(leftCI(I));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
@@ -369,8 +369,8 @@ public class AVL : Algorithm
             }
             else // if left-left
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is left heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Left-Left Rotation"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Left-Left Case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
                 rRotate(I);
             }
@@ -380,8 +380,8 @@ public class AVL : Algorithm
         {
             if (key < inttree[rightCI(I)]) // right -left
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is left heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Right-Left Rotation"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Right-Left Case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(I)]));
                 rRotate(rightCI(I));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
@@ -389,9 +389,9 @@ public class AVL : Algorithm
             }
             else // right-right
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is right heavy"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Right-Right Rotation"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on node."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beginning Right-Right Case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
                 lRotate(I);
             }
 
@@ -851,7 +851,8 @@ public class AVL : Algorithm
                     int sb = heights[leftCI(leftCI(tempI))] - heights[leftCI(rightCI(tempI))];
                     if (sb < 0) // if left-right
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is right heavy: Left-Right case"));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy."));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Right case"));
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(tempI)]));
                         lRotate(leftCI(tempI));
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[tempI]));
@@ -859,7 +860,8 @@ public class AVL : Algorithm
                     }
                     else // if left-left
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is left heavy: Left-Left case"));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy."));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Left case"));
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[tempI]));
                         rRotate(tempI);
                     }
@@ -870,7 +872,8 @@ public class AVL : Algorithm
                     int sb = heights[rightCI(leftCI(tempI))] - heights[rightCI(rightCI(tempI))];
                     if (sb > 0) // right -left
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is left heavy: Right-Left case"));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy."));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Left case"));
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(tempI)]));
                         rRotate(rightCI(tempI));
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[tempI]));
@@ -878,15 +881,16 @@ public class AVL : Algorithm
                     }
                     else // right-right
                     {
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is right heavy: Right-Right case"));
-                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on node."));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy."));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Right case"));
+                        q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[tempI]));
                         lRotate(tempI);
                     }
-                    q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is now balanced")));
+                    q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[tempI] + " is now balanced")));
                 }
                 else
                 {
-                    q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is already balanced")));
+                    q.Enqueue(new AVLCommand(-1, 0, 0, ("|Left - Right| < 2. " + inttree[tempI] + " is already balanced!")));
                     q.Enqueue(new AVLCommand(2, tempI, 0, ""));
                     q.Enqueue(new AVLCommand(8, tempI, 0, ""));
                 }
@@ -948,7 +952,8 @@ public class AVL : Algorithm
             int sb = heights[leftCI(leftCI(I))] - heights[leftCI(rightCI(I))];
             if (sb < 0) // if left-right
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is right heavy: Left-Right case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is right heavy."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Right case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(I)]));
                 lRotate(leftCI(I));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
@@ -956,7 +961,8 @@ public class AVL : Algorithm
             }
             else // if left-left
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is left heavy: Left-Left case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and left subtree is left heavy."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Left-Left case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[I]));
                 rRotate(I);
             }
@@ -967,7 +973,8 @@ public class AVL : Algorithm
             int sb = heights[rightCI(leftCI(I))] - heights[rightCI(rightCI(I))];
             if (sb > 0) // right -left
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is left heavy: Right-Left case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is left heavy."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Left case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(I)]));
                 rRotate(rightCI(I));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
@@ -975,8 +982,9 @@ public class AVL : Algorithm
             }
             else // right-right
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is right heavy: Right-Right case"));
-                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on node."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and right subtree is right heavy."));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Beggining Right-Right case"));
+                q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[I]));
                 lRotate(I);
             }
 
@@ -984,7 +992,7 @@ public class AVL : Algorithm
         }
         else
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, (inttree[I] + " is already balanced!")));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ("|Left - Right| < 2. " + inttree[I] + " is already balanced!")));
         }
         q.Enqueue(new AVLCommand(8, I, 0, ""));
         q.Enqueue(new AVLCommand(2, I, 0, ""));
@@ -1304,6 +1312,27 @@ public class AVL : Algorithm
                         canvas.transform.GetChild(14).GetChild(0).GetComponent<TMP_Text>().text = "Deleting:";
                     }
                     break;
+                case 11: // toggle node's arrow visibility (11, index, visibility, "")
+                    switch(instr.arg2)
+                    {
+                        case 0:
+                            
+                            break;
+                        case 1:
+
+                            break;
+                        case 2:
+
+                            break;
+                        case 3:
+
+                            break;
+
+                        default:
+                            break;
+
+                    }
+                    break;
 
                 default:
                     yield return new WaitForSeconds(this.time);
@@ -1312,6 +1341,9 @@ public class AVL : Algorithm
         }
     }
 }
+
+
+
 
 // the wall of shame. for comedic purposes
 

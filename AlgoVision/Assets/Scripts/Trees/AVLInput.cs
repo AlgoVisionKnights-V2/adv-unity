@@ -48,13 +48,21 @@ public class AVLInput : MonoBehaviour
             }
             catch(FormatException)
             {
-                //to do, add alert
+                GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TMP_Text>().text = "Can not insert " + textInputs[i] + " because it is not a number";
                 Debug.Log("Cant convert " + textInputs[i] + " to int");
+                yagud = false;
             }
 
             if(keys[i] == 0)
             {
+                GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TMP_Text>().text = "Please remove 0 from your inserts.";
                 yagud = false;
+            }
+
+            if(keys[i] > 999 || keys[i] < -999)
+            {
+                yagud = false;
+                GameObject.Find("Canvas").transform.GetChild(5).GetComponent<TMP_Text>().text = "Please only insert or delete numbers between 1 and 999.";
             }
         }
 
