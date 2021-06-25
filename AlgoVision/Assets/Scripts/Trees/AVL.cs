@@ -842,7 +842,8 @@ public class AVL : Algorithm
 
                 if (b > 1)
                 {
-                    if (key >= inttree[leftCI(tempI)]) // if left-right
+                    int sb = heights[leftCI(leftCI(tempI))] - heights[leftCI(rightCI(tempI))];
+                    if (sb < 0) // if left-right
                     {
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is right heavy: Left-Right case"));
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(tempI)]));
@@ -860,7 +861,8 @@ public class AVL : Algorithm
                 }
                 else if (b < -1)
                 {
-                    if (key < inttree[rightCI(tempI)]) // right -left
+                    int sb = heights[rightCI(leftCI(tempI))] - heights[rightCI(rightCI(tempI))];
+                    if (sb > 0) // right -left
                     {
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is left heavy: Right-Left case"));
                         q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(tempI)]));
@@ -937,7 +939,8 @@ public class AVL : Algorithm
 
         if (balance > 1)
         {
-            if (key >= inttree[leftCI(I)]) // if left-right
+            int sb = heights[leftCI(leftCI(I))] - heights[leftCI(rightCI(I))];
+            if (sb < 0) // if left-right
             {
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Node is left heavy and subtree is right heavy: Left-Right case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing left rotate on " + inttree[leftCI(I)]));
@@ -955,7 +958,8 @@ public class AVL : Algorithm
         }
         else if (balance < -1)
         {
-            if (key < inttree[rightCI(I)]) // right -left
+            int sb = heights[rightCI(leftCI(I))] - heights[rightCI(rightCI(I))];
+            if (sb > 0) // right -left
             {
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Node is right heavy and subtree is left heavy: Right-Left case"));
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Performing right rotate on " + inttree[rightCI(I)]));
