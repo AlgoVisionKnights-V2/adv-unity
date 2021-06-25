@@ -69,7 +69,7 @@ public class LinkedList : Algorithm
 
 
     }
-    public void insert(int value){
+    public void insert(int value, int pos){
         short steps = 0; // number of steps through the list while traversing
 
         if (head == null)
@@ -83,7 +83,7 @@ public class LinkedList : Algorithm
         queue.Enqueue(new QueueCommand(3, newNode, -1));
         queue.Enqueue(new QueueCommand(4, newNode, steps));
         queue.Enqueue(new QueueCommand(0, null, -1));
-
+        // make a new head
         if (head == null){
             head = newNode;
             queue.Enqueue(new QueueCommand(2, null, -1));
@@ -95,12 +95,9 @@ public class LinkedList : Algorithm
 
             return;
         }
-
-
         LinkedListNode temp = head;
-
         // initial check if new node should be at head
-        if (compare(newNode, temp) && head.value > value){
+        if (pos <= 0){
             newNode.next = temp;
             head = newNode;
             queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
@@ -110,13 +107,19 @@ public class LinkedList : Algorithm
             return;
         }
 
-        steps++;
+
+        steps++; // 1
         queue.Enqueue(new QueueCommand(4, newNode, steps));
         queue.Enqueue(new QueueCommand(0, null, -1));
         
         // check if newNode should go after temp
-        while(temp.next != null){
-            if (compare(newNode, temp.next) && temp.next.value < value){
+        while(temp.next != null && steps < pos){
+            /*0 5 7; insert 9 at 2 */
+            steps++;
+            queue.Enqueue(new QueueCommand(4, newNode, steps));
+            queue.Enqueue(new QueueCommand(0, null, -1));
+            temp = temp.next;
+            /*if (temp.next.value < value){
                 temp = temp.next;
                 steps++;
                 queue.Enqueue(new QueueCommand(4, newNode, steps));
@@ -132,7 +135,18 @@ public class LinkedList : Algorithm
                 queue.Enqueue(new QueueCommand(2, null, -1));
                 queue.Enqueue(new QueueCommand(0, null, -1));
                 return;
-            }
+            }*/
+        }
+
+        if (temp.next != null){
+            newNode.next = temp.next;
+            temp.next = newNode;
+            queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
+            queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
+            queue.Enqueue(new QueueCommand(0, null, -1));  
+            queue.Enqueue(new QueueCommand(2, null, -1));
+            queue.Enqueue(new QueueCommand(0, null, -1));
+            return;            
         }
         // At this point we've reached end of the line
         temp.next = newNode;
@@ -192,7 +206,9 @@ public class LinkedList : Algorithm
         }
     }
     public IEnumerator readQueue(){
-        foreach(QueueCommand q in queue){
+        QueueCommand q;
+        while (queue.Count > 0){
+            q = queue.Dequeue();
             Debug.Log(q.commandId);
             switch(q.commandId){
                 case 0: // wait
@@ -235,7 +251,7 @@ public class LinkedList : Algorithm
 
     public void insertNode(int value, int pos)
     {
-        insert(value);
+        insert(value, pos);
         traverse();
         StartCoroutine(readQueue());
     }
