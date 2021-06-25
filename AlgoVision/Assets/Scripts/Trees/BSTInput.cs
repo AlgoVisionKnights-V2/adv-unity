@@ -8,7 +8,7 @@ using System;
 public class BSTInput : MonoBehaviour
 {
     [SerializeField] GameObject spherePrefab;
-    public AVL b;
+    public BST b;
     [SerializeField] Slider speedSlider;
     [SerializeField] GameObject inputField;
 
@@ -16,13 +16,13 @@ public class BSTInput : MonoBehaviour
     {
         speedSlider = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Slider>();
         inputField = GameObject.Find("Canvas").transform.GetChild(13).gameObject;
-        b = new AVL(0, spherePrefab);
+        b = new BST(0, spherePrefab);
     }
     public void umsthing()
     {
         Debug.Log("Current TIME: " + b.time);
         speedSlider = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Slider>();
-        b = new AVL(0, spherePrefab);
+        b = new BST(0, spherePrefab);
     }
     void Update()
     {
