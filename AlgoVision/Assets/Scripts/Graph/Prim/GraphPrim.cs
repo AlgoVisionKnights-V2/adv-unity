@@ -19,6 +19,8 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
     public static Vertex[] vertices = new Vertex[vertex];
     public static Edge[] edges = new Edge[edge];
     protected TMP_Text showText;
+    protected static TextMeshPro listText;
+
     public float time;
     public class Vertex{
         public int value;
@@ -142,6 +144,13 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
                 case 5:// update the displayed message
                     showText.text = q.message;
                     showText.color = colorChangeText(q.additionalInfo);
+                    break;
+                case 6: // update queueMessage
+                    listText.text = q.message;
+                    break;
+                case 7: // delete an edge
+                    edges[q.edge].edge.GetComponent<LineRenderer>().enabled = false;
+                    edges[q.edge].edgeWeigth.enabled = false;
                     break;
                 default:
                     extendCommands(q);

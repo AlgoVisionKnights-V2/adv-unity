@@ -1,4 +1,4 @@
-/*
+﻿/*
     Prim's algorithm creates a minimum spanning tree.
     One vertex is randomly selected and each of its edges are placed in a priority queue
     For each edge in the queue, the two vertices it connects are checked.
@@ -20,9 +20,14 @@ public class Prim : GraphPrim
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject edgeValue;
     [SerializeField] GameObject vertexInfo;
+    [SerializeField] GameObject listRectangle;
+    [SerializeField] GameObject listTextObj;
+    [SerializeField] GameObject canvas;
     int main;
     protected static List head;
+    //protected static TextMeshPro listText;
 
+    public static string queueMessage;
     // This extends the Graph.Vertex class by adding a visited bool
     // visited tracks if a vertex has been added to the minimum spanning tree
 
@@ -39,6 +44,7 @@ public class Prim : GraphPrim
     protected class List{
         public Edge edge;
         public List next;
+
         public List(Edge edge){
             this.edge = edge;
             next = null;
@@ -57,16 +63,47 @@ public class Prim : GraphPrim
             temp1.next = new List(e);
             temp1.next.next = temp2;
         }
+
+    }
+
+    private void queueStringBuilder()
+    {
+        List reader = head;
+        queueMessage = "";
+  
+           /* // Do some quick check with the head value so it is not part of the string
+            if (reader != null)
+            {
+                edgeChecker[reader.edge.name - 'A'] = true;
+                reader = reader.next;
+
+            }*/
+
+        while (reader != null)
+        {
+
+
+            queueMessage += (queueMessage == "") ? reader.edge.name + ":" + reader.edge.weight : "│" + reader.edge.name + ":" + reader.edge.weight;
+            reader = reader.next;
+        }
+        
+        Debug.Log(queueMessage);
+        queue.Enqueue(new QueueCommand(6, queueMessage, 1));
     }
     public void Setup(int main)
     {
         vertices = new PrimVertex[vertex];
-        for(int i = 0; i < vertex; i++){
+        canvas = GameObject.Find("Canvas");
+        for (int i = 0; i < vertex; i++){
             vertices[i] = new PrimVertex(i, spherePrefab, vertexInfo, "");
         }
         for(int i = 0; i < edge; i++){
             edges[i] = new Edge(i, r.Next(1,21), edgeValue);
         }
+        listRectangle = GameObject.Instantiate(listRectangle);
+        listTextObj = GameObject.Instantiate(listTextObj);
+        listText = listTextObj.GetComponentInChildren<TextMeshPro>();
+        showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
         //setCam();
         this.main = main;
         PrimAlgorithm();
@@ -74,20 +111,34 @@ public class Prim : GraphPrim
         //StartCoroutine(readQueue());        
     }
     void PrimAlgorithm(){
-        head = new List(null); // junk data to initialize
+        head = new List(vertices[main].neighborEdges[0]); // junk data to initialize
+        queue.Enqueue(new QueueCommand(0, -1, -1));
+        Debug.Log("Starting at node " + main + " Enqueuing its edges");
 
+        queue.Enqueue(new QueueCommand(5, "Starting at node " + main + " Enqueuing its edges", 0));
         // We can guarantee no vertices have been visited yet so don't check for that
-        foreach(Edge e in vertices[main].neighborEdges){
-            head.insert(e);
+        for (int i = 0; i < vertices[main].neighborEdges.Count; i++) 
+        {
+            head.insert(vertices[main].neighborEdges[i]);
+            Debug.Log("Enqueuing edge " + vertices[main].neighborEdges[i].name);
+            queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + vertices[main].neighborEdges[i].name, 0));
+
+            queueStringBuilder();
+
+            queue.Enqueue(new QueueCommand(0, -1, -1));
+
         }
         // Lock the main and remove the junk data
         ((PrimVertex)vertices[main]).visited = true;
         head = head.next;
+        queueStringBuilder();
         queue.Enqueue(new QueueCommand(1,main,-1, 3));
         // Make writing easier by setting references to precast values
         PrimVertex a,b,c,d;
         Color original;
         while (head != null){
+            queue.Enqueue(new QueueCommand(5, "Dequeuing " + head.edge.name, 0));
+            queue.Enqueue(new QueueCommand(0, -1, -1));
 
             original = head.edge.edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color;
             Debug.Log(original);
@@ -98,34 +149,65 @@ public class Prim : GraphPrim
             b = (PrimVertex)vertices[head.edge.j];
 
             if (a.visited && b.visited){
-                if (original == Color.white){
-                    queue.Enqueue(new QueueCommand(3, head.edge.id, 2));
-                }
-                else{
-                    queue.Enqueue(new QueueCommand(3, head.edge.id, 1));
-                }
+                queue.Enqueue(new QueueCommand(5, "Both nodes have been visited. Discarding edge " + head.edge.name, 0));
+                queue.Enqueue(new QueueCommand(0, -1, -1));
+                queue.Enqueue(new QueueCommand(7, head.edge.id, 0));
                 head = head.next;
+                queueStringBuilder();
                 queue.Enqueue(new QueueCommand(0,-1,-1));
 
                 continue;
             }
 
             if (!a.visited){
+                queue.Enqueue(new QueueCommand(5, " Node " + a.value + " is not part of the tree. Enqueuing its edges", 0));
+                queue.Enqueue(new QueueCommand(0, -1, -1));
                 a.visited = true;
                 foreach(Edge e in a.neighborEdges){
                     c = (PrimVertex)vertices[e.i];
                     d = (PrimVertex)vertices[e.j];
                     if (!c.visited || !d.visited)
+                    {
                         head.insert(e);
+                        Debug.Log("Enqueuing edge " + e.name);
+                        queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + e.name, 0));
+
+                        queueStringBuilder();
+                        queue.Enqueue(new QueueCommand(0, -1, -1));
+
+                    }
+                    else
+                    {
+                        queueStringBuilder();
+                        queue.Enqueue(new QueueCommand(0, -1, -1));
+                    }
+
+
                 }
             }
             if (!b.visited){
+                queue.Enqueue(new QueueCommand(5, " Node " + b.value + " is not part of the tree. Enqueuing its edges", 0));
+                queue.Enqueue(new QueueCommand(0, -1, -1));
                 b.visited = true;
                 foreach(Edge e in b.neighborEdges){
                     c = (PrimVertex)vertices[e.i];
                     d = (PrimVertex)vertices[e.j];
                     if (!c.visited || !d.visited)
+                    {
                         head.insert(e);
+                        queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + e.name, 0));
+
+                        queueStringBuilder();
+                        queue.Enqueue(new QueueCommand(0, -1, -1));
+
+                    }
+                    else
+                    {
+                        queueStringBuilder();
+                        queue.Enqueue(new QueueCommand(0, -1, -1));
+                    }
+
+
                 }
             }
 
@@ -135,7 +217,10 @@ public class Prim : GraphPrim
             queue.Enqueue(new QueueCommand(0,-1,-1));
 
             head = head.next;
+            queueStringBuilder();
+
         }
+        queue.Enqueue(new QueueCommand(5, "Minimum Spanning Tree made", 4));
     }
     protected override void extendCommands(QueueCommand command)
     {
