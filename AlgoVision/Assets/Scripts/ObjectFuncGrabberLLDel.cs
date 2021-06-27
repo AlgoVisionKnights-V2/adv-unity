@@ -23,7 +23,13 @@ public class ObjectFuncGrabberLLDel : MonoBehaviour
 
     public void Locate()
     {
+        if (valueText.GetComponent<TMP_InputField>().text == "")
+        {
+            return;
+        }
+        
         thing = GameObject.Find("algo");
-        thing.GetComponent<LinkedList>().deleteNode(Int32.Parse(valueText.GetComponent<TMP_InputField>().text), Int32.Parse(posText.GetComponent<TMP_InputField>().text));
+        thing.GetComponent<LinkedList>().deleteNode(Int32.Parse(valueText.GetComponent<TMP_InputField>().text), 0);
+        valueText.GetComponent<TMP_InputField>().text = "";
     }
 }

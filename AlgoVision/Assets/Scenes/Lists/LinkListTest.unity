@@ -1054,6 +1054,8 @@ MonoBehaviour:
   currentTime: 0
   canvas: {fileID: 1271266868}
   boxPrefab: {fileID: 8788828555649016041, guid: d263d7296124125429ea0f6b182f80eb, type: 3}
+  insertButton: {fileID: 0}
+  deleteButton: {fileID: 0}
   speedSlider: {fileID: 0}
 --- !u!4 &438271660
 Transform:

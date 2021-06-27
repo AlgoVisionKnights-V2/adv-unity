@@ -10,6 +10,8 @@ public class LinkedList : Algorithm
 {
     [SerializeField] public GameObject canvas;
     [SerializeField] GameObject boxPrefab;
+    [SerializeField] GameObject insertButton;
+    [SerializeField] GameObject deleteButton;
     [SerializeField] Slider speedSlider;
     LinkedListNode head;
     LinkedListNode UIhead;
@@ -54,6 +56,13 @@ public class LinkedList : Algorithm
             this.node2 = node2;
             this.additionalInfo = additionalInfo;
         }
+        public QueueCommand(short commandId, LinkedListNode node1, LinkedListNode node2, string message)
+        {
+            this.commandId = commandId;
+            this.node1 = node1;
+            this.node2 = node2;
+            this.message = message;
+        }
         public QueueCommand(short commandId, string message, short textColorId, int nums)
         {
             this.commandId = commandId;
@@ -88,9 +97,11 @@ public class LinkedList : Algorithm
         if (temp.value == value){
             queue.Enqueue(new QueueCommand(1, temp, 1));
             queue.Enqueue(new QueueCommand());
-
+            
             queue.Enqueue(new QueueCommand(8, temp, 1));
+            queue.Enqueue(new QueueCommand(7, "", 1, 1));
             head = temp.next;
+            queue.Enqueue(new QueueCommand(7, "", 0, 0));
             queue.Enqueue(new QueueCommand(2, null, -1));
             queue.Enqueue(new QueueCommand());
             return;
@@ -115,6 +126,10 @@ public class LinkedList : Algorithm
             queue.Enqueue(new QueueCommand(9, temp, -1));
         }
         else{
+
+            queue.Enqueue(new QueueCommand(10, temp, temp.next, ""));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
         }
 
@@ -173,7 +188,11 @@ public class LinkedList : Algorithm
             queue.Enqueue(new QueueCommand(6, "Inserted Node is now the Head Node", 1, 1));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
-            
+
+
+            queue.Enqueue(new QueueCommand(10, newNode, newNode.next, ""));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
             queue.Enqueue(new QueueCommand(0, null, -1));            
             queue.Enqueue(new QueueCommand(2, null, -1));
@@ -215,7 +234,15 @@ public class LinkedList : Algorithm
         if (temp.next != null){
             newNode.next = temp.next;
             temp.next = newNode;
+
+            queue.Enqueue(new QueueCommand(10, temp, temp.next, ""));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
+
+            queue.Enqueue(new QueueCommand(10, newNode, newNode.next, ""));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
             queue.Enqueue(new QueueCommand(0, null, -1));  
             queue.Enqueue(new QueueCommand(2, null, -1));
@@ -228,7 +255,10 @@ public class LinkedList : Algorithm
         queue.Enqueue(new QueueCommand(6, "Tail has been reached, entering new node as the tail", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
-        
+
+        queue.Enqueue(new QueueCommand(10, temp, temp.next, ""));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
         queue.Enqueue(new QueueCommand(0, null, -1));  
         queue.Enqueue(new QueueCommand(2, null, -1));
@@ -242,6 +272,8 @@ public class LinkedList : Algorithm
     void Start()
     {
         canvas = GameObject.Find("Canvas");
+        insertButton = canvas.transform.GetChild(8).gameObject;
+        deleteButton = canvas.transform.GetChild(9).gameObject;
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
         queue.Enqueue(new QueueCommand(6, "New Linked List, Enter First Node", 1, 1));
         queue.Enqueue(new QueueCommand());
@@ -296,6 +328,10 @@ public class LinkedList : Algorithm
     }
     public IEnumerator readQueue(){
         QueueCommand q;
+
+        insertButton.GetComponent<Button>().interactable = false;
+        deleteButton.GetComponent<Button>().interactable = false;
+        
         while (queue.Count > 0){
             q = queue.Dequeue();
             Debug.Log(q.commandId);
@@ -330,26 +366,33 @@ public class LinkedList : Algorithm
                     if (q.textColorId == 0)
                     {
                         head.Object.transform.GetChild(3).gameObject.SetActive(true);
+                        canvas.transform.GetChild(3).GetComponent<TMP_Text>().text = "" + head.value + " is now the new Head Node";
                         UIhead = head;
-                        Debug.Log("KJhjkhjacjahjdhdhadhgjdg");
                     }
                     else
                     {
                         UIhead.Object.transform.GetChild(3).gameObject.SetActive(false);
                         UIhead = head;
-                        Debug.Log("FJhjkhjacjahjdhdhadhgjdg");
                     }
                     break;
                 case 8: // Move index down before deletion
                     q.node1.Object.transform.position = new Vector3(q.node1.Object.transform.position.x, q.node1.Object.transform.position.y - 2, 0);
                     q.node1.nextEdge.GetComponent<LineRenderer>().enabled = false;
+                    q.node1.Object.SetActive(false);
                     break;
                 case 9: // delete an edge
                     q.node1.nextEdge.SetPosition(0, new Vector3(0,0,0));
                     q.node1.nextEdge.SetPosition(1, new Vector3(0,0,0));
                     break;
+                case 10: // Edge Messaging
+                    canvas.transform.GetChild(3).GetComponent<TMP_Text>().text = "Connecting " + q.node1.value + "'s Next Pointer to " + q.node2.value + "'s Memory Address";
+                    q.node1.nextEdge.SetPosition(0, new Vector3(0, 0, 0));
+                    q.node1.nextEdge.SetPosition(1, new Vector3(0, 0, 0));
+                    break;
             }
         }
+        insertButton.GetComponent<Button>().interactable = true;
+        deleteButton.GetComponent<Button>().interactable = true;
     }
     public void changeColor(LinkedListNode node, int colorId){
         switch(colorId){
@@ -377,6 +420,7 @@ public class LinkedList : Algorithm
     }
     public void deleteNode(int value, int pos)
     {
+        
         queue.Enqueue(new QueueCommand(6, "Deleting " + value + " from the linked list", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
@@ -388,6 +432,7 @@ public class LinkedList : Algorithm
         queue.Enqueue(new QueueCommand());
         traverse();
         StartCoroutine(readQueue());
+
     }
 
     public String randomNumbers()

@@ -23,7 +23,14 @@ public class ObjectFuncGrabberLL : MonoBehaviour
 
     public void Locate()
     {
+        if (valueText.GetComponent<TMP_InputField>().text == "" || posText.GetComponent<TMP_InputField>().text == "")
+        {
+            return;
+        }
+        
         thing = GameObject.Find("algo");
         thing.GetComponent<LinkedList>().insertNode(Int32.Parse(valueText.GetComponent<TMP_InputField>().text), Int32.Parse(posText.GetComponent<TMP_InputField>().text));
+        valueText.GetComponent<TMP_InputField>().text = "";
+        posText.GetComponent<TMP_InputField>().text = "";
     }
 }
