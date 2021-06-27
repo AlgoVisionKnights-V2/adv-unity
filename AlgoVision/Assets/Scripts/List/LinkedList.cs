@@ -99,9 +99,16 @@ public class LinkedList : Algorithm
             queue.Enqueue(new QueueCommand());
             
             queue.Enqueue(new QueueCommand(8, temp, 1));
-            queue.Enqueue(new QueueCommand(7, "", 1, 1));
+            if (head != null)
+            {
+                queue.Enqueue(new QueueCommand(7, "", 1, 1));
+            }
             head = temp.next;
-            queue.Enqueue(new QueueCommand(7, "", 0, 0));
+            
+            if (head != null)
+            {
+                queue.Enqueue(new QueueCommand(7, "", 0, 0));
+            }
             queue.Enqueue(new QueueCommand(2, null, -1));
             queue.Enqueue(new QueueCommand());
             return;
@@ -362,7 +369,6 @@ public class LinkedList : Algorithm
                     canvas.transform.GetChild(3).GetComponent<TMP_Text>().text = q.message;
                     break;
                 case 7: // Head Indicators
-                    head.Object.transform.GetChild(3).GetComponent<TMP_Text>().text = "Head";
                     if (q.textColorId == 0)
                     {
                         head.Object.transform.GetChild(3).gameObject.SetActive(true);
