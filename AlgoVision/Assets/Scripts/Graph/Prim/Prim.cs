@@ -68,21 +68,11 @@ public class Prim : GraphPrim
 
     private void queueStringBuilder()
     {
-        List reader = head;
+        List reader = head.next;
         queueMessage = "";
   
-           /* // Do some quick check with the head value so it is not part of the string
-            if (reader != null)
-            {
-                edgeChecker[reader.edge.name - 'A'] = true;
-                reader = reader.next;
-
-            }*/
-
         while (reader != null)
         {
-
-
             queueMessage += (queueMessage == "") ? reader.edge.name + ":" + reader.edge.weight : "│" + reader.edge.name + ":" + reader.edge.weight;
             reader = reader.next;
         }
@@ -114,6 +104,7 @@ public class Prim : GraphPrim
         head = new List(vertices[main].neighborEdges[0]); // junk data to initialize
         queue.Enqueue(new QueueCommand(0, -1, -1));
         Debug.Log("Starting at node " + main + " Enqueuing its edges");
+        queue.Enqueue(new QueueCommand(1,main,-1, 2));
 
         queue.Enqueue(new QueueCommand(5, "Starting at node " + main + " Enqueuing its edges", 0));
         // We can guarantee no vertices have been visited yet so don't check for that
@@ -122,10 +113,14 @@ public class Prim : GraphPrim
             head.insert(vertices[main].neighborEdges[i]);
             Debug.Log("Enqueuing edge " + vertices[main].neighborEdges[i].name);
             queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + vertices[main].neighborEdges[i].name, 0));
+            queue.Enqueue(new QueueCommand(3, vertices[main].neighborEdges[i].id, 5));
 
             queueStringBuilder();
 
             queue.Enqueue(new QueueCommand(0, -1, -1));
+            queue.Enqueue(new QueueCommand(3, vertices[main].neighborEdges[i].id, 2));
+            queue.Enqueue(new QueueCommand(0, -1, -1));
+
 
         }
         // Lock the main and remove the junk data
@@ -135,13 +130,11 @@ public class Prim : GraphPrim
         queue.Enqueue(new QueueCommand(1,main,-1, 3));
         // Make writing easier by setting references to precast values
         PrimVertex a,b,c,d;
-        Color original;
         while (head != null){
             queue.Enqueue(new QueueCommand(5, "Dequeuing " + head.edge.name, 0));
             queue.Enqueue(new QueueCommand(0, -1, -1));
 
-            original = head.edge.edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color;
-            Debug.Log(original);
+
             queue.Enqueue(new QueueCommand(3, head.edge.id, 3));
             queue.Enqueue(new QueueCommand(0,-1,-1));
 
@@ -152,8 +145,8 @@ public class Prim : GraphPrim
                 queue.Enqueue(new QueueCommand(5, "Both nodes have been visited. Discarding edge " + head.edge.name, 0));
                 queue.Enqueue(new QueueCommand(0, -1, -1));
                 queue.Enqueue(new QueueCommand(7, head.edge.id, 0));
-                head = head.next;
                 queueStringBuilder();
+                head = head.next;
                 queue.Enqueue(new QueueCommand(0,-1,-1));
 
                 continue;
@@ -161,6 +154,7 @@ public class Prim : GraphPrim
 
             if (!a.visited){
                 queue.Enqueue(new QueueCommand(5, " Node " + a.value + " is not part of the tree. Enqueuing its edges", 0));
+                queue.Enqueue(new QueueCommand(1,a.value,-1,2));
                 queue.Enqueue(new QueueCommand(0, -1, -1));
                 a.visited = true;
                 foreach(Edge e in a.neighborEdges){
@@ -171,15 +165,25 @@ public class Prim : GraphPrim
                         head.insert(e);
                         Debug.Log("Enqueuing edge " + e.name);
                         queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + e.name, 0));
+                        queue.Enqueue(new QueueCommand(3, e.id, 5));
 
                         queueStringBuilder();
                         queue.Enqueue(new QueueCommand(0, -1, -1));
+                        queue.Enqueue(new QueueCommand(3, e.id, 2));
+                        queue.Enqueue(new QueueCommand(0, -1, -1));
+
 
                     }
                     else
                     {
-                        queueStringBuilder();
-                        queue.Enqueue(new QueueCommand(0, -1, -1));
+                        if(!(e.id == head.edge.id)){
+                            queue.Enqueue(new QueueCommand(5, "Edge " + e.name + " already enqueued", 0));
+                            queue.Enqueue(new QueueCommand(3, e.id, 5));
+                            queueStringBuilder();
+                            queue.Enqueue(new QueueCommand(0, -1, -1));
+                            queue.Enqueue(new QueueCommand(3, e.id, 2));
+                            queue.Enqueue(new QueueCommand(0, -1, -1));                            
+                        }
                     }
 
 
@@ -187,6 +191,7 @@ public class Prim : GraphPrim
             }
             if (!b.visited){
                 queue.Enqueue(new QueueCommand(5, " Node " + b.value + " is not part of the tree. Enqueuing its edges", 0));
+                queue.Enqueue(new QueueCommand(1,b.value,-1,2));
                 queue.Enqueue(new QueueCommand(0, -1, -1));
                 b.visited = true;
                 foreach(Edge e in b.neighborEdges){
@@ -196,16 +201,21 @@ public class Prim : GraphPrim
                     {
                         head.insert(e);
                         queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + e.name, 0));
+                        queue.Enqueue(new QueueCommand(3, e.id, 5));
 
                         queueStringBuilder();
                         queue.Enqueue(new QueueCommand(0, -1, -1));
-
-                    }
-                    else
-                    {
-                        queueStringBuilder();
+                        queue.Enqueue(new QueueCommand(3, e.id, 2));
                         queue.Enqueue(new QueueCommand(0, -1, -1));
                     }
+                    else if(!(e.id == head.edge.id)){
+                        queue.Enqueue(new QueueCommand(5, "Edge " + e.name + " already enqueued", 0));
+                        queue.Enqueue(new QueueCommand(3, e.id, 5));
+                        queueStringBuilder();
+                        queue.Enqueue(new QueueCommand(0, -1, -1));
+                        queue.Enqueue(new QueueCommand(3, e.id, 2));
+                        queue.Enqueue(new QueueCommand(0, -1, -1));                            
+                        }
 
 
                 }
@@ -216,8 +226,8 @@ public class Prim : GraphPrim
             queue.Enqueue(new QueueCommand(3, head.edge.id, 1));
             queue.Enqueue(new QueueCommand(0,-1,-1));
 
-            head = head.next;
             queueStringBuilder();
+            head = head.next;
 
         }
         queue.Enqueue(new QueueCommand(5, "Minimum Spanning Tree made", 4));

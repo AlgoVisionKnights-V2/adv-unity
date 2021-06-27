@@ -218,7 +218,10 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
             case 3:
                 edges[edge].edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color = Color.red;
                 break;            
-        }
+            case 5:
+                edges[edge].edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+          }
     }   
     protected abstract void extendCommands(QueueCommand command);
     protected abstract void extendVertexColors(int vertex, short colorId);
