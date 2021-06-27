@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = System.Random;
 using TMPro;
+using System;
 
 public class LinkedList : Algorithm
 {
     [SerializeField] public GameObject canvas;
     [SerializeField] GameObject boxPrefab;
+    [SerializeField] Slider speedSlider;
     LinkedListNode head;
+    LinkedListNode UIhead;
+    int size = 1;
+    String stringy;
     Queue<QueueCommand> queue = new Queue<QueueCommand>();
     public class LinkedListNode{
         public int value;
@@ -78,6 +84,16 @@ public class LinkedList : Algorithm
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
         }
+
+        queue.Enqueue(new QueueCommand(6, "Locating Memory Address for new Node...", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
+
+        stringy = randomNumbers();
+        queue.Enqueue(new QueueCommand(6, "Memory space 0x" + stringy + " allocated for new node", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
+        
         
         LinkedListNode newNode = new LinkedListNode(value);
         queue.Enqueue(new QueueCommand(3, newNode, -1));
@@ -92,6 +108,7 @@ public class LinkedList : Algorithm
             queue.Enqueue(new QueueCommand(6, "Node has been entered", 1, 1));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand(7, "", 0, 0));
 
             return;
         }
@@ -99,7 +116,15 @@ public class LinkedList : Algorithm
         // initial check if new node should be at head
         if (pos <= 0){
             newNode.next = temp;
+
+            queue.Enqueue(new QueueCommand(7, "", 1, 1));
             head = newNode;
+            queue.Enqueue(new QueueCommand(7, "", 0, 0));
+
+            queue.Enqueue(new QueueCommand(6, "Inserted Node is now the Head Node", 1, 1));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
+            
             queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
             queue.Enqueue(new QueueCommand(0, null, -1));            
             queue.Enqueue(new QueueCommand(2, null, -1));
@@ -150,6 +175,11 @@ public class LinkedList : Algorithm
         }
         // At this point we've reached end of the line
         temp.next = newNode;
+
+        queue.Enqueue(new QueueCommand(6, "Tail has been reached, entering new node as the tail", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
+        
         queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
         queue.Enqueue(new QueueCommand(0, null, -1));  
         queue.Enqueue(new QueueCommand(2, null, -1));
@@ -163,6 +193,7 @@ public class LinkedList : Algorithm
     void Start()
     {
         canvas = GameObject.Find("Canvas");
+        speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
         queue.Enqueue(new QueueCommand(6, "New Linked List, Enter First Node", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
@@ -175,6 +206,12 @@ public class LinkedList : Algorithm
         StartCoroutine(readQueue());
 
     }
+
+    void Update()
+    {
+        time = speedSlider.value;
+    }
+
     void traverse(){
         LinkedListNode temp = head;
         while(temp != null){
@@ -212,7 +249,7 @@ public class LinkedList : Algorithm
             Debug.Log(q.commandId);
             switch(q.commandId){
                 case 0: // wait
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(time);
                     break;
                 case 1: // change color of a node
                     changeColor(q.node1, q.additionalInfo);
@@ -224,6 +261,7 @@ public class LinkedList : Algorithm
                     q.node1.Object = GameObject.Instantiate(boxPrefab);
                     q.node1.Object.name = q.node1.value.ToString();
                     q.node1.Object.transform.GetChild(0).GetComponent<TMP_Text>().text = q.node1.value.ToString();
+                    q.node1.Object.transform.GetChild(2).GetComponent<TMP_Text>().text = "0x" + stringy;
                     break;
                 case 4: // Relocate the new node
                     q.node1.Object.transform.position = new Vector3(q.additionalInfo*2 - 1, 2, 0);
@@ -234,6 +272,21 @@ public class LinkedList : Algorithm
                     break;
                 case 6: // ChangeText
                     canvas.transform.GetChild(3).GetComponent<TMP_Text>().text = q.message;
+                    break;
+                case 7: // Head Indicators
+                    head.Object.transform.GetChild(3).GetComponent<TMP_Text>().text = "Head";
+                    if (q.textColorId == 0)
+                    {
+                        head.Object.transform.GetChild(3).gameObject.SetActive(true);
+                        UIhead = head;
+                        Debug.Log("KJhjkhjacjahjdhdhadhgjdg");
+                    }
+                    else
+                    {
+                        UIhead.Object.transform.GetChild(3).gameObject.SetActive(false);
+                        UIhead = head;
+                        Debug.Log("FJhjkhjacjahjdhdhadhgjdg");
+                    }
                     break;
             }
         }
@@ -251,8 +304,44 @@ public class LinkedList : Algorithm
 
     public void insertNode(int value, int pos)
     {
+        queue.Enqueue(new QueueCommand(6, "Inserting " + value + " at Position " + pos, 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
+        
         insert(value, pos);
+        queue.Enqueue(new QueueCommand(6, "Insert or Delete a new Node", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
         traverse();
         StartCoroutine(readQueue());
+    }
+    public void deleteNode(int value, int pos)
+    {
+        queue.Enqueue(new QueueCommand(6, "Deleting " + value + " from the linked list", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
+
+        insert(value, pos);
+        
+        queue.Enqueue(new QueueCommand(6, "Insert or Delete a new Node", 1, 1));
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand());
+        traverse();
+        StartCoroutine(readQueue());
+    }
+
+    public String randomNumbers()
+    {
+        var chars = "0123456789";
+        var stringChars = new char[4];
+        var random = new Random();
+
+        for (int i = 0; i < stringChars.Length; i++)
+        {
+            stringChars[i] = chars[random.Next(chars.Length)];
+        }
+
+        var finalString = new String(stringChars);
+        return finalString;
     }
 }
