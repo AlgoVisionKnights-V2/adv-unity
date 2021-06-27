@@ -75,6 +75,55 @@ public class LinkedList : Algorithm
 
 
     }
+    public void delete(int value){
+        if (head == null)
+        {
+            queue.Enqueue(new QueueCommand(6, "List is empty", 1, 1));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
+            return;
+        }
+        LinkedListNode temp = head;
+        // When the head is what we're deleting
+        if (temp.value == value){
+            queue.Enqueue(new QueueCommand(1, temp, 1));
+            queue.Enqueue(new QueueCommand());
+
+            queue.Enqueue(new QueueCommand(8, temp, 1));
+            head = temp.next;
+            queue.Enqueue(new QueueCommand(2, null, -1));
+            queue.Enqueue(new QueueCommand());
+            return;
+        }
+        while(temp.next != null && temp.next.value != value){
+            temp = temp.next;
+        }
+        if (temp.next == null){
+            queue.Enqueue(new QueueCommand(6, "" + value + " not found", 1, 1));
+            queue.Enqueue(new QueueCommand());
+            queue.Enqueue(new QueueCommand());
+            return;
+        }
+        queue.Enqueue(new QueueCommand(1, temp.next, 1));
+        queue.Enqueue(new QueueCommand());
+
+        queue.Enqueue(new QueueCommand(8, temp.next, 1));
+        queue.Enqueue(new QueueCommand());
+
+        temp.next = temp.next.next;
+        if (temp.next == null){
+            queue.Enqueue(new QueueCommand(9, temp, -1));
+        }
+        else{
+            queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
+        }
+
+        queue.Enqueue(new QueueCommand());
+        queue.Enqueue(new QueueCommand(2, null, -1));
+        queue.Enqueue(new QueueCommand());
+
+
+    }
     public void insert(int value, int pos){
         short steps = 0; // number of steps through the list while traversing
 
@@ -225,6 +274,9 @@ public class LinkedList : Algorithm
         LinkedListNode temp2; // marks the last node with an object found
         int i = 0;
 
+        if(temp1==null){
+            return;
+        }
         // find the very first created node and set it
         while (temp1 != null && temp1.Object == null){
             temp1 = temp1.next;
@@ -288,6 +340,14 @@ public class LinkedList : Algorithm
                         Debug.Log("FJhjkhjacjahjdhdhadhgjdg");
                     }
                     break;
+                case 8: // Move index down before deletion
+                    q.node1.Object.transform.position = new Vector3(q.node1.Object.transform.position.x, q.node1.Object.transform.position.y - 2, 0);
+                    q.node1.nextEdge.GetComponent<LineRenderer>().enabled = false;
+                    break;
+                case 9: // delete an edge
+                    q.node1.nextEdge.SetPosition(0, new Vector3(0,0,0));
+                    q.node1.nextEdge.SetPosition(1, new Vector3(0,0,0));
+                    break;
             }
         }
     }
@@ -321,7 +381,7 @@ public class LinkedList : Algorithm
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
 
-        insert(value, pos);
+        delete(value);
         
         queue.Enqueue(new QueueCommand(6, "Insert or Delete a new Node", 1, 1));
         queue.Enqueue(new QueueCommand());
