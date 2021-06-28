@@ -8,7 +8,31 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Matthew Scene.unity
     guid: 5fc55deb18bd0abf7afa2ca7582fd0d3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Sorts/V1BubbleSort.unity
     guid: 2e929f42dfd0f0c4caeae50837b84b30
+  - enabled: 0
+    path: Assets/Scenes/Graphs/DijkTest.unity
+    guid: 3c81867ff2771cb4c81d1d5f21bb4d95
+  - enabled: 0
+    path: Assets/Scenes/Sorts/V1SelectionSort.unity
+    guid: ce555a99a1a5caa49bec212155d718ae
+  - enabled: 0
+    path: Assets/Scenes/Sorts/V1InsertionSort.unity
+    guid: c75cd7da8e4bcef4393a55eb24458d5d
+  - enabled: 0
+    path: Assets/Scenes/Sorts/V1QuickSort.unity
+    guid: 20cb00254733e8b4ca1de46687257b27
+  - enabled: 0
+    path: Assets/Scenes/Graphs/BellmanTest.unity
+    guid: 126806a1d1e1f4242bd61c6ecf85fd63
+  - enabled: 0
+    path: Assets/Scenes/Graphs/PrimTest.unity
+    guid: cc9c78b747dd62c45b86535140dfb1ac
+  - enabled: 0
+    path: Assets/Scenes/BinarySearchScene.unity
+    guid: 8cbdcdcc4799d4a43a0362d81ff55237
+  - enabled: 1
+    path: Assets/Scenes/Trees/BSTTest.unity
+    guid: c3d28e599b36aa542b40bd0a190d1021
   m_configObjects: {}
