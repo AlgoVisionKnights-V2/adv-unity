@@ -45,14 +45,20 @@ public class QuickSort : SortingAlgorithm1
         int split;
         if (low < high)
         {
+            queue.Enqueue(new QueueCommand(7, "Recursively calling QuickSort from index " + low + " through " + high, 5));
+
+            queue.Enqueue(new QueueCommand(9, low, high, 0));
             queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
+            queue.Enqueue(new QueueCommand());
 
             split = partition(low, high);
             //queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
             //queue.Enqueue(new QueueCommand(3, split, (short)0, 2));
-
-            queue.Enqueue(new QueueCommand(6, split+1, high, 0, 0));
+            queue.Enqueue(new QueueCommand(6, low, split - 1, 0, 0));
+            queue.Enqueue(new QueueCommand(6, split + 1, high, 0, 0));
             
+            queue.Enqueue(new QueueCommand(10, low, high, 0));
+            queue.Enqueue(new QueueCommand());
             quickSort(low, split - 1);
             quickSort(split + 1, high);
         }
@@ -60,28 +66,39 @@ public class QuickSort : SortingAlgorithm1
         {
             if( low > -1 && low < size)
             {
-            if (low > high)
-            {
-                return;
-            }
-            
-            queue.Enqueue(new QueueCommand(7, "Index " + low + " is a single element partition. It is already in its sorted position", 5));
-            queue.Enqueue(new QueueCommand());
+                if (low > high)
+                {
+                    return;
+                }
+                queue.Enqueue(new QueueCommand(7, "Recursively calling QuickSort on index " + low, 5));
+                queue.Enqueue(new QueueCommand(9, low, low, 0));
+                queue.Enqueue(new QueueCommand(6, low, low, 0, 3));
+                queue.Enqueue(new QueueCommand());
+                queue.Enqueue(new QueueCommand(7, "Index " + low + " is a single element partition. It is already in its sorted position", 5));
+                queue.Enqueue(new QueueCommand());
 
-            queue.Enqueue(new QueueCommand(3, low, (short)0, 2));
-            queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Pivot"));
-            queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand(10, low, low, 0));
+
+                queue.Enqueue(new QueueCommand(3, low, (short)0, 2));
+                queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand());
+                queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Pivot"));
             }    
             else if (low <= high)
             {
-            queue.Enqueue(new QueueCommand(7, "Index " + high + " is a single element partition. It is already in its sorted position", 5));
-            queue.Enqueue(new QueueCommand());
-            
-            queue.Enqueue(new QueueCommand(3, high, (short)0, 2));
-            queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
-            queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand(7, "Recursively calling QuickSort on index " + high, 5));
+                queue.Enqueue(new QueueCommand(9, high, high, 0));
+                queue.Enqueue(new QueueCommand(6, high, high, 0, 3));
+                queue.Enqueue(new QueueCommand());
+                
+                queue.Enqueue(new QueueCommand(7, "Index " + high + " is a single element partition. It is already in its sorted position", 5));
+                queue.Enqueue(new QueueCommand());
+                queue.Enqueue(new QueueCommand(10, high, high, 0));
+
+                queue.Enqueue(new QueueCommand(3, high, (short)0, 2));
+                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand());
+                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
             }
         }
     }
