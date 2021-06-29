@@ -308,8 +308,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Restart
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -799,8 +799,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1113,16 +1113,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 438271658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed6c1562319c458fb7b49b1ff8c8730, type: 3}
+  m_Script: {fileID: 11500000, guid: 779a07be88aa2a24f8167adce45a0832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0
   completionPercent: 0
   stopTime: 0
   currentTime: 0
-  green: {r: 0.533, g: 0.671, b: 0.459, a: 1}
-  blue: {r: 0.6, g: 0.686, b: 0.761, a: 1}
-  red: {r: 1, g: 0.2, b: 0.361, a: 1}
   boxPrefab: {fileID: 8788828555649016041, guid: cd30f0a7dd2f5974a9635dbf189c975e, type: 3}
   canvas: {fileID: 1271266868}
   text: {fileID: 4364636054960887421, guid: 9b4232445e926581e995e77d0874bd3f, type: 3}
@@ -1349,8 +1346,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Board size: 8x8'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3109,6 +3106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ff2e4e44b3a864d9f4136d7807cc82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeSlider: {fileID: 0}
 --- !u!1 &1530670792
 GameObject:
   m_ObjectHideFlags: 0
