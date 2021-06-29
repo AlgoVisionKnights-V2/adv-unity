@@ -95,7 +95,7 @@ public class Prim : GraphPrim
         
         activeEdge = GameObject.Instantiate(activeEdge);
         activeEdgeText = activeEdge.transform.GetChild(1).GetComponent<TextMeshPro>();
-        activeEdgeText.text = "active edge";
+        activeEdgeText.text = "";
         showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
         //setCam();
         this.main = main;
@@ -135,6 +135,9 @@ public class Prim : GraphPrim
         PrimVertex a,b,c,d;
         while (head != null){
             queue.Enqueue(new QueueCommand(5, "Dequeuing " + head.edge.name, 0));
+            queue.Enqueue(new QueueCommand(8, head.edge.name.ToString(), 0));
+            queueStringBuilder();
+
             queue.Enqueue(new QueueCommand(0, -1, -1));
 
 
@@ -234,6 +237,8 @@ public class Prim : GraphPrim
 
         }
         queue.Enqueue(new QueueCommand(5, "Minimum Spanning Tree made", 4));
+        queue.Enqueue(new QueueCommand(8, "", 0));
+
     }
     protected override void extendCommands(QueueCommand command)
     {

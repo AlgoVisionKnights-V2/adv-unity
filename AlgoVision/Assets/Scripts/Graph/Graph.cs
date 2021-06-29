@@ -56,7 +56,7 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
         public int j;
         public int weight;
         public LineRenderer edge;
-        public Edge(int id, int weight, GameObject edgeWeigth){
+        public Edge(int id, int weight, GameObject edgeWeight){
             this.id = id;
             i = edgeBluePrints[id,0];
             j = edgeBluePrints[id,1];
@@ -68,7 +68,7 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             edge.GetComponent<LineRenderer>().positionCount = 2;
             edge.GetComponent<LineRenderer>().useWorldSpace = true;
 
-            var text = GameObject.Instantiate(edgeWeigth);
+            var text = GameObject.Instantiate(edgeWeight);
             text.GetComponent<TextMeshPro>().text = weight.ToString();
             text.transform.position = new Vector3(edgePosition[id, 0], edgePosition[id, 1], 0);
 

@@ -60,8 +60,8 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
         public int weight;
         public char name;
         public LineRenderer edge;
-        public TextMeshPro edgeWeigth;
-        public Edge(int id, int weight, GameObject edgeWeigthObj){
+        public TextMeshPro edgeWeight;
+        public Edge(int id, int weight, GameObject edgeWeightObj){
             this.id = id;
             name = (char)(id + 'A');
             i = edgeBluePrints[id,0];
@@ -74,11 +74,11 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
             edge.GetComponent<LineRenderer>().positionCount = 2;
             edge.GetComponent<LineRenderer>().useWorldSpace = true;
             //edge.GetComponent<LineRenderer>().enabled = false;
-            var edgeWeigthObject = GameObject.Instantiate(edgeWeigthObj);
-            this.edgeWeigth = edgeWeigthObject.GetComponent<TextMeshPro>();
-            edgeWeigth.text = name + ":"+weight.ToString();
-            //edgeWeigth.enabled = false;
-            edgeWeigthObject.transform.position = new Vector3(edgePosition[id, 0], edgePosition[id, 1], 0);
+            var edgeWeightObject = GameObject.Instantiate(edgeWeightObj);
+            this.edgeWeight = edgeWeightObject.GetComponent<TextMeshPro>();
+            edgeWeight.text = name + ":"+weight.ToString();
+            //edgeWeight.enabled = false;
+            edgeWeightObject.transform.position = new Vector3(edgePosition[id, 0], edgePosition[id, 1], 0);
 
             edge.SetPosition(0, new Vector3(vertices[i].o.transform.position.x, vertices[i].o.transform.position.y, 0));
             edge.SetPosition(1, new Vector3(vertices[j].o.transform.position.x, vertices[j].o.transform.position.y, 0));
@@ -150,7 +150,10 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
                     break;
                 case 7: // delete an edge
                     edges[q.edge].edge.GetComponent<LineRenderer>().enabled = false;
-                    edges[q.edge].edgeWeigth.enabled = false;
+                    edges[q.edge].edgeWeight.enabled = false;
+                    break;
+                case 8: // update activeEdge message
+                    activeEdgeText.text = q.message;
                     break;
                 default:
                     extendCommands(q);
