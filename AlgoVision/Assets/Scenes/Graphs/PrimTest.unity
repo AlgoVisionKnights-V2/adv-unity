@@ -885,8 +885,8 @@ MonoBehaviour:
   spherePrefab: {fileID: 8584337089220081970, guid: 5321727625d04bc4a891cdcd9d50336b, type: 3}
   edgeValue: {fileID: 5025605395965048926, guid: 60cf495194e9c7d4eba9d4c3fbfbf9b0, type: 3}
   vertexInfo: {fileID: 5299587562845438950, guid: 070450f7da32b2644a0ab95eb41a143c, type: 3}
-  listRectangle: {fileID: 9159231528581111800, guid: b46d25494c958ae4b8e8f08a663f9deb, type: 3}
-  listTextObj: {fileID: 2295395800370886406, guid: 0dff833eba5f9774c8c051407d8c88c3, type: 3}
+  listRectangle: {fileID: 2706690020614515052, guid: b46d25494c958ae4b8e8f08a663f9deb, type: 3}
+  activeEdge: {fileID: 1664589342108543152, guid: ef9bcd695f4fe474cbffab34c60a36db, type: 3}
   canvas: {fileID: 1271266868}
 --- !u!4 &438271660
 Transform:
