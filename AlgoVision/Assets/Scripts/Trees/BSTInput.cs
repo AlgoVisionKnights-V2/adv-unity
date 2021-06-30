@@ -11,7 +11,6 @@ public class BSTInput : MonoBehaviour
     public BST b;
     [SerializeField] Slider speedSlider;
     [SerializeField] GameObject inputField;
-
     void Start()
     {
         speedSlider = GameObject.Find("Canvas").transform.GetChild(1).GetComponent<Slider>();

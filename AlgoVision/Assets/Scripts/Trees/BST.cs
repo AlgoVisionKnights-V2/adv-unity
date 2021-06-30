@@ -15,6 +15,7 @@ public class BST : Algorithm
     protected Queue<BSTCommand> q = new Queue<BSTCommand>();
     protected Random r = new Random();
     protected BSTNode[] Nodetree;
+    protected int depthLimit = 8;
     protected int[] inttree;
     protected static float[] Xcoords;
     protected static float[] Ycoords;
@@ -100,6 +101,11 @@ public class BST : Algorithm
 
         for (int i = 0; i < keys.Length; i++) // insertion of keys
         {
+            while(theoreticalDepth(0, 0, keys[i]) > depthLimit)
+            {
+                keys[i] = r.Next(1, 1000);
+            }
+
             q.Enqueue(new BSTCommand(10, keys[i], 0, ""));
             q.Enqueue(new BSTCommand(-1,0,0,("Inserting " + keys[i])));
             insert(keys[i], 0);
@@ -128,9 +134,17 @@ public class BST : Algorithm
             }
             else
             {
-                q.Enqueue(new BSTCommand(10, i, 0, ""));
-                q.Enqueue(new BSTCommand(-1, 0, 0, "Inserting " + i));
-                insert(i, 0);
+                if(theoreticalDepth(0,0,i) > depthLimit)
+                {
+                    q.Enqueue(new BSTCommand(-1, 0, 0, "Inserting " + i + " would result in a tree with a depth over the limit of " + depthLimit+1 + " , and will not be inserted."));
+                }
+                else
+                {
+                    q.Enqueue(new BSTCommand(10, i, 0, ""));
+                    q.Enqueue(new BSTCommand(-1, 0, 0, "Inserting " + i));
+                    insert(i, 0);
+                }
+                
             }
         }
         q.Enqueue(new BSTCommand(-1, 0, 0, "Completed BST insertions"));
@@ -188,10 +202,26 @@ public class BST : Algorithm
         }
     }
 
-    public void testInserts()
+    public int theoreticalDepth(int i, int depth, int key)
     {
+        if(i >= inttree.Length || inttree[i] == -1)
+        {
+            return depth;
+        }
 
+        if(inttree[i] == key)
+        {
+            return 100;
+        }
+
+        if(inttree[i] > key)
+        {
+            return theoreticalDepth(leftCI(i), depth + 1, key);
+        }
+
+        return theoreticalDepth(rightCI(i), depth + 1, key);
     }
+
     void insert(int key, int I)
     {
         if (I >= inttree.Length) // if the Index needed is outside the array, increase the depth
@@ -214,7 +244,7 @@ public class BST : Algorithm
         }
 
         q.Enqueue(new BSTCommand(2, I, 1, "Current node is not null, beginning comparison")); // null node not found, highlight current node to show insertion path
-        q.Enqueue(new BSTCommand(-1, 0, 0, key + ""));
+        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
         if (inttree[I] == key)
         {
             q.Enqueue(new BSTCommand(-1, 0, 0, key + " is already in the array. exiting insertion."));
@@ -236,7 +266,7 @@ public class BST : Algorithm
         }
         else // go right
         {
-            q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Inserted Node: " + key)));
+            q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " < Inserted Node: " + key)));
             
             q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down right subtree."));
             q.Enqueue(new BSTCommand(2, I, 10, ""));
@@ -416,175 +446,6 @@ public class BST : Algorithm
         }
     }
 
-    /*
-    
-        y                           x
-       / \                         / \
-      x   3     ===> right        1   y
-     / \        <=== left            / \  
-    1   2                           2   3
-
-    */
-
-    void lRotate(int I)
-    {
-        int x = I;
-        int t1 = leftCI(x);
-        int y = rightCI(x);
-        int t2 = leftCI(y);
-        int t3 = rightCI(y);
-        int c = 6;
-
-        if(t1 < inttree.Length && inttree[t1] != -1)
-        {
-            q.Enqueue(new BSTCommand(4, t1, c--, ""));
-        }
-
-        q.Enqueue(new BSTCommand(2, x, c--, ""));
-
-        if (t2 < inttree.Length && inttree[t2] != -1)
-        {
-            q.Enqueue(new BSTCommand(4, t2, c--, ""));
-        }
-
-        q.Enqueue(new BSTCommand(2, y, c--, ""));
-
-        if (t3 < inttree.Length && inttree[t3] != -1)
-        {
-            q.Enqueue(new BSTCommand(4, t3, c--, ""));
-        }
-        
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-
-        // move tree1 downleft
-        if (t1 < inttree.Length && inttree[t1] != -1)
-        {
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] +"'s left subtree down left."));
-            movetree(t1, leftCI(t1));
-            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-        }
-        
-
-        // move x downleft
-        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " +inttree[x] + " down left."));
-        swap(x, leftCI(x));
-        q.Enqueue(new BSTCommand(3, x, leftCI(x), ""));
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-
-        // move tree2 left 1
-        if (t2 < inttree.Length && inttree[t2] != -1)
-        {
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + "'s left subtree to be " + inttree[x] + "'s right subtree."));
-            movetree(t2, rightCI(t1));
-            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-        }
-
-
-
-        // move move y up
-        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + " up."));
-        inttree[parentI(y)] = inttree[y];
-        inttree[y] = -1;
-        q.Enqueue(new BSTCommand(3, y, parentI(y), ""));
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-
-        // move tree 3 up
-        if (t3 < inttree.Length && inttree[t3] != -1)
-        {
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree up."));
-            movetree(t3, parentI(t3));
-            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-        }
-        
-
-        q.Enqueue(new BSTCommand(4, I, 0, ""));
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-    }
-
-    void rRotate(int I)
-    {
-        int y = I;
-        int x = leftCI(y);
-        int t3 = rightCI(y);
-        int t1 = leftCI(x);
-        int t2 = rightCI(x);
-        int c = 6;
-
-        if (t3 < inttree.Length && inttree[t3] != -1)
-        {
-            q.Enqueue(new BSTCommand(4, t3, c--, ""));
-        }
-
-        q.Enqueue(new BSTCommand(2, y, c--, ""));
-
-        if (t2 < inttree.Length && inttree[t2] != -1)
-        {
-            q.Enqueue(new BSTCommand(4, t2, c--, ""));
-        }
-
-        q.Enqueue(new BSTCommand(2, x, c--, ""));
-
-        if (t1 < inttree.Length && inttree[t1] != -1)
-        {
-            q.Enqueue(new BSTCommand(4, t1, c--, ""));
-        }
-
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-
-        // move tree3 downright
-        if (t3 < inttree.Length && inttree[t3] != -1)
-        {
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + "'s right subtree down-right."));
-            movetree(t3, rightCI(t3));
-            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-        }
-
-
-        // move y downright
-        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[y] + " down-right."));
-        inttree[rightCI(y)] = inttree[y];
-        inttree[y] = -1;
-        q.Enqueue(new BSTCommand(3, y, rightCI(y), ""));
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-
-        // movetree2 right 1
-        if (t2 < inttree.Length && inttree[t2] != -1)
-        {
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree to " + inttree[x] + "'s right subtree."));
-            movetree(t2, leftCI(t3));
-            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-        }
-
-
-        // move x up
-        q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] + " up."));
-        inttree[parentI(x)] = inttree[x];
-        inttree[x] = -1;
-        q.Enqueue(new BSTCommand(3, x, parentI(x), ""));
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-
-        // move tree1 up
-        if (t1 < inttree.Length && inttree[t1] != -1)
-        {
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree up."));
-            movetree(t1, parentI(t1));
-            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-        }
-        
-
-
-        q.Enqueue(new BSTCommand(4, I, 0, ""));
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-
-    }
-
     private int max(int a, int b) => a > b ? a : b;
 
     void delete(int I, int key)
@@ -663,7 +524,7 @@ public class BST : Algorithm
             }
             else
             {
-                q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Deleting Node: " + key)));
+                q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " < Deleting Node: " + key)));
 
                 q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down right subtree."));
                 q.Enqueue(new BSTCommand(2, I, 10, ""));
@@ -816,10 +677,7 @@ public class BST : Algorithm
 
         for (int i = 0; i < nodes; i++)
         {
-            Debug.Log(nodeArray[i]);
-            Debug.Log(grabNodetreeIndex(nodeArray[i]));
             Xcoords[grabNodetreeIndex(nodeArray[i])] = coeff * ((float)i - middle);
-            //Debug.Log("Coords for " + nodeArray[i] + ": " + (coeff * ((float)i - middle)));
         }
 
         setCoords(getMaxDepth(0));

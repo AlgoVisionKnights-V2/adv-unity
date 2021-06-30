@@ -312,6 +312,15 @@ public class AVL : Algorithm
         }
 
         q.Enqueue(new AVLCommand(2, I, 1, "Current node is not null, beginning comparison")); // null node not found, highlight current node to show insertion path
+        q.Enqueue(new AVLCommand(-1, 0, 0, ""));
+
+        if (inttree[I] == key)
+        {
+            q.Enqueue(new AVLCommand(-1, 0, 0, key + " is already in the tree."));
+            q.Enqueue(new AVLCommand(-1, 0, 0, "Now returning."));
+            return;
+        }
+
         if (inttree[I] > key) // go left
         {
             q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " > Inserted Node: " + key)));
@@ -326,7 +335,7 @@ public class AVL : Algorithm
         }
         else // go right
         {
-            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Inserted Node: " + key)));
+            q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " < Inserted Node: " + key)));
             
             q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down right subtree."));
             q.Enqueue(new AVLCommand(2, I, 10, ""));
@@ -337,6 +346,7 @@ public class AVL : Algorithm
 
             insert(key, rightCI(I));
         }
+
         if (inttree[leftCI(I)] != -1)
         {
             q.Enqueue(new AVLCommand(5, leftCI(I), 0, ""));
@@ -663,7 +673,7 @@ public class AVL : Algorithm
         swap(x, leftCI(x));
         q.Enqueue(new AVLCommand(3, x, leftCI(x), ""));
         q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-
+        x = leftCI(x);
 
         // move tree2 left 1
         if (t2 < inttree.Length && inttree[t2] != -1)
@@ -681,7 +691,7 @@ public class AVL : Algorithm
         inttree[y] = -1;
         q.Enqueue(new AVLCommand(3, y, parentI(y), ""));
         q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-
+        y = parentI(y);
 
         // move tree 3 up
         if (t3 < inttree.Length && inttree[t3] != -1)
@@ -744,7 +754,7 @@ public class AVL : Algorithm
         inttree[y] = -1;
         q.Enqueue(new AVLCommand(3, y, rightCI(y), ""));
         q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-
+        y = rightCI(y);
 
         // movetree2 right 1
         if (t2 < inttree.Length && inttree[t2] != -1)
@@ -761,7 +771,7 @@ public class AVL : Algorithm
         inttree[x] = -1;
         q.Enqueue(new AVLCommand(3, x, parentI(x), ""));
         q.Enqueue(new AVLCommand(-1, 0, 0, ""));
-
+        x = parentI(x);
 
         // move tree1 up
         if (t1 < inttree.Length && inttree[t1] != -1)
@@ -927,7 +937,7 @@ public class AVL : Algorithm
             }
             else
             {
-                q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " <= Deleting Node: " + key)));
+                q.Enqueue(new AVLCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " < Deleting Node: " + key)));
 
                 q.Enqueue(new AVLCommand(-1, 0, 0, "Continue down right subtree."));
                 q.Enqueue(new AVLCommand(2, I, 10, ""));
