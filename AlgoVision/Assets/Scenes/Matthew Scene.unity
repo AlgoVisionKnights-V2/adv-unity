@@ -149,12 +149,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 438271658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40ca6e457bb9d5b4a81845ed997205c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7704d7cd2f0aea73699de86bc07fbe98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0
-  size: 0
-  arr: 
+  completionPercent: 0
+  stopTime: 0
+  currentTime: 0
 --- !u!4 &438271660
 Transform:
   m_ObjectHideFlags: 0
@@ -271,7 +272,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1674299134}
-  - component: {fileID: 1674299133}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -279,18 +279,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1674299133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1674299132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2640d327ea36e35c2be0a4cd771d931b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1674299134
 Transform:
   m_ObjectHideFlags: 0
