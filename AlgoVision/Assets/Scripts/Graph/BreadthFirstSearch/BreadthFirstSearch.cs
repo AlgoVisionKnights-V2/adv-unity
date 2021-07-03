@@ -7,8 +7,6 @@ using System;
 public class BreadthFirstSearch : Graph
 {
     [SerializeField] GameObject spherePrefab;
-    [SerializeField] GameObject edgeValue;
-    [SerializeField] GameObject vertexInfo;
     [SerializeField] GameObject listRectangle;
     [SerializeField] GameObject canvas;
     int main;
@@ -63,10 +61,10 @@ public class BreadthFirstSearch : Graph
         vertices = new BFSVertex[vertex];
         canvas = GameObject.Find("Canvas");
         for (int i = 0; i < vertex; i++){
-            vertices[i] = new BFSVertex(i, spherePrefab, vertexInfo, "");
+            vertices[i] = new BFSVertex(i, spherePrefab, null, "");
         }
         for(int i = 0; i < edge; i++){
-            edges[i] = new Edge(i, r.Next(1,21), edgeValue);
+            edges[i] = new Edge(i, r.Next(1,21), null);
         }
         listRectangle = GameObject.Instantiate(listRectangle);
         //listText = listRectangle.transform.GetChild(1).GetComponent<TextMeshPro>();
