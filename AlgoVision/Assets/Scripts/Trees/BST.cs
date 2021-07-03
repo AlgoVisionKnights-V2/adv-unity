@@ -88,7 +88,10 @@ public class BST : Algorithm
         }
 
         keys = new int[size];
-        for (int i = 0; i < size; i++)
+
+        keys[0] = r.Next(keyAmount, 1000 - keyAmount - 1);
+
+        for (int i = 1; i < size; i++)
         {
             int ins = r.Next(1, 1000);
             keys[i] = ins;
