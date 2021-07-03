@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class BreadthFirstSearch : Graph
+public class BreadthFirstSearch : SearchGraph
 {
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject listRectangle;
@@ -13,7 +13,7 @@ public class BreadthFirstSearch : Graph
     List list;
     protected class BFSVertex : Vertex{
         public bool enqueued;
-        public BFSVertex(int value, GameObject spherePrefab, GameObject vertexInfo, string defaultMessage) : base(value, spherePrefab, vertexInfo, defaultMessage)
+        public BFSVertex(int value, GameObject spherePrefab) : base(value, spherePrefab)
         {
             enqueued = false;
         }
@@ -61,10 +61,10 @@ public class BreadthFirstSearch : Graph
         vertices = new BFSVertex[vertex];
         canvas = GameObject.Find("Canvas");
         for (int i = 0; i < vertex; i++){
-            vertices[i] = new BFSVertex(i, spherePrefab, null, "");
+            vertices[i] = new BFSVertex(i, spherePrefab);
         }
         for(int i = 0; i < edge; i++){
-            edges[i] = new Edge(i, r.Next(1,21), null);
+            edges[i] = new Edge(i);
         }
         listRectangle = GameObject.Instantiate(listRectangle);
         //listText = listRectangle.transform.GetChild(1).GetComponent<TextMeshPro>();

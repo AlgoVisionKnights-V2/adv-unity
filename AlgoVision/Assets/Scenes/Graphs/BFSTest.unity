@@ -2587,6 +2587,7 @@ MonoBehaviour:
   spherePrefab: {fileID: 8584337089220081970, guid: 5321727625d04bc4a891cdcd9d50336b, type: 3}
   listRectangle: {fileID: 2706690020614515052, guid: b46d25494c958ae4b8e8f08a663f9deb, type: 3}
   canvas: {fileID: 588999607}
+  vertexInfo: {fileID: 5299587562845438950, guid: 070450f7da32b2644a0ab95eb41a143c, type: 3}
 --- !u!4 &1719453719
 Transform:
   m_ObjectHideFlags: 0
