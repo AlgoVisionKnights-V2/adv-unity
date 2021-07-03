@@ -208,31 +208,6 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
     protected abstract void extendCommands(QueueCommand command);
     protected abstract void extendVertexColors(int vertex, short colorId);
 
-    protected void BreadthFirstSearch(int main){
-        bool[] enqueued = new bool[vertex];
-        Queue<int> q = new Queue<int>();
-        int i, currentVertex;
-        for(i = 0; i < vertex; i++){
-            enqueued[i] = false;
-        }
-        enqueued[main] = true;
-        q.Enqueue(main);
-        queue.Enqueue(new QueueCommand(1, main, -1, 1));
-        queue.Enqueue(new QueueCommand(0, -1, -1));
-        while(q.Count > 0){
-            currentVertex = q.Dequeue();
-            foreach(Vertex v in vertices[currentVertex].neighbors){
-                if(enqueued[v.value]){
-                    continue;
-                }
-                enqueued[v.value] = true;
-                q.Enqueue(v.value);
-                queue.Enqueue(new QueueCommand(1, v.value, -1, 1));
-            }
-            queue.Enqueue(new QueueCommand(1, currentVertex, -1, 3));
-            queue.Enqueue(new QueueCommand(0, -1, -1));
-        }
-    }
 }
     /*
     static public Random r = new Random();
