@@ -24,6 +24,7 @@ public class TravUI : MonoBehaviour
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
         canvas.transform.GetChild(13).gameObject.SetActive(false);
         canvas.transform.GetChild(15).GetComponent<TMP_Text>().text = "Print order:";
+        canvas.transform.GetChild(16).GetComponent<TMP_Text>().text = "";
         switch (startSize)
         {
             case 0:
@@ -50,19 +51,12 @@ public class TravUI : MonoBehaviour
                 }
             case 3:
                 {
+                    canvas.transform.GetChild(16).GetComponent<TMP_Text>().text = "Queue:";
                     Camera.main.orthographicSize = 14;
-                    canvas.transform.GetChild(5).GetComponent<TMP_Text>().text = "Choose Values To Insert or Delete!";
-                    canvas.transform.GetChild(13).gameObject.SetActive(true);
-                    //inputText.SetActive(false);
-                    //a.testInserts();
-                   /* int[] arrayA = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 14, 16, -12, -14, -6, -7, -8 };
-                    int[] arrayB = { 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 30, 32, -30, -30, -14 };
-                    a.customInserts(arrayA);
+                    /*canvas.transform.GetChild(5).GetComponent<TMP_Text>().text = "Choose Values To Insert or Delete!";
+                    canvas.transform.GetChild(13).gameObject.SetActive(true);*/
+                    a.printOrder(3);
                     StartCoroutine(a.readQueue());
-                    a.customInserts(arrayB);
-                    StartCoroutine(a.readQueue());*/
-                    //convert input field value to integers, if possible
-                    //send integers to insertion
                     break;
                 }
             default:

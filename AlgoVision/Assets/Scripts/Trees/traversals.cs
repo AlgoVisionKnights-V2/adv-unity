@@ -111,13 +111,59 @@ public class traversals : Algorithm
 
             case 3: // breath-first
 
+                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Breadth-First Traversal."));
+                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Breadth-First Traversal."));
+                q.Enqueue(new TravCommand(13, inttree[0], 0, ""));
+                q.Enqueue(new TravCommand(-1, 0, 0, "Starting with root node."));
 
+                for(int i = 0; i < inttree.Length; i++)
+                {
+                    if(!isNull(i))
+                    {
+                        q.Enqueue(new TravCommand(2, i, 1, ""));
+                        q.Enqueue(new TravCommand(-1, 0, 0, "Print " + inttree[i] + "."));
+                        q.Enqueue(new TravCommand(12, i, inttree[i], ""));
+                        q.Enqueue(new TravCommand(13, inttree[i], 1, ""));
+
+                        if (!isNull(leftCI(i)) || !isNull(rightCI(i)))
+                        {
+                            q.Enqueue(new TravCommand(-1, 0, 0, "Queue up " + inttree[i] + "'s children."));
+
+                            if (!isNull(leftCI(i)))
+                            {
+                                q.Enqueue(new TravCommand(2, leftCI(i), 3, ""));
+                                q.Enqueue(new TravCommand(13, inttree[leftCI(i)], 0, ""));
+                            }
+                            if (!isNull(rightCI(i)))
+                            {
+                                q.Enqueue(new TravCommand(2, rightCI(i), 3, ""));
+                                q.Enqueue(new TravCommand(13, inttree[rightCI(i)], 0, ""));
+                            }
+                        }
+
+                        q.Enqueue(new TravCommand(-1, 0, 0, "Finished with " + inttree[i] + "."));
+                        q.Enqueue(new TravCommand(2, i, 4, ""));
+                    }
+                }
 
                 break;
         }
+
+        q.Enqueue(new TravCommand(-1, 0, 0, "Traversal complete!"));
     }
 
-    public void preorderPrint(int I)
+    bool isNull(int i)
+    {
+        if(i >= inttree.Length || inttree[i] == -1)
+        {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    void preorderPrint(int I)
     {
         if (I >= inttree.Length || inttree[I] == -1)
         {
@@ -239,7 +285,10 @@ public class traversals : Algorithm
         }
 
         keys = new int[size];
-        for (int i = 0; i < size; i++)
+
+        keys[0] = r.Next(keyAmount, 1000 - keyAmount - 1);
+
+        for (int i = 1; i < size; i++)
         {
             int ins = r.Next(1, 1000);
             keys[i] = ins;
@@ -1058,6 +1107,26 @@ public class traversals : Algorithm
                     break;
                 case 12: // add number to printField (12, index, value to add, "")
                     canvas.transform.GetChild(15).GetComponent<TMP_Text>().text += " " + instr.arg2.ToString();
+                    break;
+
+                case 13: // add/remove number to queueField (13, value to add, add/remove, "")
+                    switch(instr.arg2)
+                    {
+                        case 0:
+                            canvas.transform.GetChild(16).GetComponent<TMP_Text>().text += "\n" + instr.arg1;
+                            break;
+
+                        case 1:
+                            string remo = instr.arg1.ToString();
+                            int pos = canvas.transform.GetChild(16).GetComponent<TMP_Text>().text.IndexOf(remo);
+
+                            canvas.transform.GetChild(16).GetComponent<TMP_Text>().text = canvas.transform.GetChild(16).GetComponent<TMP_Text>().text.Remove(pos - 1, remo.Length + 1);
+
+                            break;
+
+                        default:
+                            break;
+                    }
                     break;
 
                 default:
