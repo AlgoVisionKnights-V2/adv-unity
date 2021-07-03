@@ -101,6 +101,7 @@ public abstract class SearchGraph : Algorithm // MonoBehaviour is the root class
     }
     public IEnumerator readQueue(){
         foreach(QueueCommand q in queue){
+            Debug.Log(q.commandId);
 
             switch(q.commandId){
                 case 0: 

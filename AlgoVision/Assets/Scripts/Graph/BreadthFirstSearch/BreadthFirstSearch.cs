@@ -32,12 +32,13 @@ public class BreadthFirstSearch : SearchGraph
         }
         // Constructing the List requires the main vertex to be passed in initially
         public List(BFSVertex vertex){
-            count = 0;
+            count = 1;
             head = new ListNode(vertex);
             tail = head;
         }
         // Insert at the tail
         public void insert(BFSVertex v){
+            Debug.Log(v.enqueued);
             if (v.enqueued){
                 return;
             }
@@ -78,13 +79,15 @@ public class BreadthFirstSearch : SearchGraph
     protected void BFS(int main){
         list = new List((BFSVertex)vertices[main]);
         int i, currentVertex;
-
+        BFSVertex v;
         queue.Enqueue(new QueueCommand(1, main, -1, 1));
         queue.Enqueue(new QueueCommand(0, -1, -1));
         while(list.count > 0){
-            foreach(BFSVertex v in list.head.vertex.neighbors){
+            for(i = 0; i < list.head.vertex.neighbors.Count; i++){
+                v = (BFSVertex)(list.head.vertex.neighbors[i]);
                 list.insert(v);
                 queue.Enqueue(new QueueCommand(1, v.value, -1, 1));
+                queue.Enqueue(new QueueCommand(0, -1, -1));
             }
             queue.Enqueue(new QueueCommand(1, list.head.vertex.value, -1, 3));
             queue.Enqueue(new QueueCommand(0, -1, -1));
