@@ -1321,7 +1321,7 @@ public class AVL : Algorithm
                     Destroy(Nodetree[instr.arg1].parentEdge);
                     Nodetree[instr.arg1] = null;
                     break;
-                case 10: // delete node (9, index, null, "")
+                case 10: // update insertion board (10, index, null, "")
 
                     if (instr.arg2 == 0)
                     {
@@ -1332,27 +1332,6 @@ public class AVL : Algorithm
                     {
                         canvas.transform.GetChild(14).GetChild(1).GetComponent<TMP_Text>().text = "" + instr.arg1;
                         canvas.transform.GetChild(14).GetChild(0).GetComponent<TMP_Text>().text = "Deleting:";
-                    }
-                    break;
-                case 11: // toggle node's arrow visibility (11, index, visibility, "")
-                    switch(instr.arg2)
-                    {
-                        case 0:
-                            
-                            break;
-                        case 1:
-
-                            break;
-                        case 2:
-
-                            break;
-                        case 3:
-
-                            break;
-
-                        default:
-                            break;
-
                     }
                     break;
 
