@@ -7,7 +7,7 @@ using System;
 
 public class BinarySearchUI : MonoBehaviour
 {
-     [SerializeField] BinarySearch v;
+    [SerializeField] BinarySearch v;
     [SerializeField] Slider speedSlider;
     [SerializeField] InputField userInput;
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 public class BinarySearch : Algorithm
 {
     int size;
@@ -56,6 +57,7 @@ public class BinarySearch : Algorithm
             array[i].Object.GetComponentInChildren<TextMeshPro>().text = array[i].value.ToString();
         }
         this.searchToken = searchToken;
+        setCam();
         search();
     }
     void sort(){
@@ -147,5 +149,11 @@ public class BinarySearch : Algorithm
                 array[index].Object.GetComponent<Renderer>().material.color = Color.black;
                 break;
         }
+    }
+    public void setCam()//C.O Change camera set
+    {
+        float z = (float)((-1 * size) / (2 * Math.Tan(Math.PI / 6)));
+        Camera.main.transform.position = new Vector3(array[size / 2].Object.transform.position.x, array[size / 2].Object.transform.position.y + 2, (float)(z*1.1) );
+        Camera.main.farClipPlane = (float)(-1.1*z + 200);
     }
 }
