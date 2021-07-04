@@ -42,6 +42,7 @@ public class BellmanFord : Graph
         //StartCoroutine(readQueue());       
     }
     void BellmanFordAlgorithm(){
+        timer.Restart();
         int i,j,k;
         ((BellmanFordVertex)vertices[main]).weight = 0;
         queue.Enqueue(new QueueCommand(0,-1,-1));
@@ -131,6 +132,8 @@ public class BellmanFord : Graph
                 queue.Enqueue(new QueueCommand(0,-1,-1));                 
             }
         }
+        timer.Stop();
+        stopTime = timer.ElapsedMilliseconds;
     }
     protected override void extendCommands(QueueCommand command)
     {

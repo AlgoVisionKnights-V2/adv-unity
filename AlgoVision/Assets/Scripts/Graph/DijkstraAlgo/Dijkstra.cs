@@ -56,9 +56,11 @@ int main; // The primary vertex which all other vertices must reach
         showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
         this.main = main;
         vertices[main].info.text = "Parent:N/A" + "\n" + "Distance:0";
+        accesses = 0;
         DijkstraAlgorithm();
     }
     void DijkstraAlgorithm(){
+        timer.Restart();
         queue.Enqueue(new QueueCommand(0, -1, -1, -1));
         // The algorithm will run until List is empty. At that point, every vertex should have been visited
         head = new List((DijkstraVertex)vertices[main]);
@@ -142,7 +144,8 @@ int main; // The primary vertex which all other vertices must reach
          }
 
         queue.Enqueue(new QueueCommand(5, "Found shortest paths from Node " + main +  " to all nodes", 4));
-
+        timer.Stop();
+        stopTime = timer.ElapsedMilliseconds;
     }
     protected override void extendCommands(QueueCommand command)
     {

@@ -19,6 +19,8 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
     public static Vertex[] vertices = new Vertex[vertex];
     public static Edge[] edges = new Edge[edge];
     protected TMP_Text showText;
+    public int accesses;
+
     public class Vertex{
         public int value;
         public char name;
@@ -85,18 +87,22 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
         public short commandId, additionalInfo;
         public int v1,v2, edge;
         public string message;
+        public long time;
+
         // standard message that updates nodes
         public QueueCommand(short commandId, int v1, int v2, short additionalInfo){
             this.commandId = commandId;
             this.v1 = v1;
             this.v2 = v2;
             this.additionalInfo = additionalInfo;
+            time = timer.ElapsedMilliseconds;
         }
         // standard message that updates edges
         public QueueCommand(short commandId, int edge, short additionalInfo){
             this.commandId = commandId;
             this.edge = edge;
             this.additionalInfo = additionalInfo;            
+            time = timer.ElapsedMilliseconds;
         }
         // command used to update info variable in each node
         public QueueCommand(short commandId, int v1, string message)
@@ -104,6 +110,7 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             this.commandId = commandId;
             this.v1 = v1;
             this.message = message;
+            time = timer.ElapsedMilliseconds;
         }
         // command that updates showText
         public QueueCommand(short commandId, string message, short additionalInfo)
@@ -111,11 +118,12 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             this.commandId = commandId;
             this.message = message;
             this.additionalInfo = additionalInfo;
+            time = timer.ElapsedMilliseconds;
         }
     }
     public IEnumerator readQueue(){
         foreach(QueueCommand q in queue){
-
+            Debug.Log(accesses);
             switch(q.commandId){
                 case 0: 
                     yield return new WaitForSeconds(time);
@@ -175,8 +183,9 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             case 1:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.blue;
                 break;
-            case 2:
+            case 2: // since this is used when accesing and comparing, we'll increment accesses here
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.red;
+                accesses++;
                 break;
             case 3:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.black;
