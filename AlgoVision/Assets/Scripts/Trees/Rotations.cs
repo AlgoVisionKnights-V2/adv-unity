@@ -984,7 +984,7 @@ public class Rotations : Algorithm
         // movetree2 right 1
         if (t2 < inttree.Length && inttree[t2] != -1)
         {
-            q.Enqueue(new RotaCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree to " + inttree[x] + "'s right subtree."));
+            q.Enqueue(new RotaCommand(-1, 0, 0, "Moving " + inttree[x] + "'s left subtree to " + inttree[y] + "'s right subtree."));
             movetree(t2, leftCI(t3));
             q.Enqueue(new RotaCommand(-1, 0, 0, ""));
         }
