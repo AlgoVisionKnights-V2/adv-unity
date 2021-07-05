@@ -87,6 +87,8 @@ public class traversals : Algorithm
 
                 preorderPrint(0);
 
+                q.Enqueue(new TravCommand(-1, 0, 0, "Preorder Traversal Complete."));
+
                 break;
 
             case 1: //inorder
@@ -97,6 +99,8 @@ public class traversals : Algorithm
 
                 inorderPrint(0);
 
+                q.Enqueue(new TravCommand(-1, 0, 0, "Inorder Traversal Complete."));
+
                 break;
 
             case 2: // postorder
@@ -106,6 +110,8 @@ public class traversals : Algorithm
                 q.Enqueue(new TravCommand(-1, 0, 0, "Starting with root node."));
 
                 postorderPrint(0);
+
+                q.Enqueue(new TravCommand(-1, 0, 0, "Postorder Traversal Complete."));
 
                 break;
 
@@ -165,73 +171,94 @@ public class traversals : Algorithm
 
     void preorderPrint(int I)
     {
-        if (I >= inttree.Length || inttree[I] == -1)
+        if (I >= inttree.Length || inttree[I] == -1) // node is null
         {
             q.Enqueue(new TravCommand(-1, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + "."));
-        q.Enqueue(new TravCommand(12, I, inttree[I], ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
-        q.Enqueue(new TravCommand(2, I, 3, ""));
-        
-        preorderPrint(leftCI(I));
+        q.Enqueue(new TravCommand(2, I, 1, "")); // turn node red
+        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+        q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
+        q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete, continuing down right subtree."));
-        q.Enqueue(new TravCommand(2, I, 3, ""));
+        if(isNull(leftCI(I)) && isNull(rightCI(I)) ) // node has no subtrees
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
+            return;
+        }
 
-        preorderPrint(rightCI(I));
+        if(!isNull(leftCI(I))) // node has left subtree
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
+            q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
+            preorderPrint(leftCI(I));
+            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
+        }
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
 
+        if (!isNull(rightCI(I))) // node has right subtree
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
+            q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
+            preorderPrint(rightCI(I));
+            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete."));
+        }
         if (I != 0)
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete, returning to " +inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
         }
-        else
-        {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete, preorder print is complete!"));
-        }
-        q.Enqueue(new TravCommand(2, I, 4, ""));
     }
 
     void inorderPrint(int I)
     {
-        if (I >= inttree.Length || inttree[I] == -1)
+        if (I >= inttree.Length || inttree[I] == -1) // node is null
         {
             q.Enqueue(new TravCommand(-1, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
-        q.Enqueue(new TravCommand(2, I, 3, ""));
+        q.Enqueue(new TravCommand(2, I, 1, "")); // turn node red
+        
 
-        inorderPrint(leftCI(I));
+        if (isNull(leftCI(I)) && isNull(rightCI(I))) // node has no subtrees
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+            q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
+            q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
+            return;
+        }
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
-        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + "."));
-        q.Enqueue(new TravCommand(12, I, inttree[I], ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
-        q.Enqueue(new TravCommand(2, I, 3, ""));
+        if (!isNull(leftCI(I))) // node has left subtree
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
+            q.Enqueue(new TravCommand(2, I, 3, "")); // Color node yellow
+            q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
+            inorderPrint(leftCI(I));
+            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new TravCommand(2, I, 1, "")); // Color node red
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
+        }
 
-        inorderPrint(rightCI(I));
+        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+        q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
+        q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
-
+        if (!isNull(rightCI(I))) // node has right subtree
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
+            q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
+            inorderPrint(rightCI(I));
+            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete."));
+        }
         if (I != 0)
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
         }
-        else
-        {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete, inorder print is complete!"));
-        }
-        q.Enqueue(new TravCommand(2, I, 4, ""));
     }
 
     void postorderPrint(int I)
@@ -243,31 +270,46 @@ public class traversals : Algorithm
         }
 
         q.Enqueue(new TravCommand(2, I, 1, ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
-        q.Enqueue(new TravCommand(2, I, 3, ""));
 
-        postorderPrint(leftCI(I));
+        if (isNull(leftCI(I)) && isNull(rightCI(I))) // node has no subtrees
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+            q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
+            q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
+            return;
+        }
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
-        q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete, continuing down right subtree."));
-        q.Enqueue(new TravCommand(2, I, 3, ""));
+        if (!isNull(leftCI(I))) // node has left subtree
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
+            q.Enqueue(new TravCommand(2, I, 3, ""));
+            q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
+            postorderPrint(leftCI(I));
+            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new TravCommand(2, I, 1, ""));
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
+        }
 
-        postorderPrint(rightCI(I));
+        if (!isNull(leftCI(I))) // node has right subtree
+        {
+            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
+            q.Enqueue(new TravCommand(2, I, 3, ""));
+            q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
+            postorderPrint(rightCI(I));
+            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new TravCommand(2, I, 1, ""));
+            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete."));
+        }
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
-
-        q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete, print the current node: " + inttree[I] + "."));
+        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + "."));
         q.Enqueue(new TravCommand(12, I, inttree[I], ""));
+        q.Enqueue(new TravCommand(2, I, 4, ""));
 
-        if (I != 0)
+        if(I != 0)
         {
             q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
         }
-        else
-        {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is complete, postorder print is complete!"));
-        }
-        q.Enqueue(new TravCommand(2, I, 4, ""));
     }
 
     public void insertRandom(int keyAmount)
@@ -316,71 +358,6 @@ public class traversals : Algorithm
 
 
         //StartCoroutine(readQueue(0.0f));
-    }
-
-    public void customInserts(int[] keys)
-    {
-        
-        foreach(int i in keys)
-        {
-            if(i < 0)
-            {
-                q.Enqueue(new TravCommand(10, -i, 1, ""));
-                delete(0, (i * -1));
-            }
-            else
-            {
-                if(theoreticalDepth(0,0,i) > depthLimit)
-                {
-                    
-                }
-                else
-                {
-                    q.Enqueue(new TravCommand(10, i, 0, ""));
-                    insert(i, 0);
-                }
-                
-            }
-        }
-
-        printIntTree();
-
-        if (Nodetree == null)
-        {
-            Nodetree = new TravNode[inttree.Length * 2 + 1];
-            for(int n = 0; n < Nodetree.Length; n++)
-            {
-                Nodetree[n] = null;
-            }
-            Xcoords = new float[Nodetree.Length];
-            Ycoords = new float[Nodetree.Length];
-            //setCoords();
-        }
-        else
-        {
-            TravNode[] tempTree = new TravNode[inttree.Length * 2 + 1];
-            float[] tempX = new float[tempTree.Length];
-            
-            for(int i = 0; i < Nodetree.Length; i++)
-            {
-                tempTree[i] = Nodetree[i];
-                tempX[i] = Xcoords[i];
-                
-            }
-            for(int i = Nodetree.Length; i < tempTree.Length; i++)
-            {
-                tempTree[i] = null;
-                tempX[i] = 0;
-            }
-            Nodetree = tempTree;
-            Xcoords = tempX;
-            //Xcoords = new float[Nodetree.Length];
-
-
-
-            Ycoords = new float[Nodetree.Length];
-            
-        }
     }
 
     public int theoreticalDepth(int i, int depth, int key)
@@ -520,215 +497,7 @@ public class traversals : Algorithm
         //Debug.Log("Moved " + inttree[d] + " from " + i + " to " + d);
     }
 
-    void shiftUp(int i, int d)
-    {
-        if(!(i < inttree.Length) || inttree[i] == -1)
-        {
-            return;
-        }
-
-        Queue<int[]> shifts = new Queue<int[]>();
-
-        shifts.Enqueue(new int[] {i, d});
-
-        while(shifts.Count != 0)
-        {
-            int[] dudes = shifts.Dequeue();
-
-            swap(dudes[0], dudes[1]);
-            q.Enqueue(new TravCommand(3, dudes[0], dudes[1], ""));
-
-            if (leftCI(dudes[0]) < inttree.Length && inttree[leftCI(dudes[0])] != -1)
-            {
-                shifts.Enqueue(new int[] {leftCI(dudes[0]), leftCI(dudes[1]) });
-            }
-            if (rightCI(dudes[0]) < inttree.Length && inttree[rightCI(dudes[0])] != -1)
-            {
-                shifts.Enqueue(new int[] { rightCI(dudes[0]), rightCI(dudes[1]) });
-            }
-        }
-
-        
-    }
-
-    void shiftDownLeft(int i, int d)
-    {
-        if (!(i < inttree.Length) || inttree[i] == -1)
-        {
-            return;
-        }
-
-        while(d >= inttree.Length)
-        {
-            updateDepth();
-        }
-
-
-        shiftDownLeft(leftCI(i), leftCI(d));
-        shiftDownLeft(rightCI(i), rightCI(d));
-
-        swap(i, d);
-
-        
-
-        q.Enqueue(new TravCommand(3, i, d, ""));
-
-    }
-
-    void shiftDownRight(int i, int d)
-    {
-        if (!(i < inttree.Length) || inttree[i] == -1)
-        {
-            return;
-        }
-
-        while (d >= inttree.Length)
-        {
-            updateDepth();
-        }
-
-        shiftDownRight(rightCI(i), rightCI(d));
-        shiftDownRight(leftCI(i), leftCI(d));
-
-        swap(i, d);
-
-
-
-        q.Enqueue(new TravCommand(3, i, d, ""));
-
-    }
-
-    void movetree(int i, int d)
-    {
-        if(d > i)
-        {
-            if(d % 2 == 0)
-            {
-                shiftDownRight(i, d);
-            }
-            else { shiftDownLeft(i, d); }
-            
-        }
-        else
-        {
-            shiftUp(i, d);
-        }
-    }
-
     private int max(int a, int b) => a > b ? a : b;
-
-    void delete(int I, int key)
-    {
-        if(inttree[I] == -1) // key was not found
-        {
-            return;
-        }
-        if (inttree[I] == key)
-        {
-            q.Enqueue(new TravCommand(2, I, 10, ""));
-            int tempI = findLeftmostNode(rightCI(I));
-
-            if(tempI == -1) // right subtree not found
-            {
-                
-                if(leftCI(I) >= inttree.Length || inttree[leftCI(I)] == -1) // if not left subtree found
-                {
-                    q.Enqueue(new TravCommand(9, I, 0, ""));
-                    inttree[I] = -1;
-                    return;
-                }
-                
-                q.Enqueue(new TravCommand(9, I, 0, ""));
-                inttree[I] = 0;
-                movetree(leftCI(I), I);
-                q.Enqueue(new TravCommand(11, 0, 0, ""));
-                return;
-            }
-            q.Enqueue(new TravCommand(9, I, 0, ""));
-            q.Enqueue(new TravCommand(3, tempI, I, ""));
-            inttree[I] = inttree[tempI];
-
-
-            if(rightCI(tempI) >= inttree.Length || inttree[rightCI(tempI)] == -1)
-            {
-                inttree[tempI] = -1;
-            }
-            else
-            {
-                movetree(rightCI(tempI), tempI);
-            }
-
-            q.Enqueue(new TravCommand(11, 0, 0, ""));
-            tempI = parentI(tempI);
-
-            while(tempI >= I)
-            {
-                
-                q.Enqueue(new TravCommand(2, tempI, 0, ""));
-                q.Enqueue(new TravCommand(8, tempI, 0, ""));
-                tempI = parentI(tempI);
-            }
-            return;
-        }
-        else
-        {
-            if (key < inttree[I])
-            {
-                q.Enqueue(new TravCommand(2, I, 10, ""));
-                if (leftCI(I) < inttree.Length && inttree[leftCI(I)] != -1)
-                {
-                    q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
-                }
-                delete(leftCI(I), key);
-            }
-            else
-            {
-                q.Enqueue(new TravCommand(2, I, 10, ""));
-                if (rightCI(I) < inttree.Length && inttree[rightCI(I)] != -1)
-                {
-                    q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
-                }
-
-                delete(rightCI(I), key);
-            }
-        }
-
-        if (inttree[leftCI(I)] != -1)
-        {
-            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
-        }
-        if (inttree[rightCI(I)] != -1)
-        {
-            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
-        }
-        
-        q.Enqueue(new TravCommand(8, I, 0, ""));
-        q.Enqueue(new TravCommand(2, I, 0, ""));
-
-        return;
-    }
-
-    int findLeftmostNode(int I)
-    {
-        if(I >= inttree.Length || inttree[I] == -1) // subtree not found
-        {
-            return -1;
-        }
-        if(leftCI(I) >= inttree.Length || inttree[leftCI(I)] == -1) // leftmost node found
-        {
-            q.Enqueue(new TravCommand(2, I, 1, ""));
-            return I;
-        }
-        q.Enqueue(new TravCommand(2, I, 10, "")); // color node black
-        q.Enqueue(new TravCommand(5, leftCI(I), 1, "")); // color branch red
-
-        int p = findLeftmostNode(leftCI(I)); // search deeper
-
-        q.Enqueue(new TravCommand(5, leftCI(I), 0, "")); // make node and branch white again.
-        q.Enqueue(new TravCommand(2, I, 0, ""));
-
-        return p;
-    }
 
     void printIntTree()
     {
