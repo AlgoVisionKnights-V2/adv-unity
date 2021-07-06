@@ -2885,15 +2885,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2110353343}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f726ce9d55bee006ad872a356e4b45a, type: 3}
+  m_Script: {fileID: 11500000, guid: adc4d1a09945c2f77aea269780ff5a68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
-  completionPercent: 0
-  stopTime: 0
-  currentTime: 0
-  spherePrefab: {fileID: 1719453717}
-  listRectangle: {fileID: 0}
+  a: {fileID: 1719453718}
+  speedSlider: {fileID: 929144637}
   canvas: {fileID: 588999607}
 --- !u!4 &2110353345
 Transform:
