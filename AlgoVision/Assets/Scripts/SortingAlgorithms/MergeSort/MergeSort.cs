@@ -177,7 +177,7 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
     private void mergeSort(int low, int high){
         stack++;
         queue.Enqueue(new QueueCommand(7, "Calling Merge Sort from index " + low + " to index " + high, 5));
-        queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
+        //queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
         queue.Enqueue(new QueueCommand());
         
         if (low < high)
@@ -192,25 +192,25 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
 
             queue.Enqueue(new QueueCommand((short)8, med, high, 0, "Mid"));
             
-            queue.Enqueue(new QueueCommand(6, low, high, 0, 0));
+            //queue.Enqueue(new QueueCommand(6, low, high, 0, 0));
             queue.Enqueue(new QueueCommand(9, low, med, 0));
 
             
             mergeSort(low, med);
             queue.Enqueue(new QueueCommand(7, "Returning to Merge Sort from index " + low + " to index " + high, 5));
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
+            //queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
 
             queue.Enqueue(new QueueCommand(10, low, med, 0));
             queue.Enqueue(new QueueCommand());
 
-            queue.Enqueue(new QueueCommand(6, low, high, 0, 0));
+            //queue.Enqueue(new QueueCommand(6, low, high, 0, 0));
             queue.Enqueue(new QueueCommand(9, med+1, high, 0));
             mergeSort(med + 1, high);
             queue.Enqueue(new QueueCommand(10, med+1, high, 0));
             queue.Enqueue(new QueueCommand(7, "Returning to Merge Sort from index " + low + " to index " + high, 5));
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
+            //queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
             queue.Enqueue(new QueueCommand());
 
             queue.Enqueue(new QueueCommand(7, "Merging indices " + low + " to " + high +" together", 5));
@@ -222,7 +222,7 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
             queue.Enqueue(new QueueCommand(7, "Base case reached. Returning", 5));
             queue.Enqueue(new QueueCommand());
         }
-        queue.Enqueue(new QueueCommand(6, low, high, 0, 0));
+        //queue.Enqueue(new QueueCommand(6, low, high, 0, 0));
         stack--;
     }
     new public bool compare(int x, int y, short arrayId)

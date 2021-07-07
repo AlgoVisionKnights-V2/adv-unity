@@ -319,12 +319,17 @@ public abstract class SortingAlgorithm1 : Algorithm
 
                     case 9: // raise up every index from q.index1 to q.index2 inclusively. Used for partitions
                         for(int i = q.index1; i <= q.index2; i++){
+                            Color reference = array[i].o.GetComponent<Renderer>().material.color;
+                            Debug.Log(reference);
                             array[i].o.transform.position = new Vector3(array[i].o.transform.position.x, array[i].o.transform.position.y + .25f, 0);
+                            array[i].o.GetComponent<Renderer>().material.color = new Color(reference.r - .18f,reference.g - .18f,reference.b);
                         }
                         break;
                     case 10: // lower every index from q.index1 to q.index2 inclusively. Used for partitions
                         for(int i = q.index1; i <= q.index2; i++){
+                            Color reference = array[i].o.GetComponent<Renderer>().material.color;
                             array[i].o.transform.position = new Vector3(array[i].o.transform.position.x, array[i].o.transform.position.y - .25f, 0);
+                            array[i].o.GetComponent<Renderer>().material.color = new Color(reference.r + .18f,reference.g + .18f,reference.b);
                         }
                         break;
 
