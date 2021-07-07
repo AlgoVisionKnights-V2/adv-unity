@@ -11,6 +11,8 @@ public class BinarySearch : Algorithm
     [SerializeField] GameObject boxPrefab;
     [SerializeField] GameObject canvas;
     Queue<QueueCommand> queue = new Queue<QueueCommand>();
+    protected TMP_Text showText;
+
     class ArrayIndex{
         public int value;
         public GameObject Object;
@@ -30,6 +32,7 @@ public class BinarySearch : Algorithm
         public int index1;
         public int index2;
         public short additionalInfo;
+        public string message;
         public QueueCommand(short commandId, int index1, short additionalInfo){
             this.commandId = commandId;
             this.index1 = index1;
@@ -41,6 +44,10 @@ public class BinarySearch : Algorithm
             this.index2 = index2;
             this.additionalInfo = additionalInfo;
         }
+        public QueueCommand(short commandId, string message){
+            this.commandId = commandId;
+            this.message = message;
+        }
     }
     
     // Start is called before the first frame update
@@ -49,6 +56,7 @@ public class BinarySearch : Algorithm
         int i;
         size = n;
         array = new ArrayIndex[size];
+        showText = canvas.transform.GetChild(5).GetComponent<TMP_Text>();
         for(i = 0; i < size; i++){
             array[i] = new ArrayIndex(r.Next(21), i, boxPrefab);
         }
@@ -81,13 +89,22 @@ public class BinarySearch : Algorithm
         min = 0;
         max = size - 1;
         middle = max / 2;
+        queue.Enqueue(new QueueCommand(0, -1,-1));
+        queue.Enqueue(new QueueCommand(0, -1,-1));
+        queue.Enqueue(new QueueCommand(3, "Searching for " + searchToken));
+        queue.Enqueue(new QueueCommand(0, -1,-1));
 
         while(max - min > 0){
+            queue.Enqueue(new QueueCommand(3, "Calculating midpoint from index " + min + " to " + max));
+            queue.Enqueue(new QueueCommand(0, -1,-1));
             queue.Enqueue(new QueueCommand(1, middle, 1));
             queue.Enqueue(new QueueCommand(0, -1,-1));
 
             if(searchToken < array[middle].value){
-                Debug.Log(searchToken + " less than "+array[middle].value);
+                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is less than "+array[middle].value));
+                queue.Enqueue(new QueueCommand(0, -1,-1));
+                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is not between indices "+middle + " and "+ max));
+                queue.Enqueue(new QueueCommand(0, -1,-1));
                 queue.Enqueue(new QueueCommand(2, middle, max, -1));
                 queue.Enqueue(new QueueCommand(0, -1,-1));
                 max = middle -1;
@@ -95,7 +112,10 @@ public class BinarySearch : Algorithm
                 continue;
             }
             else if(searchToken > array[middle].value){
-                Debug.Log(searchToken + " greater than "+array[middle].value);
+                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is greater than "+array[middle].value));
+                queue.Enqueue(new QueueCommand(0, -1,-1));
+                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is not between indices "+min + " and "+ middle));
+                queue.Enqueue(new QueueCommand(0, -1,-1));
                 queue.Enqueue(new QueueCommand(2, min, middle, -1));
                 queue.Enqueue(new QueueCommand(0, -1,-1));
                 min = middle + 1;
@@ -104,19 +124,26 @@ public class BinarySearch : Algorithm
             }
             else{
                 queue.Enqueue(new QueueCommand(1, middle, 2));
-                Debug.Log(searchToken + " at "+middle);
+                queue.Enqueue(new QueueCommand(3,"" + searchToken + " found at index "+ middle));
+                queue.Enqueue(new QueueCommand(0, -1,-1));
                 return;
             }
         }
-
+        queue.Enqueue(new QueueCommand(3,"One element left"));
+        queue.Enqueue(new QueueCommand(0, -1,-1));
         if(max == min && array[max].value == searchToken){
+
             queue.Enqueue(new QueueCommand(1, max, 1));
             queue.Enqueue(new QueueCommand(0, -1,-1));
             queue.Enqueue(new QueueCommand(1, max, 2));
-            Debug.Log(searchToken + " in array");
+            queue.Enqueue(new QueueCommand(3,"" + searchToken + " found at index "+ middle));
+            queue.Enqueue(new QueueCommand(0, -1,-1));
         }
         else {
-            Debug.Log(searchToken + " not in array");
+            queue.Enqueue(new QueueCommand(1, max, 1));
+            queue.Enqueue(new QueueCommand(0, -1,-1));
+            queue.Enqueue(new QueueCommand(3,"" + searchToken + " not in array"));
+            queue.Enqueue(new QueueCommand(1, max, 3));
 
         }
     }
@@ -126,13 +153,16 @@ public class BinarySearch : Algorithm
                 case 0:
                     yield return new WaitForSeconds(1);
                     break;
-                case 1:
+                case 1: // change color of single item
                     changeColor(q.index1, q.additionalInfo);
                     break;
-                case 2:
+                case 2: // change Color color of several items
                     for(int i = q.index1; i<= q.index2; i++ ){
                         array[i].Object.GetComponent<Renderer>().material.color = Color.black;
                     }
+                    break;
+                case 3: // update message
+                    showText.text = q.message;
                     break;
             }
         }
