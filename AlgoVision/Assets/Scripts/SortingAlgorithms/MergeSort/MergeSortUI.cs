@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+
 public class MergeSortUI : MonoBehaviour
 {
 
     [SerializeField] MergeSort v;
-   [SerializeField] Slider speedSlider;
+    [SerializeField] Slider speedSlider;
 
     private Boolean isPlay;
     int startSize;

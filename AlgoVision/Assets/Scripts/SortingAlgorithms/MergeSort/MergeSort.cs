@@ -84,8 +84,8 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
         i = 0;
         j = midSplit;
         k = low; 
-        queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest unsorted element"));
-        queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest unsorted element"));
+        queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest Left"));
+        queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest Right"));
         queue.Enqueue(new QueueCommand((short)8, k, high, 0, "Writing to"));
 
         while (i < n1 && j < midSplit + n2)
@@ -100,10 +100,10 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
                 queue.Enqueue(new QueueCommand(11, k, i, 1));
                 queue.Enqueue(new QueueCommand());
                 decompare(i, j, 1, 0);
-                queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest unsorted element"));
+                queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest Left"));
                 i++;
                 if (i < n1)
-                    queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest unsorted element"));
+                    queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest Left"));
 
             }
             else
@@ -114,11 +114,11 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
                 queue.Enqueue(new QueueCommand(11, k, j, 1));
                 queue.Enqueue(new QueueCommand());
                 decompare(i, j, 1, 0);
-                queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest unsorted element"));
+                queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest Right"));
 
                 j++;
                 if(j < n2 + midSplit)
-                    queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest unsorted element"));
+                    queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest Right"));
 
             }
             queue.Enqueue(new QueueCommand((short)8, k, high, 0, "Writing to"));
@@ -140,10 +140,10 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
             queue.Enqueue(new QueueCommand());
             //q.Enqueue(new short[] {10, (short)k, (short)i, 0});
 //            q.Enqueue(new short[] {2, (short)i, 4, 1});
-            queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest unsorted element"));
+            queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest Left"));
             i++;
             if (i < n1)
-                queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest unsorted element"));
+                queue.Enqueue(new QueueCommand((short)8, i, high, 1, "Smallest Left"));
         
             queue.Enqueue(new QueueCommand((short)8, k, high, 0, "Writing to"));
             k++;
@@ -161,10 +161,10 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
             queue.Enqueue(new QueueCommand());
   //          q.Enqueue(new short[] {10, (short)k, (short)j, 0});
     //        q.Enqueue(new short[] {2, (short)j, 4, 1});
-            queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest unsorted element"));
+            queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest Right"));
             j++;
             if (j < n2 + midSplit)
-                queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest unsorted element"));
+                queue.Enqueue(new QueueCommand((short)8, j, high, 1, "Smallest Right"));
 
             queue.Enqueue(new QueueCommand((short)8, k, high, 0, "Writing to"));
             k++;
@@ -198,6 +198,7 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
             
             mergeSort(low, med);
             queue.Enqueue(new QueueCommand(7, "Returning to Merge Sort from index " + low + " to index " + high, 5));
+            queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
 
             queue.Enqueue(new QueueCommand(10, low, med, 0));
@@ -208,6 +209,7 @@ public class MergeSort : SortingAlgorithmWithAuxArray1
             mergeSort(med + 1, high);
             queue.Enqueue(new QueueCommand(10, med+1, high, 0));
             queue.Enqueue(new QueueCommand(7, "Returning to Merge Sort from index " + low + " to index " + high, 5));
+            queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
             queue.Enqueue(new QueueCommand());
 

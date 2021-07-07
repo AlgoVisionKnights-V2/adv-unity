@@ -19,10 +19,10 @@ public abstract class SortingAlgorithmWithAuxArray1 : SortingAlgorithm1
         public AuxArrayIndex(int index, int size, GameObject boxPrefab) : base(){
             o = GameObject.Instantiate(boxPrefab);
             if (index < size / 2){
-                o.transform.position = new Vector3(index + size / 4 - 1, -1, 0);
+                o.transform.position = new Vector3(index + size / 4 - 1, -2, 0);
             }
             else{
-                o.transform.position = new Vector3(index + size * 3 / 4, -1, 0);
+                o.transform.position = new Vector3(index + size * 3 / 4, -2, 0);
             }
             o.transform.localScale = new Vector3(0,0,0);
             //o.transform.localScale = new Vector3(.75f, .75f, .75f);
