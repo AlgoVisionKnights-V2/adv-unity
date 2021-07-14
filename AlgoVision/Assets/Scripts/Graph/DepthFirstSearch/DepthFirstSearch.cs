@@ -7,7 +7,7 @@ using System;
 public class DepthFirstSearch : SearchGraph
 {
     [SerializeField] GameObject spherePrefab;
-    [SerializeField] GameObject listRectangle;
+    //[SerializeField] GameObject listRectangle;
     [SerializeField] GameObject canvas;
     int main;
     protected class DFSVertex : Vertex{
@@ -28,7 +28,7 @@ public class DepthFirstSearch : SearchGraph
         for(int i = 0; i < edge; i++){
             edges[i] = new Edge(i);
         }
-        listRectangle = GameObject.Instantiate(listRectangle);
+        //listRectangle = GameObject.Instantiate(listRectangle);
         //listText = listRectangle.transform.GetChild(1).GetComponent<TextMeshPro>();
         
         showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
@@ -46,6 +46,7 @@ public class DepthFirstSearch : SearchGraph
         queue.Enqueue(new QueueCommand(1, node, -1, 5));
         queue.Enqueue(new QueueCommand(0, -1, -1));
         Debug.Log("Visiting Vertex " + node);
+
         for(i = 0; i < vertices[node].neighbors.Count; i++){
             v = (DFSVertex)(vertices[node].neighbors[i]);
             if(vertices[node].neighborEdges[i].id == prevEdgeId){
