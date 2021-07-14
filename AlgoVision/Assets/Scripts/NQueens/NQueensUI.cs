@@ -21,7 +21,7 @@ public class NQueensUI : MonoBehaviour
 
         if (startSize == 2)
         {
-            v.setup(4);
+            v.setup(8);
         }
         else if (startSize == 1)
         {
@@ -29,7 +29,7 @@ public class NQueensUI : MonoBehaviour
         }
         else
         {
-            v.setup(8);
+            v.setup(4);
         }
  
         v.time = 1;
