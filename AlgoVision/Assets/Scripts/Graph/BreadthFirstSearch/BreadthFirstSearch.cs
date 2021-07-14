@@ -35,6 +35,7 @@ public class BreadthFirstSearch : SearchGraph
             count = 1;
             head = new ListNode(vertex);
             tail = head;
+            vertex.enqueued = true;
         }
         // Insert at the tail
         public void insert(BFSVertex v){
@@ -80,14 +81,29 @@ public class BreadthFirstSearch : SearchGraph
         list = new List((BFSVertex)vertices[main]);
         int i, currentVertex;
         BFSVertex v;
+        queue.Enqueue(new QueueCommand(0, -1, -1));
+        queue.Enqueue(new QueueCommand(5, "Beginning search at vertex " + main, -1));
         queue.Enqueue(new QueueCommand(1, main, -1, 1));
         queue.Enqueue(new QueueCommand(0, -1, -1));
         while(list.count > 0){
             for(i = 0; i < list.head.vertex.neighbors.Count; i++){
                 v = (BFSVertex)(list.head.vertex.neighbors[i]);
-                list.insert(v);
-                queue.Enqueue(new QueueCommand(1, v.value, -1, 1));
+                queue.Enqueue(new QueueCommand(5, "Checking neighbor " + v.value, -1));
+                queue.Enqueue(new QueueCommand(3, list.head.vertex.neighborEdges[i].id, 3));
                 queue.Enqueue(new QueueCommand(0, -1, -1));
+                if(!v.enqueued)
+                {
+                    list.insert(v);
+                    queue.Enqueue(new QueueCommand(5, "" + v.value + " not previously enqueued, Adding to queue", -1));
+                    queue.Enqueue(new QueueCommand(1, v.value, -1, 1));
+                    queue.Enqueue(new QueueCommand(0, -1, -1));
+                }
+                else{
+                    queue.Enqueue(new QueueCommand(5, "" + v.value + " was previously enqueued", -1));
+                    queue.Enqueue(new QueueCommand(0, -1, -1));
+                }
+                queue.Enqueue(new QueueCommand(3, list.head.vertex.neighborEdges[i].id, 2));
+
             }
             queue.Enqueue(new QueueCommand(1, list.head.vertex.value, -1, 3));
             queue.Enqueue(new QueueCommand(0, -1, -1));
