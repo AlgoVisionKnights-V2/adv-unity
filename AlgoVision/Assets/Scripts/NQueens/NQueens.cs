@@ -96,7 +96,7 @@ public class NQueens : Algorithm
             setColor(i, column);
             // a safe space
             if(internalBoard[i, column] == 0){
-                showText.text = "Placing a Queen on " + ((char)(column+'A')).ToString() + (i+1).ToString();
+                showText.text = "Placing Queen " + (column + 1) + " of " + n + " on " + ((char)(column+'A')).ToString() + (i+1).ToString();
 
                 // increment the row and column
                 for (j = 0; j < n; j++){
@@ -179,7 +179,10 @@ public class NQueens : Algorithm
                     showText.text = "Solution found!";        
                     yield break;
                 }
-                 t.text = "";               
+                showText.text = "Removing Queen " + (column + 1) + " of " + n + " from " + ((char)(column+'A')).ToString() + (i+1).ToString();
+                yield return new WaitForSeconds(time);
+                t.text = "";
+
                 for (j = 0; j < n; j++){
                     internalBoard[i, j]--;
                     if (internalBoard[i,j] == 0){
