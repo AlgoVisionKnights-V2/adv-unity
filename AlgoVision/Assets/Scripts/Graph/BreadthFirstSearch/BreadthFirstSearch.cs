@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -7,7 +7,7 @@ using System;
 public class BreadthFirstSearch : SearchGraph
 {
     [SerializeField] GameObject spherePrefab;
-    //[SerializeField] GameObject listRectangle;
+    [SerializeField] GameObject listRectangle;
     [SerializeField] GameObject canvas;
     int main;
     List list;
@@ -65,7 +65,7 @@ public class BreadthFirstSearch : SearchGraph
             queueString = "";
             ListNode temp = head;
             while(temp != null){
-                queueString += temp.vertex.value.ToString() + " ";
+                queueString += temp.vertex.value.ToString() + "│";
                 temp = temp.next;
             }
         }
@@ -81,8 +81,8 @@ public class BreadthFirstSearch : SearchGraph
         for(int i = 0; i < edge; i++){
             edges[i] = new Edge(i);
         }
-        //listRectangle = GameObject.Instantiate(listRectangle);
-        //listText = listRectangle.transform.GetChild(1).GetComponent<TextMeshPro>();
+        listRectangle = GameObject.Instantiate(listRectangle);
+        listText = listRectangle.transform.GetChild(1).GetComponent<TextMeshPro>();
         
         showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
         //setCam();

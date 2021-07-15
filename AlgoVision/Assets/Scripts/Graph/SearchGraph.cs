@@ -19,6 +19,7 @@ public abstract class SearchGraph : Algorithm // MonoBehaviour is the root class
     public static Vertex[] vertices = new Vertex[vertex];
     public static Edge[] edges = new Edge[edge];
     protected TMP_Text showText;
+    protected TMP_Text listText;
     public class Vertex{
         public int value;
         public char name;
@@ -122,6 +123,7 @@ public abstract class SearchGraph : Algorithm // MonoBehaviour is the root class
                     showText.color = colorChangeText(q.additionalInfo);
                     break;
                 case 6: // update Queue message
+                    listText.text = q.message;
                     break;
                 default:
                     extendCommands(q);
