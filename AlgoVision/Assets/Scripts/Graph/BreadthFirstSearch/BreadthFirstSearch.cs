@@ -22,6 +22,8 @@ public class BreadthFirstSearch : SearchGraph
     protected class List{
         public ListNode head, tail;
         public int count;
+        public string queueString;
+
         public class ListNode{
             public BFSVertex vertex;
             public ListNode next;
@@ -48,6 +50,7 @@ public class BreadthFirstSearch : SearchGraph
             tail = newNode;
             v.enqueued = true;
             count++;
+            createQueueString();
         }
         // Jump to next item in list;
         public void next(){
@@ -57,7 +60,17 @@ public class BreadthFirstSearch : SearchGraph
             }
             return;
         }
+        protected void createQueueString(){
+            queueString = "";
+            ListNode temp = head;
+            while(temp != null){
+                queueString += temp.vertex.value.ToString() + " ";
+                temp = temp.next;
+            }
+            queue.Enqueue(new QueueCommand(6, queueString, -1));
+        }
     }
+
     public void Setup(int main)
     {
         vertices = new BFSVertex[vertex];

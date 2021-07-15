@@ -121,6 +121,8 @@ public abstract class SearchGraph : Algorithm // MonoBehaviour is the root class
                     showText.text = q.message;
                     showText.color = colorChangeText(q.additionalInfo);
                     break;
+                case 6: // update Queue message
+                    break;
                 default:
                     extendCommands(q);
                     break;
