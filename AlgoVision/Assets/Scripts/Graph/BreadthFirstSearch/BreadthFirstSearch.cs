@@ -34,6 +34,7 @@ public class BreadthFirstSearch : SearchGraph
         }
         // Constructing the List requires the main vertex to be passed in initially
         public List(BFSVertex vertex){
+            queueString = "";
             count = 1;
             head = new ListNode(vertex);
             tail = head;
@@ -67,7 +68,6 @@ public class BreadthFirstSearch : SearchGraph
                 queueString += temp.vertex.value.ToString() + " ";
                 temp = temp.next;
             }
-            queue.Enqueue(new QueueCommand(6, queueString, -1));
         }
     }
 
@@ -96,6 +96,8 @@ public class BreadthFirstSearch : SearchGraph
         BFSVertex v;
         queue.Enqueue(new QueueCommand(0, -1, -1));
         queue.Enqueue(new QueueCommand(5, "Beginning search at vertex " + main, -1));
+        queue.Enqueue(new QueueCommand(6, list.queueString, -1));
+
         queue.Enqueue(new QueueCommand(1, main, -1, 1));
         queue.Enqueue(new QueueCommand(0, -1, -1));
         while(list.count > 0){
@@ -109,6 +111,8 @@ public class BreadthFirstSearch : SearchGraph
                     list.insert(v);
                     queue.Enqueue(new QueueCommand(5, "" + v.value + " not previously enqueued, Adding to queue", -1));
                     queue.Enqueue(new QueueCommand(1, v.value, -1, 1));
+                    queue.Enqueue(new QueueCommand(6, list.queueString, -1));
+
                     queue.Enqueue(new QueueCommand(0, -1, -1));
                 }
                 else{
