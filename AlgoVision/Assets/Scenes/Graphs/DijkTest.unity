@@ -720,6 +720,7 @@ MonoBehaviour:
   completionPercent: 0
   stopTime: 0
   currentTime: 0
+  accesses: 0
   spherePrefab: {fileID: 8584337089220081970, guid: 5321727625d04bc4a891cdcd9d50336b, type: 3}
   edgeValue: {fileID: 5025605395965048926, guid: 60cf495194e9c7d4eba9d4c3fbfbf9b0, type: 3}
   vertexInfo: {fileID: 5299587562845438950, guid: 070450f7da32b2644a0ab95eb41a143c, type: 3}
@@ -2491,7 +2492,7 @@ MonoBehaviour:
   m_MinValue: 0.1
   m_MaxValue: 2
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

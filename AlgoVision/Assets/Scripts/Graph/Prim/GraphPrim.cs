@@ -169,15 +169,15 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
                 return Color.white;
             case 1:
                 var blue = new Color(0.6f, 0.686f, 0.761f);
-                return Color.blue;
+                return blue;
             case 2:
                 var red = new Color(1f, .2f, .361f, 1);
-                return Color.red;
+                return red;
             case 3:
                 return Color.black;
             case 4:
                 var green = new Color(0.533f, 0.671f, 0.459f);
-                return Color.green;
+                return green;
             case 5:
                 return Color.yellow;
             default:
