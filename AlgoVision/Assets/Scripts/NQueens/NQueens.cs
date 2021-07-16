@@ -78,7 +78,7 @@ public class NQueens : Algorithm
     public IEnumerator build(int column){
         stackCalls++;
         Debug.Log("Stackcalls: "+ stackCalls);
-        canvas.transform.GetChild(13).GetChild(0).GetComponent<TMP_Text>().text = "Stack Calls: " + stackCalls;
+        canvas.transform.GetChild(12).GetChild(0).GetComponent<TMP_Text>().text = "Stack Calls: " + stackCalls;
 
         yield return new WaitForSeconds(time);
         if (column == n) {
@@ -278,7 +278,7 @@ public class NQueens : Algorithm
         }
         backTracks++;
         Debug.Log("Backtracks: "+backTracks);
-        canvas.transform.GetChild(13).GetChild(1).GetComponent<TMP_Text>().text = "Backtracks: " + backTracks;
+        canvas.transform.GetChild(12).GetChild(1).GetComponent<TMP_Text>().text = "Backtracks: " + backTracks;
 
         showText.text = "No solution found. Returning to row " + ((char)(column+'A' - 1)).ToString();
         yield return new WaitForSeconds(time);
