@@ -20,7 +20,7 @@ public abstract class GraphPrim : Algorithm // MonoBehaviour is the root class f
     public static Edge[] edges = new Edge[edge];
     protected TMP_Text showText;
     protected static TextMeshPro listText;
-    protected static TextMeshPro activeEdgeText;
+    protected static TMP_Text activeEdgeText;
     public float time;
     public class Vertex{
         public int value;

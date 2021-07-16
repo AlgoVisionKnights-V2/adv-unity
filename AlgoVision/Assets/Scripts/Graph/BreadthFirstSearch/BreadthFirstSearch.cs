@@ -83,7 +83,7 @@ public class BreadthFirstSearch : SearchGraph
         }
         listRectangle = GameObject.Instantiate(listRectangle);
         listText = listRectangle.transform.GetChild(1).GetComponent<TextMeshPro>();
-        
+        activeNode = canvas.transform.GetChild(6).GetChild(1).GetComponent<TMP_Text>();
         showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
         //setCam();
         this.main = main;
@@ -101,7 +101,9 @@ public class BreadthFirstSearch : SearchGraph
         queue.Enqueue(new QueueCommand(1, main, -1, 1));
         queue.Enqueue(new QueueCommand(0, -1, -1));
         while(list.count > 0){
-            for(i = 0; i < list.head.vertex.neighbors.Count; i++){
+            queue.Enqueue(new QueueCommand(7, list.head.vertex.value.ToString(), -1));
+
+            for (i = 0; i < list.head.vertex.neighbors.Count; i++){
                 v = (BFSVertex)(list.head.vertex.neighbors[i]);
                 queue.Enqueue(new QueueCommand(5, "Checking neighbor " + v.value, -1));
                 queue.Enqueue(new QueueCommand(3, list.head.vertex.neighborEdges[i].id, 3));

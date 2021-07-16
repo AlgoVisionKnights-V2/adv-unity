@@ -21,7 +21,7 @@ public class Prim : GraphPrim
     [SerializeField] GameObject edgeValue;
     [SerializeField] GameObject vertexInfo;
     [SerializeField] GameObject listRectangle;
-    [SerializeField] GameObject activeEdge;
+    //[SerializeField] GameObject activeEdge;
     [SerializeField] GameObject canvas;
     int main;
     protected static List head;
@@ -93,8 +93,8 @@ public class Prim : GraphPrim
         listRectangle = GameObject.Instantiate(listRectangle);
         listText = listRectangle.transform.GetChild(1).GetComponent<TextMeshPro>();
         
-        activeEdge = GameObject.Instantiate(activeEdge);
-        activeEdgeText = activeEdge.transform.GetChild(1).GetComponent<TextMeshPro>();
+        //activeEdge = GameObject.Instantiate(activeEdge);
+        activeEdgeText = canvas.transform.GetChild(6).GetChild(1).GetComponent<TMP_Text>();
         activeEdgeText.text = "";
         showText = canvas.transform.GetChild(3).GetComponent<TMP_Text>();
         //setCam();

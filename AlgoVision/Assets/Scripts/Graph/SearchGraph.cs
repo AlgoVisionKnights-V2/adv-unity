@@ -20,6 +20,7 @@ public abstract class SearchGraph : Algorithm // MonoBehaviour is the root class
     public static Edge[] edges = new Edge[edge];
     protected TMP_Text showText;
     protected TMP_Text listText;
+    protected TMP_Text activeNode;
     public class Vertex{
         public int value;
         public char name;
@@ -125,6 +126,9 @@ public abstract class SearchGraph : Algorithm // MonoBehaviour is the root class
                 case 6: // update Queue message
                     listText.text = q.message;
                     break;
+                case 7: // update active vertex
+                    activeNode.text = q.message;
+                    break;
                 default:
                     extendCommands(q);
                     break;
@@ -139,15 +143,15 @@ public abstract class SearchGraph : Algorithm // MonoBehaviour is the root class
                 return Color.white;
             case 1:
                 var blue = new Color(0.6f, 0.686f, 0.761f);
-                return Color.blue;
+                return blue;
             case 2:
                 var red = new Color(1f, .2f, .361f, 1);
-                return Color.red;
+                return red;
             case 3:
                 return Color.black;
             case 4:
                 var green = new Color(0.533f, 0.671f, 0.459f);
-                return Color.green;
+                return green;
             case 5:
                 return Color.yellow;
             default:

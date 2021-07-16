@@ -9,7 +9,7 @@ public class Restart : MonoBehaviour
     [SerializeField] Slider timeSlider;
     public void restartScene()
     {
-        timeSlider.value = 0;
+        //timeSlider.value = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
