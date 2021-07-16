@@ -77,7 +77,7 @@ public class DepthFirstSearch : SearchGraph
             queue.Enqueue(new QueueCommand(0, -1, -1));
 
         }
-        Debug.Log("Vertex " + node + "visited");
+        queue.Enqueue(new QueueCommand(5, "All neighbors visited. Returning.", 1));
         queue.Enqueue(new QueueCommand(1, node, -1, 3));
         queue.Enqueue(new QueueCommand(0, -1, -1));
     }
