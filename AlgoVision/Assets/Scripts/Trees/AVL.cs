@@ -317,6 +317,7 @@ public class AVL : Algorithm
         if (inttree[I] == key)
         {
             q.Enqueue(new AVLCommand(-1, 0, 0, key + " is already in the tree."));
+             q.Enqueue(new AVLCommand(2, I, 0, ""));
             q.Enqueue(new AVLCommand(-1, 0, 0, "Now returning."));
             return;
         }
@@ -1158,7 +1159,16 @@ public class AVL : Algorithm
             switch (instr.commandId)
             {
                 case -1:
-                    yield return new WaitForSeconds(this.time);
+                    //yield return new WaitForSeconds(this.time);
+
+                    DateTime strt= DateTime.UtcNow;
+
+                    while((DateTime.UtcNow - strt) < TimeSpan.FromSeconds((double)this.time))
+                    {
+                        yield return new WaitForSeconds(0.1f);
+                        //yield return 0;
+                    }
+
                     break;
 
                 case 0: // create a node, (0, index, value)

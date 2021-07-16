@@ -26,7 +26,9 @@ public abstract class Algorithm : MonoBehaviour
         COPY_MAIN,
         COPY_AUX,
         HIDE,
-        SHOW
+        SHOW,
+        MAKE_HEAP_NODE,
+        DELETE_HEAP_NODE
     }
     public enum Array {
         MAIN,
@@ -40,4 +42,5 @@ public abstract class Algorithm : MonoBehaviour
         GREEN,
         YELLOW
     }
+    
 }
