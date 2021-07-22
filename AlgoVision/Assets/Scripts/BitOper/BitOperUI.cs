@@ -8,7 +8,7 @@ using System;
 public class BitOperUI : MonoBehaviour
 {
 
-    //[SerializeField] BubbleSort v;
+    [SerializeField] BitOper v;
     [SerializeField] Slider speedSlider;
     private Boolean isPlay;
     int startSize;
@@ -17,18 +17,25 @@ public class BitOperUI : MonoBehaviour
     {
         var canvas = GameObject.Find("Canvas");
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
-        startSize = FindObjectOfType<TMP_Dropdown>().value;
+        v.oper = FindObjectOfType<TMP_Dropdown>().value;
 
-        
         //v.time = 1;
         isPlay = false;
-        //StartCoroutine(v.readQueue(v.canvas));
+    }
+    public void run()
+    {
+        //StartCoroutine(v.operation());
+        v.operation();
     }
 
     // Update is called once per frame
     void Update()
     {
         //v.time = speedSlider.value;
+        if (v.oper == 3)
+        {
+            v.canvas.transform.GetChild(7).GetComponent<TMP_InputField>().enabled = false;
+        }
     }
     public void selectOperation()
     {
