@@ -62,6 +62,7 @@ public class HeapSort : Algorithm
     {
         public Algorithm.Commands commandID;
         public int arg1, arg2;
+        public Algorithm.Colors colorID;
         public string message;
 
         public queueCommand(Commands cID, int a1, int a2, string mess)
@@ -69,6 +70,14 @@ public class HeapSort : Algorithm
             this.commandID = cID;
             this.arg1 = a1;
             this.arg2 = a2;
+            this.message = mess;
+        }
+
+        public queueCommand(Commands cID, int a1, Colors a2, string mess)
+        {
+            this.commandID = cID;
+            this.arg1 = a1;
+            this.colorID = a2;
             this.message = mess;
         }
     }
@@ -204,6 +213,59 @@ public class HeapSort : Algorithm
     {
         heapify();
 
+        for(int i = size-1; i > 0; i--)
+        {
+            swap(0, i);
+            p.Enqueue(new queueCommand(Commands.DELETE_HEAP_NODE, i, 0, ""));
+            p.Enqueue(new queueCommand(Commands.COLOR_ONE, i, Colors.GREEN, ""));
+
+            Percolate(i);
+        }
+        p.Enqueue(new queueCommand(Commands.DELETE_HEAP_NODE, 0, 0, ""));
+        p.Enqueue(new queueCommand(Commands.COLOR_ONE, 0, Colors.GREEN, ""));
+    }
+
+    private void Percolate(int bound)
+    {
+        int left, right, parent = 0;
+
+        while(parent < bound)
+        {
+            left = leftCI(parent);
+            right = rightCI(parent);
+
+            if (right < bound)
+            {
+                if(inttree[left] < inttree[right]) // if the right child is greater
+                {
+                    if (inttree[right] > inttree[parent])
+                    {
+                        swap(right, parent);
+                        parent = right;
+                    }
+                    else return;
+                }
+                else // if the left child is greater
+                {
+                    if (inttree[left] > inttree[parent])
+                    {
+                        swap(left, parent);
+                        parent = left;
+                    }
+                    else return;
+                }
+            }
+            else if (left < bound)
+            {
+                if (inttree[left] > inttree[parent])
+                {
+                    swap(left, parent);
+                    parent = left;
+                }
+                else return;
+            }
+            else return;
+        }
     }
 
     public void heapify()
@@ -214,17 +276,22 @@ public class HeapSort : Algorithm
             int parent = parentI(child);
             while(parent >= 0 && inttree[child] > inttree[parent])
             {
-                int temp = inttree[parent];
-                inttree[parent] = inttree[child];
-                inttree[child] = temp;
-
-                p.Enqueue(new queueCommand (Commands.SWAP, parent, child, ""));
-                p.Enqueue(new queueCommand(Commands.WAIT,0,0,"SWAPPED"));
+                swap(child, parent);
 
                 child = parent;
                 parent = parentI(child);
             }
         }
+    }
+
+    private void swap(int i, int j)
+    {
+        int temp = inttree[i];
+        inttree[i] = inttree[j];
+        inttree[j] = temp;
+
+        p.Enqueue(new queueCommand(Commands.SWAP, i, j, ""));
+        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "SWAPPED"));
     }
 
     public IEnumerator readQueue()
@@ -242,19 +309,19 @@ public class HeapSort : Algorithm
             switch(instr.commandID)
             {
                 case Commands.WAIT:
-                {
+                
                     yield return new WaitForSeconds(this.time);
                     break;
-                }
+                
 
                 case Commands.MAKE_HEAP_NODE: // agr1 value, arg2 index
-                {
+                
                     vizHeap[instr.arg2] = new HeapNode(instr.arg1, instr.arg2, SpherePrefab);
                     break;
-                }
+                
 
                 case Commands.SWAP: // arg1 = parent, arg2 = child
-                {
+                
                     int parentValue = vizArray[instr.arg1].value;
                     int childValue = vizArray[instr.arg2].value;
 
@@ -265,7 +332,54 @@ public class HeapSort : Algorithm
                     vizArray[instr.arg2].updateText(parentValue);
 
                     break;
-                }
+                
+
+                case Commands.DELETE_HEAP_NODE: // arg1 = index, arg2 = null
+                
+                    Destroy(vizHeap[instr.arg1].o);
+                    Destroy(vizHeap[instr.arg1].parentEdge);
+                    vizHeap[instr.arg1] = null;
+                    break;
+
+                case Commands.COLOR_ONE: // arg1 = index, arg2 = color
+                    if(vizHeap[instr.arg1] != null)
+                    {
+                        switch(instr.colorID)
+                        {
+                            case Colors.WHITE:
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = Color.white;
+                                break;
+
+                            case Colors.RED:
+                                var red = new Color(1f, .2f, .361f, 1);
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = red;
+                                break;
+
+                            case Colors.GREEN:
+                                var green = new Color(0.533f, 0.671f, 0.459f);
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = green;
+                                break;
+                        }
+                    }
+
+                    switch(instr.colorID)
+                    {
+                        case Colors.WHITE:
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = Color.white;
+                            break;
+
+                        case Colors.RED:
+                            var red = new Color(1f, .2f, .361f, 1);
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = red;
+                            break;
+
+                        case Colors.GREEN:
+                            var green = new Color(0.533f, 0.671f, 0.459f);
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = green;
+                            break;
+                    }
+
+                    break;
 
             }
         }

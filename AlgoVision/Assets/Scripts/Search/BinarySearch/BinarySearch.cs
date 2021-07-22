@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 public class BinarySearch : Algorithm
 {
     int size;
@@ -109,7 +110,8 @@ public class BinarySearch : Algorithm
 
         searchToken = searchValue;
 
-    
+        queue.Enqueue(new QueueCommand(2, min, max, 4));
+
         queue.Enqueue(new QueueCommand(3, "Searching for " + searchToken));
         queue.Enqueue(new QueueCommand(0, -1,-1));
         queue.Enqueue(new QueueCommand(0, -1, -1));
@@ -127,7 +129,7 @@ public class BinarySearch : Algorithm
                 queue.Enqueue(new QueueCommand(3,"" + searchToken + " is not between indices "+middle + " and "+ max));
                 queue.Enqueue(new QueueCommand(0, -1,-1));
                 queue.Enqueue(new QueueCommand(0, -1, -1));
-                queue.Enqueue(new QueueCommand(2, middle, max, -1));
+                queue.Enqueue(new QueueCommand(2, middle, max, 3));
                 queue.Enqueue(new QueueCommand(0, -1,-1));
                 max = middle -1;
                 middle = (max+min)/2;
@@ -140,7 +142,7 @@ public class BinarySearch : Algorithm
                 queue.Enqueue(new QueueCommand(3,"" + searchToken + " is not between indices "+min + " and "+ middle));
                 queue.Enqueue(new QueueCommand(0, -1,-1));
                 queue.Enqueue(new QueueCommand(0, -1, -1));
-                queue.Enqueue(new QueueCommand(2, min, middle, -1));
+                queue.Enqueue(new QueueCommand(2, min, middle, 3));
                 queue.Enqueue(new QueueCommand(0, -1,-1));
                 min = middle + 1;
                 middle = (max+min)/2;
@@ -165,6 +167,9 @@ public class BinarySearch : Algorithm
             queue.Enqueue(new QueueCommand(3,"" + searchToken + " found at index "+ middle));
             queue.Enqueue(new QueueCommand(0, -1,-1));
         }
+        else if (max < 0){
+            queue.Enqueue(new QueueCommand(3,"" + searchToken + " not in array"));
+        }
         else {
             queue.Enqueue(new QueueCommand(1, max, 1));
             queue.Enqueue(new QueueCommand(0, -1,-1));
@@ -184,7 +189,7 @@ public class BinarySearch : Algorithm
                     break;
                 case 2: // change Color color of several items
                     for(int i = q.index1; i<= q.index2; i++ ){
-                        array[i].Object.GetComponent<Renderer>().material.color = Color.black;
+                        changeColor(i, q.additionalInfo);
                     }
                     break;
                 case 3: // update message
@@ -204,6 +209,14 @@ public class BinarySearch : Algorithm
                 break;
             case 3:
                 array[index].Object.GetComponent<Renderer>().material.color = Color.black;
+                array[index].Object.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.white;
+                break;
+            case 4:
+                if (index % 2 == 0)
+                    array[index].Object.GetComponent<Renderer>().material.color = Color.white;
+                else
+                    array[index].Object.GetComponent<Renderer>().material.color = Color.gray;
+                array[index].Object.transform.GetChild(0).GetComponent<TMP_Text>().color = Color.black;
                 break;
         }
     }

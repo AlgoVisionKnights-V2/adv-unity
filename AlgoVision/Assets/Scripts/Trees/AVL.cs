@@ -1159,16 +1159,9 @@ public class AVL : Algorithm
             switch (instr.commandId)
             {
                 case -1:
-                    //yield return new WaitForSeconds(this.time);
-
-                    DateTime strt= DateTime.UtcNow;
-
-                    while((DateTime.UtcNow - strt) < TimeSpan.FromSeconds((double)this.time))
-                    {
-                        yield return new WaitForSeconds(0.1f);
-                        //yield return 0;
-                    }
-
+                    yield return new WaitForSeconds(this.time);
+                    yield return new WaitForSeconds(this.time);
+                    yield return new WaitForSeconds(this.time);
                     break;
 
                 case 0: // create a node, (0, index, value)
