@@ -18,7 +18,7 @@ public abstract class Algorithm : MonoBehaviour
         SWAP,
         RAISE,
         LOWER,
-        COLORALL,
+        COLOR_ALL,
         UPDATE_MESSAGE,
         UPDATE_OBJECT_TEXT,
         RAISE_ALL,
