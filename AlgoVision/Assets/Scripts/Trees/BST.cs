@@ -183,25 +183,9 @@ public class BST : Algorithm
             }
             Nodetree = tempTree;
             Xcoords = tempX;
-            //Xcoords = new float[Nodetree.Length];
-
-
-
+            
             Ycoords = new float[Nodetree.Length];
-            /*setCoords();
-
-            foreach(BSTNode n in Nodetree)
-            {
-                if(n != null)
-                {
-                    n.updateCoords();
-                    if(n.I != 0)
-                    {
-                        n.parentEdge.SetPosition(0, new Vector3(Xcoords[n.I], Ycoords[n.I], 0));
-                        n.parentEdge.SetPosition(1, new Vector3(Xcoords[parentI(n.I)], Ycoords[parentI(n.I)], 0));
-                    }
-                }
-            }*/
+            
         }
     }
 
@@ -700,7 +684,7 @@ public class BST : Algorithm
 
     }
 
-    int getMaxDepth(int index) // this is a product of drunk Mick, if this comment is not gone, it has not been cleaned up by sober Mick
+    int getMaxDepth(int index) 
     {
         if(Nodetree[index] == null)
         {
