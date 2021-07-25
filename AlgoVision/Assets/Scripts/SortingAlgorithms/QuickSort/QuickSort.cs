@@ -29,7 +29,7 @@ public class QuickSort : SortingAlgorithm1
         buildArray(boxPrefab, canvas);
         timer.Restart();
 
-        queue.Enqueue(new QueueCommand(7, "Beginning Quick Sort!", 5));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Beginning Quick Sort!", Colors.YELLOW));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
 
@@ -45,19 +45,17 @@ public class QuickSort : SortingAlgorithm1
         int split;
         if (low < high)
         {
-            queue.Enqueue(new QueueCommand(7, "Recursively calling QuickSort from index " + low + " through " + high, 5));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Recursively calling QuickSort from index " + low + " through " + high, Colors.YELLOW));
 
-            queue.Enqueue(new QueueCommand(9, low, high, 0));
-            queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
+            queue.Enqueue(new QueueCommand(Commands.RAISE_ALL, low, high, Array.MAIN));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, low, high, Array.MAIN, Colors.BLUE));
             queue.Enqueue(new QueueCommand());
 
             split = partition(low, high);
-            //queue.Enqueue(new QueueCommand(6, low, high, 0, 3));
-            //queue.Enqueue(new QueueCommand(3, split, (short)0, 2));
-            queue.Enqueue(new QueueCommand(6, low, split - 1, 0, 0));
-            queue.Enqueue(new QueueCommand(6, split + 1, high, 0, 0));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, low, split - 1, Array.MAIN, Colors.WHITE));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, split + 1, high, Array.MAIN, Colors.WHITE));
             
-            queue.Enqueue(new QueueCommand(10, low, high, 0));
+            queue.Enqueue(new QueueCommand(Commands.LOWER_ALL, low, high, Array.MAIN));
             queue.Enqueue(new QueueCommand());
             quickSort(low, split - 1);
             quickSort(split + 1, high);
@@ -70,35 +68,35 @@ public class QuickSort : SortingAlgorithm1
                 {
                     return;
                 }
-                queue.Enqueue(new QueueCommand(7, "Recursively calling QuickSort on index " + low, 5));
-                queue.Enqueue(new QueueCommand(9, low, low, 0));
-                queue.Enqueue(new QueueCommand(6, low, low, 0, 3));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Recursively calling QuickSort on index " + low, Colors.YELLOW));
+                queue.Enqueue(new QueueCommand(Commands.RAISE_ALL, low, low, Array.MAIN));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, low, low, Array.MAIN, Colors.BLUE));
                 queue.Enqueue(new QueueCommand());
-                queue.Enqueue(new QueueCommand(7, "Index " + low + " is a single element partition. It is already in its sorted position", 5));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Index " + low + " is a single element partition. It is already in its sorted position", Colors.YELLOW));
                 queue.Enqueue(new QueueCommand());
 
-                queue.Enqueue(new QueueCommand(10, low, low, 0));
+                queue.Enqueue(new QueueCommand(Commands.LOWER_ALL, low, low, Array.MAIN));
 
-                queue.Enqueue(new QueueCommand(3, low, (short)0, 2));
-                queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.GREEN));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Pivot"));
                 queue.Enqueue(new QueueCommand());
-                queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Pivot"));
             }    
             else if (low <= high)
             {
-                queue.Enqueue(new QueueCommand(7, "Recursively calling QuickSort on index " + high, 5));
-                queue.Enqueue(new QueueCommand(9, high, high, 0));
-                queue.Enqueue(new QueueCommand(6, high, high, 0, 3));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Recursively calling QuickSort on index " + high, Colors.YELLOW));
+                queue.Enqueue(new QueueCommand(Commands.RAISE_ALL, high, high, Array.MAIN));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, high, high, Array.MAIN, Colors.BLUE));
                 queue.Enqueue(new QueueCommand());
                 
-                queue.Enqueue(new QueueCommand(7, "Index " + high + " is a single element partition. It is already in its sorted position", 5));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Index " + high + " is a single element partition. It is already in its sorted position", Colors.YELLOW));
                 queue.Enqueue(new QueueCommand());
-                queue.Enqueue(new QueueCommand(10, high, high, 0));
+                queue.Enqueue(new QueueCommand(Commands.LOWER_ALL, high, high, Array.MAIN));
 
-                queue.Enqueue(new QueueCommand(3, high, (short)0, 2));
-                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.GREEN));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "Pivot"));
                 queue.Enqueue(new QueueCommand());
-                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "Pivot"));
             }
         }
     }
@@ -113,27 +111,27 @@ public class QuickSort : SortingAlgorithm1
         
         // color the pointers
 
-        queue.Enqueue(new QueueCommand(3, low, (short)0, 5));
-        queue.Enqueue(new QueueCommand(7, "Index " + low + " is lower pointer.", 5));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.YELLOW));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Index " + low + " is lower pointer.", Colors.YELLOW));
 
         queue.Enqueue(new QueueCommand());
 
-        queue.Enqueue(new QueueCommand(3, high, (short)0, 6));
-        queue.Enqueue(new QueueCommand(7, "Index " + high + " is higher pointer.", 6));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.BLUE_OTHER));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Index " + high + " is higher pointer.", Colors.BLUE_OTHER));
         queue.Enqueue(new QueueCommand());
 
-        queue.Enqueue(new QueueCommand(3, pivot, (short)0, 7));
-        queue.Enqueue(new QueueCommand(7, "Index " + pivot + " is pivot.", 7));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, pivot, Array.MAIN, Colors.GREEN_OTHER));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Index " + pivot + " is pivot.", Colors.GREEN_OTHER));
         queue.Enqueue(new QueueCommand());
 
         //Set Arrow Pointers
-        queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));//Command to set/deactivate arrows
-        queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-        queue.Enqueue(new QueueCommand((short)8, pivot, low, 0, "Pivot"));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));//Command to set/deactivate arrows
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, pivot, low, Array.MAIN, "Pivot"));
 
         if (high == low)
         {
-            queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High/Low"));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High/Low"));
         }
 
         queue.Enqueue(new QueueCommand());
@@ -142,16 +140,16 @@ public class QuickSort : SortingAlgorithm1
 
         while (low <= high)
         {
-            while (low <= high && compare(low, pivot, 0) && arr[low] <= arr[pivot]){
-                decompare(low, pivot, 0, 5, 7); // lower indices
+            while (low <= high && compare(low, pivot, Array.MAIN) && arr[low] <= arr[pivot]){
+                decompare(low, pivot, Array.MAIN, Colors.YELLOW, Colors.GREEN_OTHER); // lower indices
                 
                 if (low == size -1)
                 {
-                    queue.Enqueue(new QueueCommand(7, "Low is not greater than the Pivot AND has reached the end of the array.", 5));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Low is not greater than the Pivot AND has reached the end of the array.", Colors.YELLOW));
                     queue.Enqueue(new QueueCommand());
-                    queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-                    queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-                    queue.Enqueue(new QueueCommand(3, high, (short)0, 6)); // color new low
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.BLUE_OTHER)); // color new low
                     low++;
                     queue.Enqueue(new QueueCommand());
                     break;
@@ -159,158 +157,155 @@ public class QuickSort : SortingAlgorithm1
                 }
                 else
                 {
-                    queue.Enqueue(new QueueCommand(7, "Low is not greater than the Pivot, move Low to the right.", 5));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Low is not greater than the Pivot, move Low to the right.", Colors.YELLOW));
                 }
                 queue.Enqueue(new QueueCommand());
             
-                queue.Enqueue(new QueueCommand(3, low, (short)0, 3)); // uncolor current low
-                queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.BLUE)); // uncolor current low
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));
                 if (++low < high){
-                    queue.Enqueue(new QueueCommand(3, low, (short)0, 5)); // color new low
-                    queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.YELLOW)); // color new low
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));
                     queue.Enqueue(new QueueCommand());               
                 }
                 else if (low == high)
                 {
-                    queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low/High"));
-                    queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low/High"));
-                    queue.Enqueue(new QueueCommand(3, low, (short)0, 5)); // color new low
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low/High"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low/High"));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.YELLOW)); // color new low
                     queue.Enqueue(new QueueCommand());
                 }
                 else if (low > high && low < size)
                 {
-                    queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));
-                    queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-                    queue.Enqueue(new QueueCommand(3, low, (short)0, 5)); // color new low
-                    queue.Enqueue(new QueueCommand(3, high, (short)0, 6));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.YELLOW)); // color new low
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.BLUE_OTHER));
                     queue.Enqueue(new QueueCommand());
                 }
             }
             if (low <= high && arr[low] > arr[pivot])
             {
-                decompare(low, pivot, 0, 5, 7);
-                queue.Enqueue(new QueueCommand(7, "Low is greater than the Pivot, switch to High Pointer.", 3));
+                decompare(low, pivot, Array.MAIN, Colors.YELLOW, Colors.GREEN_OTHER);
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Low is greater than the Pivot, switch to High Pointer.", Colors.BLUE));
                 queue.Enqueue(new QueueCommand());
             }
 
-            while (high >= low && compare(high, pivot, 0)  && arr[high] > arr[pivot]){
-                decompare(high, pivot, 0, 6, 7);
-                queue.Enqueue(new QueueCommand(7, "High is not less than the Pivot, move High to the left.", 5));
+            while (high >= low && compare(high, pivot, Array.MAIN)  && arr[high] > arr[pivot]){
+                decompare(high, pivot, Array.MAIN, Colors.BLUE_OTHER, Colors.GREEN_OTHER);
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "High is not less than the Pivot, move High to the left.", Colors.YELLOW));
                 queue.Enqueue(new QueueCommand());
-                queue.Enqueue(new QueueCommand(3, high, (short)0, 3));
-                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.BLUE));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
                 high--;
-                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-                queue.Enqueue(new QueueCommand(3, low, (short)0, 5)); // recolor low in case high was at the same index
-                queue.Enqueue(new QueueCommand(3, high, (short)0, 6));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.YELLOW)); // recolor low in case high was at the same index
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.BLUE_OTHER));
 
                 if (high == pivot)
                 {
-                    queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot/High"));
-                    queue.Enqueue(new QueueCommand(3, high, (short)0, 7));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "Pivot/High"));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.GREEN_OTHER));
                 }
 
                 if (low == high)
                 {
-                    queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low/High"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low/High"));
                 }
                 else if (high < low)
                 {
-                    queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));
                 }
                 queue.Enqueue(new QueueCommand());
             }
             if (high >= low && arr[high] <= arr[pivot])
             {
-                decompare(high, pivot, 0, 6, 7);
-                queue.Enqueue(new QueueCommand(7, "High is less than the Pivot, swap Low and High.", 3));
+                decompare(high, pivot, Array.MAIN, Colors.BLUE_OTHER, Colors.GREEN_OTHER);
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "High is less than the Pivot, swap Low and High.", Colors.BLUE));
                 queue.Enqueue(new QueueCommand());
             }
 
             if ( low < high)
             {
                 swap(low, high);
-                //queue.Enqueue(new QueueCommand(3, high, (short)0, 5));
-                //queue.Enqueue(new QueueCommand(3, low, (short)0, 6));
+                
                 queue.Enqueue(new QueueCommand());
 
-                queue.Enqueue(new QueueCommand(7, "After swapping positions, move both pointers.", 5));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "After swapping positions, move both pointers.", Colors.YELLOW));
                 queue.Enqueue(new QueueCommand());
 
-                queue.Enqueue(new QueueCommand(3, low, (short)0, 3));
-                queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.BLUE));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));
 
-                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-                queue.Enqueue(new QueueCommand(3, high, (short)0, 3));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.BLUE));
 
                 low++;
                 high--;
 
-                queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-                queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+                queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));
 
 
-                queue.Enqueue(new QueueCommand(3, low, (short)0, 5));
-                queue.Enqueue(new QueueCommand(3, high, (short)0, 6));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.YELLOW));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.BLUE_OTHER));
 
                 if (low == high)
                 {
-                    queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low/High"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low/High"));
                 }
                 queue.Enqueue(new QueueCommand());
             }
         }
         // Finally we swap the pivot with the point high was pointing to
-        queue.Enqueue(new QueueCommand(7, "High and Low pointers have crossed, swap High and Pivot!", 5));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "High and Low pointers have crossed, swap High and Pivot!", Colors.YELLOW));
         queue.Enqueue(new QueueCommand());
         swap(pivot, high);
 
-        queue.Enqueue(new QueueCommand(3, pivot, (short)0, 6));
-        queue.Enqueue(new QueueCommand(3, high, (short)0, 7));
-        queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-        queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
-        queue.Enqueue(new QueueCommand((short)8, pivot, low, 0, "High"));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, pivot, Array.MAIN, Colors.BLUE_OTHER));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.GREEN_OTHER));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "Pivot"));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, pivot, low, Array.MAIN, "High"));
         
         if (pivot == high)
         {
-            queue.Enqueue(new QueueCommand((short)8, pivot, low, 0, "Pivot/High"));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, pivot, low, Array.MAIN, "Pivot/High"));
         }
         else
         {
-            queue.Enqueue(new QueueCommand((short)8, pivot, low, 0, "High"));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, pivot, low, Array.MAIN, "High"));
         }
 
         queue.Enqueue(new QueueCommand());
-        queue.Enqueue(new QueueCommand(3, pivot, (short)0, 3));
-        queue.Enqueue(new QueueCommand(3, high, (short)0, 2));
-        queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-        queue.Enqueue(new QueueCommand((short)8, high, low, 0, "Pivot"));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, pivot, Array.MAIN, Colors.BLUE));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, high, Array.MAIN, Colors.GREEN));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "Pivot"));
 
         if (pivot != high)
         {
-            queue.Enqueue(new QueueCommand((short)8, pivot, high, 0, "Low"));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, pivot, high, Array.MAIN, "Low"));
         }
         if (low < size)
         {
-            queue.Enqueue(new QueueCommand((short)8, low, high, 0, "Low"));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, low, high, Array.MAIN, "Low"));
 
             if (low <= pHigh)
             {
-                queue.Enqueue(new QueueCommand(3, low, (short)0, 3));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.BLUE));
             }
             else
             {
-                queue.Enqueue(new QueueCommand(3, low, (short)0, 2));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, low, Array.MAIN, Colors.GREEN));
             }
         }
         
         queue.Enqueue(new QueueCommand());
-        queue.Enqueue(new QueueCommand(7, "Pivot is now in its sorted spot", 5));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Pivot is now in its sorted spot", Colors.YELLOW));
         queue.Enqueue(new QueueCommand());
 
-        queue.Enqueue(new QueueCommand((short)8, high, low, 0, "High"));
-        //queue.Enqueue(new QueueCommand(3, high, (short)0, 5));
-        //queue.Enqueue(new QueueCommand(3, low, (short)0, 6));
+        queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, high, low, Array.MAIN, "High"));
         queue.Enqueue(new QueueCommand());
         return high;
     }

@@ -22,50 +22,50 @@ public class BubbleSort : SortingAlgorithm1
 
         timer.Restart();
 
-        queue.Enqueue(new QueueCommand(7, "Beginning Bubble Sort!", 5));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Beginning Bubble Sort!", Colors.YELLOW));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
-        queue.Enqueue(new QueueCommand(7, "Select the leftmost element and attempt to Bubble Up", 5));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Select the leftmost element and attempt to Bubble Up", Colors.YELLOW));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
 
         int i,j;
         for (i = 0; i < size; i++){
-            queue.Enqueue(new QueueCommand((short)8, 0, 0, 0, "Bubble"));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, 0, 0, Array.MAIN, "Bubble"));
             queue.Enqueue(new QueueCommand());
             for(j = 0; j < size - i - 1; j++){
 
                 
-                if (compare(j, j+1, 0) && arr[j] > arr[j+1]){
-                    queue.Enqueue(new QueueCommand(7, "" + arr[j] + " is greater than " + arr[j+1] + ". Bubble Up!", 5));
+                if (compare(j, j+1, Array.MAIN) && arr[j] > arr[j+1]){
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + arr[j] + " is greater than " + arr[j+1] + ". Bubble Up!", Colors.YELLOW));
                     queue.Enqueue(new QueueCommand());
                     queue.Enqueue(new QueueCommand());
 
-                    queue.Enqueue(new QueueCommand((short)8, j, j, 0, "Bubble"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j, j, Array.MAIN, "Bubble"));
                     swap(j, j+1);
-                    queue.Enqueue(new QueueCommand((short)8, j+1, j, 0, "Bubble"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j+1, j, Array.MAIN, "Bubble"));
                     queue.Enqueue(new QueueCommand());
                 }
                 else{
-                    queue.Enqueue(new QueueCommand(7, "" + arr[j] + " is less than " + arr[j + 1] + ". Increment our bubble pointer", 5));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + arr[j] + " is less than " + arr[j + 1] + ". Increment our bubble pointer", Colors.YELLOW));
                     queue.Enqueue(new QueueCommand());
                     queue.Enqueue(new QueueCommand());
 
-                    queue.Enqueue(new QueueCommand((short)8, j, j, 0, "Bubble"));
-                    queue.Enqueue(new QueueCommand((short)8, j+1, j, 0, "Bubble"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j, j, Array.MAIN, "Bubble"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j+1, j, Array.MAIN, "Bubble"));
 
-                    queue.Enqueue(new QueueCommand(7, arr[j] + " and " + arr[j+1] + " unchanged"));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, arr[j] + " and " + arr[j+1] + " unchanged"));
                     queue.Enqueue(new QueueCommand());
                 }
                 Debug.Log("Elapsed time: "+ timer.ElapsedMilliseconds);
-                decompare(j, j+1, 0, 0);
+                decompare(j, j+1, Array.MAIN, Colors.WHITE);
             }
-            queue.Enqueue(new QueueCommand(3, j, (short)0, 2,  arr[j] + " sorted"));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, j, Array.MAIN, Colors.GREEN,  arr[j] + " sorted"));
             queue.Enqueue(new QueueCommand());
 
-            queue.Enqueue(new QueueCommand(7, "" + arr[j] + " is now it its sorted position. Reset our Bubble Pointer", 5));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + arr[j] + " is now it its sorted position. Reset our Bubble Pointer", Colors.YELLOW));
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand((short)8, j, j, 0, "Bubble"));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j, j, Array.MAIN, "Bubble"));
             queue.Enqueue(new QueueCommand());
         }
         timer.Stop();

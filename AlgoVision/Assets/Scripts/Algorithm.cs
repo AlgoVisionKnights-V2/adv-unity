@@ -18,7 +18,7 @@ public abstract class Algorithm : MonoBehaviour
         SWAP,
         RAISE,
         LOWER,
-        COLORALL,
+        COLOR_ALL,
         UPDATE_MESSAGE,
         UPDATE_OBJECT_TEXT,
         RAISE_ALL,
@@ -27,6 +27,7 @@ public abstract class Algorithm : MonoBehaviour
         COPY_AUX,
         HIDE,
         SHOW,
+        TOGGLE_ARROW,
         MAKE_HEAP_NODE,
         DELETE_HEAP_NODE
     }
@@ -40,7 +41,9 @@ public abstract class Algorithm : MonoBehaviour
         RED,
         BLUE,
         GREEN,
-        YELLOW
+        YELLOW,
+        GREEN_OTHER,
+        BLUE_OTHER
     }
     
 }

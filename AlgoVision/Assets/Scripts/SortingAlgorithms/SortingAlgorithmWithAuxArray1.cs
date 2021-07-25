@@ -48,18 +48,18 @@ public abstract class SortingAlgorithmWithAuxArray1 : SortingAlgorithm1
     // It also holds the auxArray versions of other cases
     override public void extendCommands(QueueCommand q){
         switch (q.commandId){
-            case 1: // change the color of two indices
+            case Commands.COLOR_TWO: // change the color of two indices
                 colorChange(q.index1, q.colorId, auxArray);
                 colorChange(q.index2, q.colorId, auxArray);
                 // Debug.Log("Comparing values at Index "+ q.index1 + " and "+ q.index2);
                 break;            
-            case 3: // change the color of just a single index
+            case Commands.COLOR_ONE: // change the color of just a single index
                 colorChange(q.index1, q.colorId, auxArray);
                 showText.text = q.message;
                 green = new Color(0.533f, 0.671f, 0.459f);
                 showText.color = green;
                 break;
-            case 4: // raise two indices up, used to visualize they are being compared
+            case Commands.RAISE: // raise two indices up, used to visualize they are being compared
                 auxArray[q.index1].o.transform.position = new Vector3(auxArray[q.index1].o.transform.position.x, auxArray[q.index1].o.transform.position.y + 1, 0);
                 auxArray[q.index2].o.transform.position = new Vector3(auxArray[q.index2].o.transform.position.x, auxArray[q.index2].o.transform.position.y + 1, 0);
                 showText.enabled = true;
@@ -70,20 +70,20 @@ public abstract class SortingAlgorithmWithAuxArray1 : SortingAlgorithm1
                 var blue = new Color(0.6f, 0.686f, 0.761f);
                 showText.color = blue;
                 break;
-            case 5: // raise two indices down, used to visualize they are being uncompared
+            case Commands.LOWER: // raise two indices down, used to visualize they are being uncompared
                 auxArray[q.index1].o.transform.position = new Vector3(auxArray[q.index1].o.transform.position.x, auxArray[q.index1].o.transform.position.y - 1, 0);
                 auxArray[q.index2].o.transform.position = new Vector3(auxArray[q.index2].o.transform.position.x, auxArray[q.index2].o.transform.position.y - 1, 0);
                 break;
-            case 6: // change the color of every index from index1 to index2 inclusive
+            case Commands.COLOR_ALL: // change the color of every index from index1 to index2 inclusive
                 for (int i = q.index1; i <= q.index2; i++){
                     colorChange(i, q.colorId, auxArray);
                 }
                 break;
-            case 8:
+            case Commands.TOGGLE_ARROW:
                 auxArray[q.index1].o.transform.GetChild(1).gameObject.SetActive(!auxArray[q.index1].o.transform.GetChild(1).gameObject.activeInHierarchy);
                 auxArray[q.index1].o.transform.GetChild(1).GetChild(0).GetComponentInChildren<TextMeshPro>().text = q.message;
                 break;
-            case 10: // copy array[q.index2] to auxArray[q.index1]
+            case Commands.COPY_MAIN: // copy array[q.index2] to auxArray[q.index1]
                 auxArray[q.index1].value = array[q.index2].value;
                 var t = auxArray[q.index1].o.GetComponentInChildren<TextMeshPro>();
                 t.text = auxArray[q.index1].value.ToString();
@@ -91,7 +91,7 @@ public abstract class SortingAlgorithmWithAuxArray1 : SortingAlgorithm1
                 accesses++;
                 break;
 
-            case 11: // copy auxArray[q.index2] to array[q.index1]
+            case Commands.COPY_AUX: // copy auxArray[q.index2] to array[q.index1]
                 array[q.index1].value = auxArray[q.index2].value;
                 t = array[q.index1].o.GetComponentInChildren<TextMeshPro>();
                 t.text = array[q.index1].value.ToString();
@@ -99,16 +99,16 @@ public abstract class SortingAlgorithmWithAuxArray1 : SortingAlgorithm1
                 accesses++;
                 break;
 
-            case 12: // shrink all elements in auxArray to 0, effectively hiding them
+            case Commands.HIDE: // shrink all elements in auxArray to 0, effectively hiding them
                 for (int i = 0; i < size; i++){
                     auxArray[i].o.transform.localScale = new Vector3(0, 0, 0);
                 }
                 break;
-            case 13: // make the cells in an auxarray visible with empty values
+            case Commands.SHOW: // make the cells in an auxarray visible with empty values
                 for(int i = q.index1; i <= q.index2; i++){
                     t = auxArray[i].o.GetComponentInChildren<TextMeshPro>();
                     t.text = "";
-                    auxArray[i].o.transform.localScale = new Vector3(.75f, .75f, .75f);
+                    auxArray[i].o.transform.localScale = new Vector3(.7f, .75f, .75f);
                 }
                 break;
         }

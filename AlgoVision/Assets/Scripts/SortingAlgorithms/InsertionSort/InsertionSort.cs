@@ -25,10 +25,10 @@ public class InsertionSort : SortingAlgorithm1
         int i,j;
 
         queue.Enqueue(new QueueCommand());
-        queue.Enqueue(new QueueCommand(7, "Index 0 is a one element array, and is therefore sorted."));
-        queue.Enqueue(new QueueCommand(3, 0, (short)0, 5));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Index 0 is a one element array, and is therefore sorted."));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, 0, Array.MAIN, Colors.YELLOW));
         queue.Enqueue(new QueueCommand());
-        queue.Enqueue(new QueueCommand(3, 0, (short)0, 2));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, 0, Array.MAIN, Colors.GREEN));
         queue.Enqueue(new QueueCommand());
 
 
@@ -36,52 +36,50 @@ public class InsertionSort : SortingAlgorithm1
         
         for(i = 1; i < size; i++)
         {
-            queue.Enqueue(new QueueCommand(7, "Selecting our next insertion index."));
-            queue.Enqueue(new QueueCommand(3, i, (short)0, 5));
-            queue.Enqueue(new QueueCommand((short)8, i, i, 0, "Insert"));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Selecting our next insertion index."));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, i, Array.MAIN, Colors.YELLOW));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, i, i, Array.MAIN, "Insert"));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(7, "Pull elements out of our " + (i+1) + " index array and sort them, moving from left to right"));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Pull elements out of our " + (i+1) + " index array and sort them, moving from left to right"));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
             
             for(j = i-1; j >= 0; j--)
             {
-                if(compare(j, j+1, 0) && arr[j] > arr[j+1])
+                if(compare(j, j+1, Array.MAIN) && arr[j] > arr[j+1])
                 {
-                    queue.Enqueue(new QueueCommand(7, "" + arr[j].ToString() + " is greater than our Insert. Scooch " + arr[j].ToString() + " to the right"));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + arr[j].ToString() + " is greater than our Insert. Scooch " + arr[j].ToString() + " to the right"));
                     queue.Enqueue(new QueueCommand());
                     queue.Enqueue(new QueueCommand());
                     swap(j + 1, j);
 
-                    queue.Enqueue(new QueueCommand((short)8, j + 1, i, 0, "Insert"));
-                    queue.Enqueue(new QueueCommand((short)8, j, i, 0, "Insert"));
-                    queue.Enqueue(new QueueCommand(3, j, (short)0, 5));
-                    queue.Enqueue(new QueueCommand(3, j + 1, (short)0, 2));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j + 1, i, Array.MAIN, "Insert"));
+                    queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j, i, Array.MAIN, "Insert"));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, j, Array.MAIN, Colors.YELLOW));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, j + 1, Array.MAIN, Colors.GREEN));
                 }
                 else
                 {
-                    decompare(j, j+1, 0, 2, 5);
-                    queue.Enqueue(new QueueCommand(7, "" + arr[j].ToString() + " is less than our Insert. Insert is in its sorted spot"));
-                    //queue.Enqueue(new QueueCommand((short)8, i, i, 0, "Insert"));
+                    decompare(j, j+1, Array.MAIN, Colors.GREEN, Colors.YELLOW);
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + arr[j].ToString() + " is less than our Insert. Insert is in its sorted spot"));
                     queue.Enqueue(new QueueCommand());
                     queue.Enqueue(new QueueCommand());
 
                     break;
                 }
-                decompare(j, j+1, 0, 5, 2);
-                //queue.Enqueue(new QueueCommand((short)8, j, i, 0, "Insert"));
+                decompare(j, j+1, Array.MAIN, Colors.YELLOW, Colors.GREEN);
                 queue.Enqueue(new QueueCommand());
 
             }
-            queue.Enqueue(new QueueCommand(7, "Indices 0 through " + i + " are in sorted order"));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Indices 0 through " + i + " are in sorted order"));
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand((short)8, j+1, i, 0, "Insert"));
-            queue.Enqueue(new QueueCommand(3, j + 1, (short)0, 2));
+            queue.Enqueue(new QueueCommand(Commands.TOGGLE_ARROW, j+1, i, Array.MAIN, "Insert"));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, j + 1, Array.MAIN, Colors.GREEN));
             queue.Enqueue(new QueueCommand());
 
         }
-        queue.Enqueue(new QueueCommand(6, 0, size - 1, 0, 2));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, 0, size - 1, Array.MAIN, Colors.GREEN));
 
         timer.Stop();
         stopTime = timer.ElapsedMilliseconds;

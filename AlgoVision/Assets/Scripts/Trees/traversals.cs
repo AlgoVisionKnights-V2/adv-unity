@@ -291,7 +291,7 @@ public class traversals : Algorithm
             q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
         }
 
-        if (!isNull(leftCI(I))) // node has right subtree
+        if (!isNull(rightCI(I))) // node has right subtree
         {
             q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
             q.Enqueue(new TravCommand(2, I, 3, ""));
