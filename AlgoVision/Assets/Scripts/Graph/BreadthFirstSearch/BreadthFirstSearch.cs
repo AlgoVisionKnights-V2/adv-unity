@@ -94,38 +94,38 @@ public class BreadthFirstSearch : SearchGraph
         list = new List((BFSVertex)vertices[main]);
         int i, currentVertex;
         BFSVertex v;
-        queue.Enqueue(new QueueCommand(0, -1, -1));
-        queue.Enqueue(new QueueCommand(5, "Beginning search at vertex " + main, -1));
-        queue.Enqueue(new QueueCommand(6, list.queueString, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Beginning search at vertex " + main, Colors.DEFAULT));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_QUEUE_MESSAGE, list.queueString, Colors.DEFAULT));
 
-        queue.Enqueue(new QueueCommand(1, main, -1, 1));
-        queue.Enqueue(new QueueCommand(0, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, main, -1, Colors.BLUE));
+        queue.Enqueue(new QueueCommand(Commands.WAIT));
         while(list.count > 0){
-            queue.Enqueue(new QueueCommand(7, list.head.vertex.value.ToString(), -1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_VERTEX, list.head.vertex.value.ToString(), Colors.DEFAULT));
 
             for (i = 0; i < list.head.vertex.neighbors.Count; i++){
                 v = (BFSVertex)(list.head.vertex.neighbors[i]);
-                queue.Enqueue(new QueueCommand(5, "Checking neighbor " + v.value, -1));
-                queue.Enqueue(new QueueCommand(3, list.head.vertex.neighborEdges[i].id, 3));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Checking neighbor " + v.value, Colors.DEFAULT));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, list.head.vertex.neighborEdges[i].id, Colors.RED));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
                 if(!v.enqueued)
                 {
                     list.insert(v);
-                    queue.Enqueue(new QueueCommand(5, "" + v.value + " not previously enqueued, Adding to queue", -1));
-                    queue.Enqueue(new QueueCommand(1, v.value, -1, 1));
-                    queue.Enqueue(new QueueCommand(6, list.queueString, -1));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + v.value + " not previously enqueued, Adding to queue", Colors.DEFAULT));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, v.value, -1, Colors.BLUE));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_QUEUE_MESSAGE, list.queueString, Colors.DEFAULT));
 
-                    queue.Enqueue(new QueueCommand(0, -1, -1));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT));
                 }
                 else{
-                    queue.Enqueue(new QueueCommand(5, "" + v.value + " was previously enqueued", -1));
-                    queue.Enqueue(new QueueCommand(0, -1, -1));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + v.value + " was previously enqueued", Colors.DEFAULT));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT));
                 }
-                queue.Enqueue(new QueueCommand(3, list.head.vertex.neighborEdges[i].id, 2));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, list.head.vertex.neighborEdges[i].id, Colors.WHITE));
 
             }
-            queue.Enqueue(new QueueCommand(1, list.head.vertex.value, -1, 3));
-            queue.Enqueue(new QueueCommand(0, -1, -1));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, list.head.vertex.value, -1, Colors.BLACK));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
             list.next();
         }
     }
@@ -133,7 +133,7 @@ public class BreadthFirstSearch : SearchGraph
     {
         throw new System.NotImplementedException();
     }
-    protected override void extendVertexColors(int vertex, short colorId)
+    protected override void extendVertexColors(int vertex, Colors colorId)
     {
         throw new System.NotImplementedException();
     }

@@ -45,10 +45,10 @@ public class BellmanFord : Graph
         timer.Restart();
         int i,j,k;
         ((BellmanFordVertex)vertices[main]).weight = 0;
-        queue.Enqueue(new QueueCommand(0,-1,-1));
-        queue.Enqueue(new QueueCommand(1, main, -1, 4));
-        queue.Enqueue(new QueueCommand(5, "Node " + main + " is main node", 4));
-        queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, main, -1, Colors.GREEN));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Node " + main + " is main node", Colors.GREEN));
+        queue.Enqueue(new QueueCommand(Commands.WAIT));
         BellmanFordVertex m, n;
         for(i = 0; i < vertex; i++){
             changesMade = false;
@@ -57,15 +57,15 @@ public class BellmanFord : Graph
             }
             for(j = 0; j < vertex; j++){
                 // color the active vertex
-                queue.Enqueue(new QueueCommand(1, j, -1, 5));
-                queue.Enqueue(new QueueCommand(5, "Checking vertex " + j + " and its neighbors", 5));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, j, -1, Colors.YELLOW));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Checking vertex " + j + " and its neighbors", Colors.YELLOW));
 
-                queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
                 // skip the vertex if it hasn't been reached
                 if (double.IsPositiveInfinity(((BellmanFordVertex)vertices[j]).weight)){
-                    queue.Enqueue(new QueueCommand(5, "Node cannot reach main. Skipping index " + j, 5));
-                    queue.Enqueue(new QueueCommand(0, -1,-1, -1));
-                    queue.Enqueue(new QueueCommand(1,vertices[j].value,-1, 0));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Node cannot reach main. Skipping index " + j, Colors.YELLOW));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,vertices[j].value,-1, Colors.WHITE));
                     continue;
                 }
                 ((BellmanFordVertex)vertices[j]).visited = true;
@@ -76,60 +76,60 @@ public class BellmanFord : Graph
                     if (n.visited){
                         continue;
                     }
-                    queue.Enqueue(new QueueCommand(0,-1,-1));
-                    queue.Enqueue(new QueueCommand(2, m.value, n.value, 2));
-                    queue.Enqueue(new QueueCommand(5, "Compare " + m.value + " to " + n.value, 2));
-                    queue.Enqueue(new QueueCommand(0,-1,-1));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT ));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_TWO, m.value, n.value, Colors.RED));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Compare " + m.value + " to " + n.value, Colors.RED));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT ));
 
                     if (m.weight + m.neighborEdges[k].weight < n.weight){
                         if(n.parent != null){
-                            queue.Enqueue(new QueueCommand(3, n.parentEdge.id, 2));
+                            queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, n.parentEdge.id, Colors.WHITE));
                         }
                         changesMade = true;
                         n.parent = m;
                         n.parentEdge = m.neighborEdges[k];
-                        queue.Enqueue(new QueueCommand(5, "Distance through " + m.value + " is less than the current distance.", 1));
-                        queue.Enqueue(new QueueCommand(0,-1,-1));
-                        queue.Enqueue(new QueueCommand(3, n.parentEdge.id, 1));
-                        queue.Enqueue(new QueueCommand(5, ""+n.value+"'s parent is now "+m.value, 1));
-                        queue.Enqueue(new QueueCommand(4, n.value, "Parent:" + m.value + "\n" + "Distance: " + (n.weight == double.PositiveInfinity ? "∞" : n.weight.ToString())));
-                        queue.Enqueue(new QueueCommand(0, -1, -1, -1));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Distance through " + m.value + " is less than the current distance.", Colors.BLUE));
+                        queue.Enqueue(new QueueCommand(Commands.WAIT ));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, n.parentEdge.id, Colors.BLACK));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, ""+n.value+"'s parent is now "+m.value, Colors.BLUE));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, n.value, "Parent:" + m.value + "\n" + "Distance: " + (n.weight == double.PositiveInfinity ? "∞" : n.weight.ToString())));
+                        queue.Enqueue(new QueueCommand(Commands.WAIT));
     
                         n.weight = m.weight + m.neighborEdges[k].weight;
-                        queue.Enqueue(new QueueCommand(5, "" + n.value + "'s distance is now " + n.weight, 1));
-                        queue.Enqueue(new QueueCommand(4, n.value, "Parent:" + n.parent.value + "\n" + "Distance:" + n.weight));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + n.value + "'s distance is now " + n.weight, Colors.BLUE));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, n.value, "Parent:" + n.parent.value + "\n" + "Distance:" + n.weight));
                     }
-                    queue.Enqueue(new QueueCommand(0,-1,-1));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT ));
                     if(m.value == main){
-                        queue.Enqueue(new QueueCommand(1,main,-1, 5));
-                        queue.Enqueue(new QueueCommand(1,n.value,-1,0));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,main,-1, Colors.YELLOW));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,n.value,-1, Colors.WHITE));
                     }
                     else if(n.value == main){
-                        queue.Enqueue(new QueueCommand(1,main,-1, 4));
-                        queue.Enqueue(new QueueCommand(1,m.value,-1,0));                        
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,main,-1, Colors.GREEN));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,m.value,-1, Colors.WHITE));                        
                     }
                     else{
-                        queue.Enqueue(new QueueCommand(1,n.value,-1, 0));
-                        queue.Enqueue(new QueueCommand(1,m.value,-1, 5));  
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,n.value,-1, Colors.WHITE));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,m.value,-1, Colors.YELLOW));  
                     }
                 }
                 if (m.value == main){
-                    queue.Enqueue(new QueueCommand(1,main,-1, 4));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,main,-1, Colors.GREEN));
                 }
                 else{
-                    queue.Enqueue(new QueueCommand(1,m.value,-1, 0));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,m.value,-1, Colors.WHITE));
                 }
-                queue.Enqueue(new QueueCommand(0, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
 
             }
             if(!changesMade){
-                queue.Enqueue(new QueueCommand(5, "No changes happened this loop.", 4));
-                queue.Enqueue(new QueueCommand(0,-1,-1));                
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "No changes happened this loop.", Colors.GREEN));
+                queue.Enqueue(new QueueCommand(Commands.WAIT ));                
                 break;
             }
             else{
-                queue.Enqueue(new QueueCommand(5, "Changes happened this loop. Repeating", 0));
-                queue.Enqueue(new QueueCommand(0,-1,-1));                 
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Changes happened this loop. Repeating", Colors.WHITE));
+                queue.Enqueue(new QueueCommand(Commands.WAIT ));                 
             }
         }
         timer.Stop();
@@ -139,7 +139,7 @@ public class BellmanFord : Graph
     {
         throw new NotImplementedException();
     }
-    protected override void extendVertexColors(int vertex, short colorId)
+    protected override void extendVertexColors(int vertex, Colors colorId)
     {
          vertices[vertex].o.GetComponent<Renderer>().material.color = Color.green;
     }

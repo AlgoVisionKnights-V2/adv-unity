@@ -29,7 +29,12 @@ public abstract class Algorithm : MonoBehaviour
         SHOW,
         TOGGLE_ARROW,
         MAKE_HEAP_NODE,
-        DELETE_HEAP_NODE
+        DELETE_HEAP_NODE,
+        COLOR_EDGE,
+        UPDATE_QUEUE_MESSAGE,
+        UPDATE_VERTEX,
+        EDGE_CANCEL,
+        EDGE_UPDATE
     }
     public enum Array {
         MAIN,
@@ -43,7 +48,8 @@ public abstract class Algorithm : MonoBehaviour
         GREEN,
         YELLOW,
         GREEN_OTHER,
-        BLUE_OTHER
+        BLUE_OTHER,
+        DEFAULT
     }
     
 }

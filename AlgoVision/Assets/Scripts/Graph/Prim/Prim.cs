@@ -78,7 +78,7 @@ public class Prim : GraphPrim
         }
         
         Debug.Log(queueMessage);
-        queue.Enqueue(new QueueCommand(6, queueMessage, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_QUEUE_MESSAGE, queueMessage, Colors.BLUE));
     }
     public void Setup(int main)
     {
@@ -105,24 +105,24 @@ public class Prim : GraphPrim
     }
     void PrimAlgorithm(){
         head = new List(vertices[main].neighborEdges[0]); // junk data to initialize
-        queue.Enqueue(new QueueCommand(0, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT));
         Debug.Log("Starting at node " + main + " Enqueuing its edges");
-        queue.Enqueue(new QueueCommand(1,main,-1, 2));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,main,-1, Colors.RED));
 
-        queue.Enqueue(new QueueCommand(5, "Starting at node " + main + " Enqueuing its edges", 0));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Starting at node " + main + " Enqueuing its edges", Colors.WHITE));
         // We can guarantee no vertices have been visited yet so don't check for that
         for (int i = 0; i < vertices[main].neighborEdges.Count; i++) 
         {
             head.insert(vertices[main].neighborEdges[i]);
             Debug.Log("Enqueuing edge " + vertices[main].neighborEdges[i].name);
-            queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + vertices[main].neighborEdges[i].name, 0));
-            queue.Enqueue(new QueueCommand(3, vertices[main].neighborEdges[i].id, 5));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Enqueuing edge " + vertices[main].neighborEdges[i].name, Colors.WHITE));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, vertices[main].neighborEdges[i].id, Colors.YELLOW));
 
             queueStringBuilder();
 
-            queue.Enqueue(new QueueCommand(0, -1, -1));
-            queue.Enqueue(new QueueCommand(3, vertices[main].neighborEdges[i].id, 2));
-            queue.Enqueue(new QueueCommand(0, -1, -1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, vertices[main].neighborEdges[i].id, Colors.WHITE));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
 
 
         }
@@ -130,38 +130,38 @@ public class Prim : GraphPrim
         ((PrimVertex)vertices[main]).visited = true;
         head = head.next;
         queueStringBuilder();
-        queue.Enqueue(new QueueCommand(1,main,-1, 3));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,main,-1, Colors.BLACK));
         // Make writing easier by setting references to precast values
         PrimVertex a,b,c,d;
         while (head != null){
-            queue.Enqueue(new QueueCommand(5, "Dequeuing " + head.edge.name, 0));
-            queue.Enqueue(new QueueCommand(8, head.edge.name.ToString(), 0));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Dequeuing " + head.edge.name, Colors.WHITE));
+            queue.Enqueue(new QueueCommand(Commands.EDGE_UPDATE, head.edge.name.ToString(), Colors.WHITE));
             queueStringBuilder();
 
-            queue.Enqueue(new QueueCommand(0, -1, -1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
 
 
-            queue.Enqueue(new QueueCommand(3, head.edge.id, 3));
-            queue.Enqueue(new QueueCommand(0,-1,-1));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, head.edge.id, Colors.RED));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
 
             a = (PrimVertex)vertices[head.edge.i];
             b = (PrimVertex)vertices[head.edge.j];
 
             if (a.visited && b.visited){
-                queue.Enqueue(new QueueCommand(5, "Both nodes have been visited. Discarding edge " + head.edge.name, 0));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
-                queue.Enqueue(new QueueCommand(7, head.edge.id, 0));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Both nodes have been visited. Discarding edge " + head.edge.name, Colors.WHITE));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
+                queue.Enqueue(new QueueCommand(Commands.EDGE_CANCEL, head.edge.id, Colors.WHITE));
                 queueStringBuilder();
                 head = head.next;
-                queue.Enqueue(new QueueCommand(0,-1,-1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
 
                 continue;
             }
 
             if (!a.visited){
-                queue.Enqueue(new QueueCommand(5, " Node " + a.value + " is not part of the tree. Enqueuing its edges", 0));
-                queue.Enqueue(new QueueCommand(1,a.value,-1,2));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, " Node " + a.value + " is not part of the tree. Enqueuing its edges", Colors.WHITE));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,a.value,-1, Colors.RED));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
                 a.visited = true;
                 foreach(Edge e in a.neighborEdges){
                     c = (PrimVertex)vertices[e.i];
@@ -170,25 +170,25 @@ public class Prim : GraphPrim
                     {
                         head.insert(e);
                         Debug.Log("Enqueuing edge " + e.name);
-                        queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + e.name, 0));
-                        queue.Enqueue(new QueueCommand(3, e.id, 5));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Enqueuing edge " + e.name, Colors.WHITE));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.YELLOW));
 
                         queueStringBuilder();
-                        queue.Enqueue(new QueueCommand(0, -1, -1));
-                        queue.Enqueue(new QueueCommand(3, e.id, 2));
-                        queue.Enqueue(new QueueCommand(0, -1, -1));
+                        queue.Enqueue(new QueueCommand(Commands.WAIT));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.WHITE));
+                        queue.Enqueue(new QueueCommand(Commands.WAIT));
 
 
                     }
                     else
                     {
                         if(!(e.id == head.edge.id)){
-                            queue.Enqueue(new QueueCommand(5, "Edge " + e.name + " already enqueued", 0));
-                            queue.Enqueue(new QueueCommand(3, e.id, 5));
+                            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Edge " + e.name + " already enqueued", 0));
+                            queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.YELLOW));
                             queueStringBuilder();
-                            queue.Enqueue(new QueueCommand(0, -1, -1));
-                            queue.Enqueue(new QueueCommand(3, e.id, 2));
-                            queue.Enqueue(new QueueCommand(0, -1, -1));                            
+                            queue.Enqueue(new QueueCommand(Commands.WAIT));
+                            queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.WHITE));
+                            queue.Enqueue(new QueueCommand(Commands.WAIT));                            
                         }
                     }
 
@@ -196,9 +196,9 @@ public class Prim : GraphPrim
                 }
             }
             if (!b.visited){
-                queue.Enqueue(new QueueCommand(5, " Node " + b.value + " is not part of the tree. Enqueuing its edges", 0));
-                queue.Enqueue(new QueueCommand(1,b.value,-1,2));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, " Node " + b.value + " is not part of the tree. Enqueuing its edges", Colors.WHITE));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,b.value,-1, Colors.RED));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
                 b.visited = true;
                 foreach(Edge e in b.neighborEdges){
                     c = (PrimVertex)vertices[e.i];
@@ -206,45 +206,45 @@ public class Prim : GraphPrim
                     if (!c.visited || !d.visited)
                     {
                         head.insert(e);
-                        queue.Enqueue(new QueueCommand(5, "Enqueuing edge " + e.name, 0));
-                        queue.Enqueue(new QueueCommand(3, e.id, 5));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Enqueuing edge " + e.name, Colors.WHITE));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.YELLOW));
 
                         queueStringBuilder();
-                        queue.Enqueue(new QueueCommand(0, -1, -1));
-                        queue.Enqueue(new QueueCommand(3, e.id, 2));
-                        queue.Enqueue(new QueueCommand(0, -1, -1));
+                        queue.Enqueue(new QueueCommand(Commands.WAIT));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.WHITE));
+                        queue.Enqueue(new QueueCommand(Commands.WAIT));
                     }
                     else if(!(e.id == head.edge.id)){
-                        queue.Enqueue(new QueueCommand(5, "Edge " + e.name + " already enqueued", 0));
-                        queue.Enqueue(new QueueCommand(3, e.id, 5));
+                        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Edge " + e.name + " already enqueued", Colors.WHITE));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.YELLOW));
                         queueStringBuilder();
-                        queue.Enqueue(new QueueCommand(0, -1, -1));
-                        queue.Enqueue(new QueueCommand(3, e.id, 2));
-                        queue.Enqueue(new QueueCommand(0, -1, -1));                            
+                        queue.Enqueue(new QueueCommand(Commands.WAIT));
+                        queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, e.id, Colors.WHITE));
+                        queue.Enqueue(new QueueCommand(Commands.WAIT));                            
                         }
 
 
                 }
             }
 
-            queue.Enqueue(new QueueCommand(1,a.value,-1,3));
-            queue.Enqueue(new QueueCommand(1,b.value,-1,3));
-            queue.Enqueue(new QueueCommand(3, head.edge.id, 1));
-            queue.Enqueue(new QueueCommand(0,-1,-1));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,a.value,-1,Colors.BLACK));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,b.value,-1, Colors.BLACK));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, head.edge.id, Colors.BLACK));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
 
             queueStringBuilder();
             head = head.next;
 
         }
-        queue.Enqueue(new QueueCommand(5, "Minimum Spanning Tree made", 4));
-        queue.Enqueue(new QueueCommand(8, "", 0));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Minimum Spanning Tree made", Colors.GREEN));
+        queue.Enqueue(new QueueCommand(Commands.EDGE_UPDATE, "", Colors.WHITE));
 
     }
     protected override void extendCommands(QueueCommand command)
     {
         throw new System.NotImplementedException();
     }
-    protected override void extendVertexColors(int vertex, short colorId)
+    protected override void extendVertexColors(int vertex, Colors colorId)
     {
         vertices[vertex].o.GetComponent<Renderer>().material.color = Color.green;
     }

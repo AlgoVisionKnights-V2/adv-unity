@@ -84,13 +84,14 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
     }
 
     protected class QueueCommand{
-        public short commandId, additionalInfo;
+        public Commands commandId;
+        public Colors additionalInfo;
         public int v1,v2, edge;
         public string message;
         public long time;
 
         // standard message that updates nodes
-        public QueueCommand(short commandId, int v1, int v2, short additionalInfo){
+        public QueueCommand(Commands commandId, int v1, int v2, Colors additionalInfo){
             this.commandId = commandId;
             this.v1 = v1;
             this.v2 = v2;
@@ -98,14 +99,14 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             time = timer.ElapsedMilliseconds;
         }
         // standard message that updates edges
-        public QueueCommand(short commandId, int edge, short additionalInfo){
+        public QueueCommand(Commands commandId, int edge, Colors additionalInfo){
             this.commandId = commandId;
             this.edge = edge;
             this.additionalInfo = additionalInfo;            
             time = timer.ElapsedMilliseconds;
         }
         // command used to update info variable in each node
-        public QueueCommand(short commandId, int v1, string message)
+        public QueueCommand(Commands commandId, int v1, string message)
         {
             this.commandId = commandId;
             this.v1 = v1;
@@ -113,11 +114,16 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             time = timer.ElapsedMilliseconds;
         }
         // command that updates showText
-        public QueueCommand(short commandId, string message, short additionalInfo)
+        public QueueCommand(Commands commandId, string message, Colors additionalInfo)
         {
             this.commandId = commandId;
             this.message = message;
             this.additionalInfo = additionalInfo;
+            time = timer.ElapsedMilliseconds;
+        }
+        public QueueCommand(Commands commandId)
+        {
+            this.commandId = commandId;
             time = timer.ElapsedMilliseconds;
         }
     }
@@ -125,23 +131,23 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
         foreach(QueueCommand q in queue){
             Debug.Log(accesses);
             switch(q.commandId){
-                case 0: 
+                case Commands.WAIT: 
                     yield return new WaitForSeconds(time);
                     break;
-                case 1: // change the color of a single vertex. q.additionalInfo provides the colorId
+                case Commands.COLOR_ONE: // change the color of a single vertex. q.additionalInfo provides the colorId
                     changeVertexColor(q.v1, q.additionalInfo);
                     break;
-                case 2: // change the color of two vertices
+                case Commands.COLOR_TWO: // change the color of two vertices
                     changeVertexColor(q.v1, q.additionalInfo);
                     changeVertexColor(q.v2, q.additionalInfo);
                     break;
-                case 3: // change the edge connecting two vertices. q.additionalInfo provides the colorId
+                case Commands.COLOR_EDGE: // change the edge connecting two vertices. q.additionalInfo provides the colorId
                     changeEdgeColor(q.edge, q.additionalInfo);
                     break;
-                case 4: // Update a text info field
+                case Commands.UPDATE_OBJECT_TEXT: // Update a text info field
                     vertices[q.v1].info.text = q.message;
                     break;
-                case 5:// update the displayed message
+                case Commands.UPDATE_MESSAGE:// update the displayed message
                     showText.text = q.message;
                     showText.color = colorChangeText(q.additionalInfo);
                     break;
@@ -151,49 +157,49 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
             }
         }
     }
-    private Color colorChangeText(int colorCode)
+    private Color colorChangeText(Colors colorCode)
     {
         switch (colorCode)
         {
-            case 0:
+            case Colors.WHITE:
                 return Color.white;
-            case 1:
+            case Colors.BLUE:
                 var blue = new Color(0.6f, 0.686f, 0.761f);
                 return blue;
-            case 2:
+            case Colors.RED:
                 var red = new Color(1f, .2f, .361f, 1);
                 return red;
-            case 3:
+            case Colors.BLACK:
                 return Color.black;
-            case 4:
+            case Colors.GREEN:
                 var green = new Color(0.533f, 0.671f, 0.459f);
                 return green;
-            case 5:
+            case Colors.YELLOW:
                 return Color.yellow;
             default:
                 blue = new Color(0.6f, 0.686f, 0.761f);
                 return blue;
         }
     }
-    protected void changeVertexColor(int vertex, short colorId){
+    protected void changeVertexColor(int vertex, Colors colorId){
         switch(colorId){
-            case 0:
+            case Colors.WHITE:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.white;
                 break;                
-            case 1:
+            case Colors.BLUE:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.blue;
                 break;
-            case 2: // since this is used when accesing and comparing, we'll increment accesses here
+            case Colors.RED: // since this is used when accesing and comparing, we'll increment accesses here
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.red;
                 accesses++;
                 break;
-            case 3:
+            case Colors.BLACK:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.black;
                 break;
-            case 4:
+            case Colors.GREEN:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.green;
                 break;
-            case 5:
+            case Colors.YELLOW:
                 vertices[vertex].o.GetComponent<Renderer>().material.color = Color.yellow;
                 break;
             default:
@@ -201,21 +207,21 @@ public abstract class Graph : Algorithm // MonoBehaviour is the root class for U
                 break;
         }
     }
-    protected void changeEdgeColor(int edge, short colorId){
+    protected void changeEdgeColor(int edge, Colors colorId){
         switch(colorId){
-            case 1:
+            case Colors.BLACK:
                 edges[edge].edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color = Color.black;
                 break;
-            case 2:
+            case Colors.WHITE:
                 edges[edge].edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color = Color.white;
                 break;
-            case 3:
+            case Colors.RED:
                 edges[edge].edge.GetComponent<LineRenderer>().GetComponent<Renderer>().material.color = Color.red;
                 break;            
         }
     }   
     protected abstract void extendCommands(QueueCommand command);
-    protected abstract void extendVertexColors(int vertex, short colorId);
+    protected abstract void extendVertexColors(int vertex, Colors colorId);
 
 }
     /*

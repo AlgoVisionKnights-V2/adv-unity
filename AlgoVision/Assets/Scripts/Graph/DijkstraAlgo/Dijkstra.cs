@@ -61,13 +61,13 @@ int main; // The primary vertex which all other vertices must reach
     }
     void DijkstraAlgorithm(){
         timer.Restart();
-        queue.Enqueue(new QueueCommand(0, -1, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT));
         // The algorithm will run until List is empty. At that point, every vertex should have been visited
         head = new List((DijkstraVertex)vertices[main]);
          ((DijkstraVertex)vertices[main]).weight = 0;
-         queue.Enqueue(new QueueCommand(1, main, -1, 4));
-        queue.Enqueue(new QueueCommand(5, "Node " + main + " is main node", 4));
-         queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+         queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, main, -1, Colors.GREEN));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Node " + main + " is main node", Colors.GREEN));
+         queue.Enqueue(new QueueCommand(Commands.WAIT));
         
 
         while (head != null){
@@ -77,9 +77,9 @@ int main; // The primary vertex which all other vertices must reach
                  head = head.next;
                  continue;
              }
-            queue.Enqueue(new QueueCommand(5, "Node " + head.vertex.value + " is the current head node", 5));
-            queue.Enqueue(new QueueCommand(1, head.vertex.value, -1, 5));
-            queue.Enqueue(new QueueCommand(0, -1, -1, -1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Node " + head.vertex.value + " is the current head node", Colors.YELLOW));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, head.vertex.value, -1, Colors.YELLOW));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
             // Check the head's neighbor vertices. Check if the current fastest route is through them.
             // If yes, update their weight and parent to head and then insert them into List
             for (int i = 0; i < head.vertex.neighbors.Count; i++){
@@ -87,63 +87,63 @@ int main; // The primary vertex which all other vertices must reach
                  if(v.visited){
                      continue;
                  }
-                 queue.Enqueue(new QueueCommand(2, head.vertex.value, v.value, 2));
-                queue.Enqueue(new QueueCommand(5, "Compare " + head.vertex.value + " to " + v.value, 2));
-                queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+                 queue.Enqueue(new QueueCommand(Commands.COLOR_TWO, head.vertex.value, v.value, Colors.RED));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Compare " + head.vertex.value + " to " + v.value, Colors.RED));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
                  if(head.vertex.weight + head.vertex.neighborEdges[i].weight < v.weight){
                      if(v.parent != null){
-                         queue.Enqueue(new QueueCommand(3, v.parentEdge.id, 2));
+                         queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, v.parentEdge.id, Colors.WHITE));
                      }
                      v.parent = head.vertex;
                      v.parentEdge = head.vertex.neighborEdges[i];
                  
 
-                    queue.Enqueue(new QueueCommand(3, v.parentEdge.id, 1));
-                    queue.Enqueue(new QueueCommand(5, "Distance through " + head.vertex.value + " is less than the current distance.", 1));
-                    queue.Enqueue(new QueueCommand(0, -1, -1, -1));
-                    queue.Enqueue(new QueueCommand(5, ""+v.value+"'s parent is now "+head.vertex.value, 1));
-                    queue.Enqueue(new QueueCommand(4, v.value, "Parent:" + head.vertex.value + "\n" + "Distance: " + (v.weight == double.PositiveInfinity ? "∞" : v.weight.ToString())));
-                    queue.Enqueue(new QueueCommand(0, -1, -1, -1));
+                    queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, v.parentEdge.id, Colors.BLACK));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Distance through " + head.vertex.value + " is less than the current distance.", Colors.BLUE));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, ""+v.value+"'s parent is now "+head.vertex.value, Colors.BLUE));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, v.value, "Parent:" + head.vertex.value + "\n" + "Distance: " + (v.weight == double.PositiveInfinity ? "∞" : v.weight.ToString())));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT));
 
                     v.weight = head.vertex.weight + head.vertex.neighborEdges[i].weight;
                     head.insert(v);
-                    queue.Enqueue(new QueueCommand(5, "" + v.value + "'s distance is now " + v.weight, 1));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + v.value + "'s distance is now " + v.weight, Colors.BLUE));
 
-                    queue.Enqueue(new QueueCommand(4, v.value, "Parent:" + head.vertex.value + "\n" + "Distance:" + v.weight));
-                    queue.Enqueue(new QueueCommand(0, -1, -1, -1));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, v.value, "Parent:" + head.vertex.value + "\n" + "Distance:" + v.weight));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT));
 
                 }
                 else
                 {
-                    queue.Enqueue(new QueueCommand(5, "Distance through " + head.vertex.value + " is not less than the current distance. No change", 0));
-                    queue.Enqueue(new QueueCommand(0, -1, -1, -1));
+                    queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Distance through " + head.vertex.value + " is not less than the current distance. No change", Colors.WHITE));
+                    queue.Enqueue(new QueueCommand(Commands.WAIT));
                 }
   
-                queue.Enqueue(new QueueCommand(1, head.vertex.value, -1, 5));
-                queue.Enqueue(new QueueCommand(1,v.value, -1, 1));
-                queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, head.vertex.value, -1, Colors.YELLOW));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE,v.value, -1, Colors.BLUE));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
                  
 
              }  
              head.vertex.visited = true;
-            queue.Enqueue(new QueueCommand(5, "Finished with Node " + head.vertex.value, 0));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Finished with Node " + head.vertex.value, Colors.WHITE));
 
             if (head.vertex.value != main){
-                 queue.Enqueue(new QueueCommand(1, head.vertex.value, 0, 3));
+                 queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, head.vertex.value, 0, Colors.BLACK));
                 //vertices[head.vertex.value].info.text = "Parent:" + head.vertex.parent.value + "\n" + "Distance:" + head.vertex.weight;
-                queue.Enqueue(new QueueCommand(0, -1,-1, -1)); 
+                queue.Enqueue(new QueueCommand(Commands.WAIT)); 
             }
             else
             {
-                queue.Enqueue(new QueueCommand(1, head.vertex.value, 0, 4));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, head.vertex.value, 0, Colors.GREEN));
                 //vertices[head.vertex.value].info.text = "Parent:" + head.vertex.parent.value + "\n" + "Distance:" + head.vertex.weight;
-                queue.Enqueue(new QueueCommand(0, -1, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
             }
             
              head = head.next;
          }
 
-        queue.Enqueue(new QueueCommand(5, "Found shortest paths from Node " + main +  " to all nodes", 4));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Found shortest paths from Node " + main +  " to all nodes", Colors.GREEN));
         timer.Stop();
         stopTime = timer.ElapsedMilliseconds;
     }
@@ -151,7 +151,7 @@ int main; // The primary vertex which all other vertices must reach
     {
         throw new NotImplementedException();
     }
-    protected override void extendVertexColors(int vertex, short colorId)
+    protected override void extendVertexColors(int vertex, Colors colorId)
     {
          vertices[vertex].o.GetComponent<Renderer>().material.color = Color.green;
     }
@@ -212,7 +212,7 @@ int main; // The primary vertex which all other vertices must reach
          head = new List((DijkstraVertex)vertices[main]);
          ((DijkstraVertex)vertices[main]).weight = 0;
          queue.Enqueue(new QueueCommand(1, main, -1, 4));
-         queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+         queue.Enqueue(new QueueCommand(0));
          while(head != null){
              // The implementation will cause some vertices to show up multiple times.
              // So we'll check if they've been visited first
@@ -228,7 +228,7 @@ int main; // The primary vertex which all other vertices must reach
                      continue;
                  }
                  queue.Enqueue(new QueueCommand(2, head.vertex.value, v.value, 2));
-                 queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+                 queue.Enqueue(new QueueCommand(0));
                  if(head.vertex.weight + matrix[head.vertex.value, v.value] < v.weight){
                      if(v.parent != null){
                          queue.Enqueue(new QueueCommand(3, v.value, v.parent.value, 2));
@@ -241,17 +241,17 @@ int main; // The primary vertex which all other vertices must reach
                  if (head.vertex.value == main){
                      queue.Enqueue(new QueueCommand(1, main, -1, 4));
                      queue.Enqueue(new QueueCommand(1,v.value, -1, 1));
-                     queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+                     queue.Enqueue(new QueueCommand(0));
                  }
                  else{
                      queue.Enqueue(new QueueCommand(2, head.vertex.value, v.value, 1));
-                     queue.Enqueue(new QueueCommand(0, -1,-1, -1));                    
+                     queue.Enqueue(new QueueCommand(0));                    
                  }
              }
              head.vertex.visited = true;
              if (head.vertex.value != main){
                  queue.Enqueue(new QueueCommand(1, head.vertex.value, 0, 3));
-                 queue.Enqueue(new QueueCommand(0, -1,-1, -1));                
+                 queue.Enqueue(new QueueCommand(0));                
              }
              head = head.next;
          }
@@ -361,7 +361,7 @@ int main; // The primary vertex which all other vertices must reach
         head = new List((DijkstraVertex)vertices[main]);
         ((DijkstraVertex)vertices[main]).weight = 0;
         queue.Enqueue(new QueueCommand(1, main, -1, 4));
-        queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+        queue.Enqueue(new QueueCommand(0));
         while(head != null){
             // The implementation will cause some vertices to show up multiple times.
             // So we'll check if they've been visited first
@@ -377,7 +377,7 @@ int main; // The primary vertex which all other vertices must reach
                     continue;
                 }
                 queue.Enqueue(new QueueCommand(2, head.vertex.value, v.value, 2));
-                queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+                queue.Enqueue(new QueueCommand(0));
                 if(head.vertex.weight + matrix[head.vertex.value, v.value] < v.weight){
                     if(v.parent != null){
                         queue.Enqueue(new QueueCommand(3, v.value, v.parent.value, 2));
@@ -390,17 +390,17 @@ int main; // The primary vertex which all other vertices must reach
                 if (head.vertex.value == main){
                     queue.Enqueue(new QueueCommand(1, main, -1, 4));
                     queue.Enqueue(new QueueCommand(1,v.value, -1, 1));
-                    queue.Enqueue(new QueueCommand(0, -1,-1, -1));
+                    queue.Enqueue(new QueueCommand(0));
                 }
                 else{
                     queue.Enqueue(new QueueCommand(2, head.vertex.value, v.value, 1));
-                    queue.Enqueue(new QueueCommand(0, -1,-1, -1));                    
+                    queue.Enqueue(new QueueCommand(0));                    
                 }
             }
             head.vertex.visited = true;
             if (head.vertex.value != main){
                 queue.Enqueue(new QueueCommand(1, head.vertex.value, 0, 3));
-                queue.Enqueue(new QueueCommand(0, -1,-1, -1));                
+                queue.Enqueue(new QueueCommand(0));                
             }
             head = head.next;
         }
