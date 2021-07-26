@@ -55,11 +55,11 @@ public class BST : Algorithm
 
     protected class BSTCommand // class to hold commands for the visualizer
     {
-        public short commandId;
+        public Commands commandId;
         public int arg1, arg2;
         public string message;
 
-        public BSTCommand(short commandId, int a1, int a2, string m)
+        public BSTCommand(Commands commandId, int a1, int a2, string m)
         {
             this.commandId = commandId;
             this.arg1 = a1;
@@ -99,8 +99,8 @@ public class BST : Algorithm
         }
 
         Debug.Log(order); // prints the keys in order of insertion
-        q.Enqueue(new BSTCommand(-1,0,0,"Starting BST Insertion."));
-        q.Enqueue(new BSTCommand(-1, 0, 0, "Starting BST Insertion."));
+        q.Enqueue(new BSTCommand(Commands.WAIT,0,0,"Starting BST Insertion."));
+        q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Starting BST Insertion."));
 
         for (int i = 0; i < keys.Length; i++) // insertion of keys
         {
@@ -109,10 +109,10 @@ public class BST : Algorithm
                 keys[i] = r.Next(1, 1000);
             }
 
-            q.Enqueue(new BSTCommand(10, keys[i], 0, ""));
-            q.Enqueue(new BSTCommand(-1,0,0,("Inserting " + keys[i])));
+            q.Enqueue(new BSTCommand(Commands.UPDATE_BOARD, keys[i], 0, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT,0,0,("Inserting " + keys[i])));
             insert(keys[i], 0);
-            q.Enqueue(new BSTCommand(-1,0,0,( keys[i] + " inserted!")));
+            q.Enqueue(new BSTCommand(Commands.WAIT,0,0,( keys[i] + " inserted!")));
         }
 
         printIntTree();
@@ -131,26 +131,26 @@ public class BST : Algorithm
         {
             if(i < 0)
             {
-                q.Enqueue(new BSTCommand(10, -i, 1, ""));
-                q.Enqueue(new BSTCommand(-1, 0, 0, "Deleting " + (i * -1)));
+                q.Enqueue(new BSTCommand(Commands.UPDATE_BOARD, -i, 1, ""));
+                q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Deleting " + (i * -1)));
                 delete(0, (i * -1));
             }
             else
             {
                 if(theoreticalDepth(0,0,i) > depthLimit)
                 {
-                    q.Enqueue(new BSTCommand(-1, 0, 0, "Inserting " + i + " would result in a tree with a depth over the limit of " + depthLimit+1 + " , and will not be inserted."));
+                    q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Inserting " + i + " would result in a tree with a depth over the limit of " + depthLimit+1 + " , and will not be inserted."));
                 }
                 else
                 {
-                    q.Enqueue(new BSTCommand(10, i, 0, ""));
-                    q.Enqueue(new BSTCommand(-1, 0, 0, "Inserting " + i));
+                    q.Enqueue(new BSTCommand(Commands.UPDATE_BOARD, i, 0, ""));
+                    q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Inserting " + i));
                     insert(i, 0);
                 }
                 
             }
         }
-        q.Enqueue(new BSTCommand(-1, 0, 0, "Completed BST insertions"));
+        q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Completed BST insertions"));
 
         printIntTree();
 
@@ -219,64 +219,62 @@ public class BST : Algorithm
         {
             inttree[I] = key; 
 
-            q.Enqueue(new BSTCommand(0, I, key, ("Null node found, creating a new node with the value " + key))); // make new node
+            q.Enqueue(new BSTCommand(Commands.CREATE_NODE, I, key, ("Null node found, creating a new node with the value " + key))); // make new node
             
             if (I != 0) // if the new node isn't at index 0 (the root of the tree) draw a line to the parent node 
             {
-                q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-                q.Enqueue(new BSTCommand(1, I, parentI(I), "Linking node to it's new parent."));
+                q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ""));
+                q.Enqueue(new BSTCommand(Commands.LINK_NODE, I, parentI(I), "Linking node to it's new parent."));
             }
-            q.Enqueue(new BSTCommand(-1, 0, 0, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ""));
             return;
         }
 
-        q.Enqueue(new BSTCommand(2, I, 1, "Current node is not null, beginning comparison")); // null node not found, highlight current node to show insertion path
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
+        q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 1, "Current node is not null, beginning comparison")); // null node not found, highlight current node to show insertion path
+        q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ""));
         if (inttree[I] == key)
         {
-            q.Enqueue(new BSTCommand(-1, 0, 0, key + " is already in the array. exiting insertion."));
-            q.Enqueue(new BSTCommand(2, I, 0, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, key + " is already in the array. exiting insertion."));
+            q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 0, ""));
             return;
         }
 
         if (inttree[I] > key) // go left
         {
-            q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " > Inserted Node: " + key)));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ("Current Node: " + inttree[I] + " > Inserted Node: " + key)));
             
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down left subtree."));
-            q.Enqueue(new BSTCommand(2, I, 10, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Continue down left subtree."));
+            q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 10, ""));
             if(leftCI(I) < inttree.Length && inttree[leftCI(I)] != -1 )
             {
-                q.Enqueue(new BSTCommand(5, leftCI(I), 1, ""));
+                q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, leftCI(I), 1, ""));
             }
             insert(key, leftCI(I));
         }
         else // go right
         {
-            q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " < Inserted Node: " + key)));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ("Current Node: " + inttree[I] + " < Inserted Node: " + key)));
             
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down right subtree."));
-            q.Enqueue(new BSTCommand(2, I, 10, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Continue down right subtree."));
+            q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 10, ""));
             if (rightCI(I) < inttree.Length && inttree[rightCI(I)] != -1)
             {
-                q.Enqueue(new BSTCommand(5, rightCI(I), 1, ""));
+                q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, rightCI(I), 1, ""));
             }
 
             insert(key, rightCI(I));
         }
         if (inttree[leftCI(I)] != -1)
         {
-            q.Enqueue(new BSTCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, leftCI(I), 0, ""));
         }
         if (inttree[rightCI(I)] != -1)
         {
-            q.Enqueue(new BSTCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, rightCI(I), 0, ""));
         }
-        /*q.Enqueue(new BSTCommand(2, I, 1, "Return to parent."));
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));*/
         
-        q.Enqueue(new BSTCommand(8, I, 0, ""));
-        q.Enqueue(new BSTCommand(2, I, 0, ""));
+        
+        q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 0, ""));
 
         return;
     }
@@ -354,7 +352,7 @@ public class BST : Algorithm
             int[] dudes = shifts.Dequeue();
 
             swap(dudes[0], dudes[1]);
-            q.Enqueue(new BSTCommand(3, dudes[0], dudes[1], ""));
+            q.Enqueue(new BSTCommand(Commands.MOVE_NODE, dudes[0], dudes[1], ""));
 
             if (leftCI(dudes[0]) < inttree.Length && inttree[leftCI(dudes[0])] != -1)
             {
@@ -389,7 +387,7 @@ public class BST : Algorithm
 
         
 
-        q.Enqueue(new BSTCommand(3, i, d, ""));
+        q.Enqueue(new BSTCommand(Commands.MOVE_NODE, i, d, ""));
 
     }
 
@@ -412,7 +410,7 @@ public class BST : Algorithm
 
 
 
-        q.Enqueue(new BSTCommand(3, i, d, ""));
+        q.Enqueue(new BSTCommand(Commands.MOVE_NODE, i, d, ""));
 
     }
 
@@ -439,14 +437,14 @@ public class BST : Algorithm
     {
         if(inttree[I] == -1) // key was not found
         {
-            q.Enqueue(new BSTCommand(-1,0,0,key + " was not found, exiting the tree."));
+            q.Enqueue(new BSTCommand(Commands.WAIT,0,0,key + " was not found, exiting the tree."));
             return;
         }
         if (inttree[I] == key)
         {
-            q.Enqueue(new BSTCommand(2, I, 10, ""));
-            q.Enqueue(new BSTCommand(-1, 0, 0, key + " has been found."));
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Finding leftmost node of right sub-tree"));
+            q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 10, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, key + " has been found."));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Finding leftmost node of right sub-tree"));
             int tempI = findLeftmostNode(rightCI(I));
 
             if(tempI == -1) // right subtree not found
@@ -454,23 +452,23 @@ public class BST : Algorithm
                 
                 if(leftCI(I) >= inttree.Length || inttree[leftCI(I)] == -1) // if not left subtree found
                 {
-                    q.Enqueue(new BSTCommand(-1, 0, 0, inttree[I] + " is a leaf node, removing without replacement."));
-                    q.Enqueue(new BSTCommand(9, I, 0, ""));
+                    q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, inttree[I] + " is a leaf node, removing without replacement."));
+                    q.Enqueue(new BSTCommand(Commands.DELETE_NODE, I, 0, ""));
                     inttree[I] = -1;
                     return;
                 }
                 
-                q.Enqueue(new BSTCommand(-1, 0, 0, "No right subtree found, moving left subtree instead."));
-                q.Enqueue(new BSTCommand(9, I, 0, ""));
+                q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "No right subtree found, moving left subtree instead."));
+                q.Enqueue(new BSTCommand(Commands.DELETE_NODE, I, 0, ""));
                 inttree[I] = 0;
                 movetree(leftCI(I), I);
-                q.Enqueue(new BSTCommand(11, 0, 0, ""));
+                q.Enqueue(new BSTCommand(Commands.UPDATE_COORDS, 0, 0, ""));
                 return;
             }
             
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Found " + inttree[tempI] + ", moving to " + inttree[I]));
-            q.Enqueue(new BSTCommand(9, I, 0, ""));
-            q.Enqueue(new BSTCommand(3, tempI, I, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Found " + inttree[tempI] + ", moving to " + inttree[I]));
+            q.Enqueue(new BSTCommand(Commands.DELETE_NODE, I, 0, ""));
+            q.Enqueue(new BSTCommand(Commands.MOVE_NODE, tempI, I, ""));
             inttree[I] = inttree[tempI];
 
 
@@ -483,14 +481,13 @@ public class BST : Algorithm
                 movetree(rightCI(tempI), tempI);
             }
 
-            q.Enqueue(new BSTCommand(11, 0, 0, ""));
+            q.Enqueue(new BSTCommand(Commands.UPDATE_COORDS, 0, 0, ""));
             tempI = parentI(tempI);
 
             while(tempI >= I)
             {
                 
-                q.Enqueue(new BSTCommand(2, tempI, 0, ""));
-                q.Enqueue(new BSTCommand(8, tempI, 0, ""));
+                q.Enqueue(new BSTCommand(Commands.COLOR_NODE, tempI, 0, ""));
                 tempI = parentI(tempI);
             }
             return;
@@ -499,25 +496,25 @@ public class BST : Algorithm
         {
             if (key < inttree[I])
             {
-                q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " > Deleting Node: " + key)));
+                q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ("Current Node: " + inttree[I] + " > Deleting Node: " + key)));
 
-                q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down left subtree."));
-                q.Enqueue(new BSTCommand(2, I, 10, ""));
+                q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Continue down left subtree."));
+                q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 10, ""));
                 if (leftCI(I) < inttree.Length && inttree[leftCI(I)] != -1)
                 {
-                    q.Enqueue(new BSTCommand(5, leftCI(I), 1, ""));
+                    q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, leftCI(I), 1, ""));
                 }
                 delete(leftCI(I), key);
             }
             else
             {
-                q.Enqueue(new BSTCommand(-1, 0, 0, ("Current Node: " + inttree[I] + " < Deleting Node: " + key)));
+                q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ("Current Node: " + inttree[I] + " < Deleting Node: " + key)));
 
-                q.Enqueue(new BSTCommand(-1, 0, 0, "Continue down right subtree."));
-                q.Enqueue(new BSTCommand(2, I, 10, ""));
+                q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Continue down right subtree."));
+                q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 10, ""));
                 if (rightCI(I) < inttree.Length && inttree[rightCI(I)] != -1)
                 {
-                    q.Enqueue(new BSTCommand(5, rightCI(I), 1, ""));
+                    q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, rightCI(I), 1, ""));
                 }
 
                 delete(rightCI(I), key);
@@ -526,15 +523,14 @@ public class BST : Algorithm
 
         if (inttree[leftCI(I)] != -1)
         {
-            q.Enqueue(new BSTCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, leftCI(I), 0, ""));
         }
         if (inttree[rightCI(I)] != -1)
         {
-            q.Enqueue(new BSTCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, rightCI(I), 0, ""));
         }
         
-        q.Enqueue(new BSTCommand(8, I, 0, ""));
-        q.Enqueue(new BSTCommand(2, I, 0, ""));
+        q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 0, ""));
 
         return;
     }
@@ -543,23 +539,23 @@ public class BST : Algorithm
     {
         if(I >= inttree.Length || inttree[I] == -1) // subtree not found
         {
-            q.Enqueue(new BSTCommand(-1, 0, 0, "No right subtree found."));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "No right subtree found."));
             return -1;
         }
         if(leftCI(I) >= inttree.Length || inttree[leftCI(I)] == -1) // leftmost node found
         {
-            q.Enqueue(new BSTCommand(2, I, 1, ""));
-            q.Enqueue(new BSTCommand(-1, 0, 0, "Left most node found!"));
+            q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 1, ""));
+            q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, "Left most node found!"));
             return I;
         }
-        q.Enqueue(new BSTCommand(2, I, 10, "")); // color node black
-        q.Enqueue(new BSTCommand(-1, 0, 0, ""));
-        q.Enqueue(new BSTCommand(5, leftCI(I), 1, "")); // color branch red
+        q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 10, "")); // color node black
+        q.Enqueue(new BSTCommand(Commands.WAIT, 0, 0, ""));
+        q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, leftCI(I), 1, "")); // color branch red
 
         int p = findLeftmostNode(leftCI(I)); // search deeper
 
-        q.Enqueue(new BSTCommand(5, leftCI(I), 0, "")); // make node and branch white again.
-        q.Enqueue(new BSTCommand(2, I, 0, ""));
+        q.Enqueue(new BSTCommand(Commands.COLOR_BRANCH, leftCI(I), 0, "")); // make node and branch white again.
+        q.Enqueue(new BSTCommand(Commands.COLOR_NODE, I, 0, ""));
 
         return p;
     }
@@ -586,52 +582,6 @@ public class BST : Algorithm
             Debug.Log("Depth " + i + "\t" + output);
         }
 
-    }
-
-    void colorTree(int i, int c)
-    {
-        if( !(i < inttree.Length)  || Nodetree[i] == null)
-        {
-            return;
-        }
-        switch (c)
-        {
-            case 0:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.white;
-                break;
-
-            case 1:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.red;
-                break;
-
-            case 2:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = new Color(0.945f, 0.518f, 0.031f, 1.0f);
-                break;
-
-            case 3:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.yellow;
-                break;
-
-            case 4:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.green;
-                break;
-
-            case 5:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.blue;
-                break;
-
-            case 6:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.magenta;
-                    break;
-
-            default:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.black;
-                    break;
-
-        }
-
-        colorTree(leftCI(i), c);
-        colorTree(rightCI(i), c);
     }
 
     void fixCoords()
@@ -754,11 +704,11 @@ public class BST : Algorithm
             
             switch (instr.commandId)
             {
-                case -1:
+                case Commands.WAIT:
                     yield return new WaitForSeconds(this.time);
                     break;
 
-                case 0: // create a node, (0, index, value)
+                case Commands.CREATE_NODE: // create a node, (0, index, value)
                     Nodetree[instr.arg1] = new BSTNode(instr.arg2, instr.arg1);
                     Nodetree[instr.arg1].o = GameObject.Instantiate(spherePrefab);
                     var t = Nodetree[instr.arg1].o.GetComponentInChildren<TextMeshPro>();
@@ -772,7 +722,7 @@ public class BST : Algorithm
                     //Nodetree[instr.arg1].updateCoords();
                     break;
 
-                case 1: // link two nodes, (1, child, parent)
+                case Commands.LINK_NODE: // link two nodes, (1, child, parent)
                     Nodetree[instr.arg1].parentEdge = new GameObject("Line").AddComponent(typeof(LineRenderer)) as LineRenderer;
                     Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = Color.white;
                     Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().startWidth = .1f;
@@ -783,7 +733,7 @@ public class BST : Algorithm
                     Nodetree[instr.arg1].parentEdge.SetPosition(1, new Vector3(Xcoords[instr.arg2], Ycoords[instr.arg2], 0));
                     break;
 
-                case 2: // color node (2, node, color), 0 = white, 1 = red, 2 = orange, 3 = yellow, 4 = green, 5 = blue, 6 = purble
+                case Commands.COLOR_NODE: // color node (2, node, color), 0 = white, 1 = red, 2 = orange, 3 = yellow, 4 = green, 5 = blue, 6 = purble
                     if(Nodetree[instr.arg1] != null)
                     {
                         switch (instr.arg2)
@@ -827,7 +777,7 @@ public class BST : Algorithm
                     break;
                     
 
-                case 3: // move node (3, node, destination)
+                case Commands.MOVE_NODE: // move node (3, node, destination)
                     Nodetree[instr.arg2] = new BSTNode(Nodetree[instr.arg1].value, instr.arg2);
                     Nodetree[instr.arg2].o = GameObject.Instantiate(spherePrefab);
                     var T = Nodetree[instr.arg2].o.GetComponentInChildren<TextMeshPro>();
@@ -855,11 +805,7 @@ public class BST : Algorithm
                     //yield return new WaitForSeconds(time);
                     break;
 
-                case 4: // color tree(4, index, color)
-                    colorTree(instr.arg1, instr.arg2);
-                    break;
-
-                case 5: // color branch(5, index, color)
+                case Commands.COLOR_BRANCH: // color branch(5, index, color)
                      if(Nodetree[instr.arg1] != null)
                     {
                         switch (instr.arg2)
@@ -899,22 +845,8 @@ public class BST : Algorithm
                         }
                     }
                     break;
-                case 6: // update balance on the left nodes. (6, index, value, "")
-                
-                    Nodetree[instr.arg1].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "Left Depth: " + instr.arg2;
-                    break;
-                
-                case 7: // update balance on the right nodes. (7, index, value, "")
-                
-                    Nodetree[instr.arg1].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "Right Depth: " + instr.arg2;
-                    break;
-                
-                case 8:// make balance invisable (8, index, null, "")
-                
-                    Nodetree[instr.arg1].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
-                    Nodetree[instr.arg1].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "";
-                    break;
-                case 9: // delete node (9, index, null, "")
+
+                case Commands.DELETE_NODE: // delete node (9, index, null, "")
 
                     Destroy(Nodetree[instr.arg1].o);
                     Destroy(Nodetree[instr.arg1].parentEdge);
@@ -923,7 +855,7 @@ public class BST : Algorithm
                     //fixCoords();
 
                     break;
-                case 10: // update board (10, key, insert/delete, "")
+                case Commands.UPDATE_BOARD: // update board (10, key, insert/delete, "")
 
                     if (instr.arg2 == 0)
                     {
@@ -936,7 +868,7 @@ public class BST : Algorithm
                         canvas.transform.GetChild(14).GetChild(0).GetComponent<TMP_Text>().text = "Deleting:";
                     }
                     break;
-                case 11: // update coords after delete (11, null, null, "")
+                case Commands.UPDATE_COORDS: // update coords after delete (11, null, null, "")
                     fixCoords();
                     break;
 

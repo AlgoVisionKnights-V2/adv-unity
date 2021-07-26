@@ -55,11 +55,11 @@ public class traversals : Algorithm
 
     protected class TravCommand // class to hold commands for the visualizer
     {
-        public short commandId;
+        public Commands commandId;
         public int arg1, arg2;
         public string message;
 
-        public TravCommand(short commandId, int a1, int a2, string m)
+        public TravCommand(Commands commandId, int a1, int a2, string m)
         {
             this.commandId = commandId;
             this.arg1 = a1;
@@ -81,81 +81,81 @@ public class traversals : Algorithm
         {
             case 0: //preorder
 
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Preorder Traversal."));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Preorder Traversal."));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Starting with root node."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Preorder Traversal."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Preorder Traversal."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Starting with root node."));
 
                 preorderPrint(0);
 
-                q.Enqueue(new TravCommand(-1, 0, 0, "Preorder Traversal Complete."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Preorder Traversal Complete."));
 
                 break;
 
             case 1: //inorder
 
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Inorder Traversal."));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Inorder Traversal."));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Starting with root node."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Inorder Traversal."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Inorder Traversal."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Starting with root node."));
 
                 inorderPrint(0);
 
-                q.Enqueue(new TravCommand(-1, 0, 0, "Inorder Traversal Complete."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Inorder Traversal Complete."));
 
                 break;
 
             case 2: // postorder
 
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Postorder Traversal."));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Postorder Traversal."));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Starting with root node."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Postorder Traversal."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Postorder Traversal."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Starting with root node."));
 
                 postorderPrint(0);
 
-                q.Enqueue(new TravCommand(-1, 0, 0, "Postorder Traversal Complete."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Postorder Traversal Complete."));
 
                 break;
 
             case 3: // breath-first
 
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Breadth-First Traversal."));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Beginning Breadth-First Traversal."));
-                q.Enqueue(new TravCommand(13, inttree[0], 0, ""));
-                q.Enqueue(new TravCommand(-1, 0, 0, "Starting with root node."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Breadth-First Traversal."));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Beginning Breadth-First Traversal."));
+                q.Enqueue(new TravCommand(Commands.UPDATE_QUEUE_MESSAGE, inttree[0], 0, ""));
+                q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Starting with root node."));
 
                 for(int i = 0; i < inttree.Length; i++)
                 {
                     if(!isNull(i))
                     {
-                        q.Enqueue(new TravCommand(2, i, 1, ""));
-                        q.Enqueue(new TravCommand(-1, 0, 0, "Print " + inttree[i] + "."));
-                        q.Enqueue(new TravCommand(12, i, inttree[i], ""));
-                        q.Enqueue(new TravCommand(13, inttree[i], 1, ""));
+                        q.Enqueue(new TravCommand(Commands.COLOR_NODE, i, 1, ""));
+                        q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Print " + inttree[i] + "."));
+                        q.Enqueue(new TravCommand(Commands.UPDATE_MESSAGE, i, inttree[i], ""));
+                        q.Enqueue(new TravCommand(Commands.UPDATE_QUEUE_MESSAGE, inttree[i], 1, ""));
 
                         if (!isNull(leftCI(i)) || !isNull(rightCI(i)))
                         {
-                            q.Enqueue(new TravCommand(-1, 0, 0, "Queue up " + inttree[i] + "'s children."));
+                            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Queue up " + inttree[i] + "'s children."));
 
                             if (!isNull(leftCI(i)))
                             {
-                                q.Enqueue(new TravCommand(2, leftCI(i), 3, ""));
-                                q.Enqueue(new TravCommand(13, inttree[leftCI(i)], 0, ""));
+                                q.Enqueue(new TravCommand(Commands.COLOR_NODE, leftCI(i), 3, ""));
+                                q.Enqueue(new TravCommand(Commands.UPDATE_QUEUE_MESSAGE, inttree[leftCI(i)], 0, ""));
                             }
                             if (!isNull(rightCI(i)))
                             {
-                                q.Enqueue(new TravCommand(2, rightCI(i), 3, ""));
-                                q.Enqueue(new TravCommand(13, inttree[rightCI(i)], 0, ""));
+                                q.Enqueue(new TravCommand(Commands.COLOR_NODE, rightCI(i), 3, ""));
+                                q.Enqueue(new TravCommand(Commands.UPDATE_QUEUE_MESSAGE, inttree[rightCI(i)], 0, ""));
                             }
                         }
 
-                        q.Enqueue(new TravCommand(-1, 0, 0, "Finished with " + inttree[i] + "."));
-                        q.Enqueue(new TravCommand(2, i, 4, ""));
+                        q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Finished with " + inttree[i] + "."));
+                        q.Enqueue(new TravCommand(Commands.COLOR_NODE, i, 4, ""));
                     }
                 }
 
                 break;
         }
 
-        q.Enqueue(new TravCommand(-1, 0, 0, "Traversal complete!"));
+        q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Traversal complete!"));
     }
 
     bool isNull(int i)
@@ -173,42 +173,42 @@ public class traversals : Algorithm
     {
         if (I >= inttree.Length || inttree[I] == -1) // node is null
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
-        q.Enqueue(new TravCommand(2, I, 1, "")); // turn node red
-        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
-        q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
-        q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 1, "")); // turn node red
+        q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+        q.Enqueue(new TravCommand(Commands.UPDATE_MESSAGE, I, inttree[I], "")); // print node key to print order
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 4, "")); // Color node green
 
         if(isNull(leftCI(I)) && isNull(rightCI(I)) ) // node has no subtrees
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
         if(!isNull(leftCI(I))) // node has left subtree
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
-            q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 1, ""));
             preorderPrint(leftCI(I));
-            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + "'s left subtree is complete."));
         }
 
 
         if (!isNull(rightCI(I))) // node has right subtree
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
-            q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 1, ""));
             preorderPrint(rightCI(I));
-            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + "'s right subtree is complete."));
         }
         if (I != 0)
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
         }
     }
 
@@ -216,48 +216,48 @@ public class traversals : Algorithm
     {
         if (I >= inttree.Length || inttree[I] == -1) // node is null
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
-        q.Enqueue(new TravCommand(2, I, 1, "")); // turn node red
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 1, "")); // turn node red
         
 
         if (isNull(leftCI(I)) && isNull(rightCI(I))) // node has no subtrees
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
-            q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
-            q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+            q.Enqueue(new TravCommand(Commands.UPDATE_MESSAGE, I, inttree[I], "")); // print node key to print order
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 4, "")); // Color node green
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
         if (!isNull(leftCI(I))) // node has left subtree
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
-            q.Enqueue(new TravCommand(2, I, 3, "")); // Color node yellow
-            q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 3, "")); // Color node yellow
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 1, ""));
             inorderPrint(leftCI(I));
-            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
-            q.Enqueue(new TravCommand(2, I, 1, "")); // Color node red
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 1, "")); // Color node red
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + "'s left subtree is complete."));
         }
 
-        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
-        q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
-        q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
+        q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+        q.Enqueue(new TravCommand(Commands.UPDATE_MESSAGE, I, inttree[I], "")); // print node key to print order
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 4, "")); // Color node green
 
         if (!isNull(rightCI(I))) // node has right subtree
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
-            q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 1, ""));
             inorderPrint(rightCI(I));
-            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + "'s right subtree is complete."));
         }
         if (I != 0)
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
         }
     }
 
@@ -265,50 +265,50 @@ public class traversals : Algorithm
     {
         if (I >= inttree.Length || inttree[I] == -1)
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Node is null, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
-        q.Enqueue(new TravCommand(2, I, 1, ""));
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 1, ""));
 
         if (isNull(leftCI(I)) && isNull(rightCI(I))) // node has no subtrees
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
-            q.Enqueue(new TravCommand(12, I, inttree[I], "")); // print node key to print order
-            q.Enqueue(new TravCommand(2, I, 4, "")); // Color node green
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Print the current node: " + inttree[I] + ".")); // pause
+            q.Enqueue(new TravCommand(Commands.UPDATE_MESSAGE, I, inttree[I], "")); // print node key to print order
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 4, "")); // Color node green
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + " is a leaf node, returning to " + inttree[parentI(I)] + "."));
             return;
         }
 
         if (!isNull(leftCI(I))) // node has left subtree
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
-            q.Enqueue(new TravCommand(2, I, 3, ""));
-            q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Continue down " + inttree[I] + "'s left subtree."));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 3, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 1, ""));
             postorderPrint(leftCI(I));
-            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
-            q.Enqueue(new TravCommand(2, I, 1, ""));
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s left subtree is complete."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + "'s left subtree is complete."));
         }
 
         if (!isNull(rightCI(I))) // node has right subtree
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
-            q.Enqueue(new TravCommand(2, I, 3, ""));
-            q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Continue down " + inttree[I] + "'s right subtree."));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 3, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 1, ""));
             postorderPrint(rightCI(I));
-            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
-            q.Enqueue(new TravCommand(2, I, 1, ""));
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + "'s right subtree is complete."));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 1, ""));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + "'s right subtree is complete."));
         }
 
-        q.Enqueue(new TravCommand(-1, 0, 0, "Print the current node: " + inttree[I] + "."));
-        q.Enqueue(new TravCommand(12, I, inttree[I], ""));
-        q.Enqueue(new TravCommand(2, I, 4, ""));
+        q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, "Print the current node: " + inttree[I] + "."));
+        q.Enqueue(new TravCommand(Commands.UPDATE_MESSAGE, I, inttree[I], ""));
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 4, ""));
 
         if(I != 0)
         {
-            q.Enqueue(new TravCommand(-1, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
+            q.Enqueue(new TravCommand(Commands.WAIT, 0, 0, inttree[I] + " is complete, returning to " + inttree[parentI(I)] + "."));
         }
     }
 
@@ -347,7 +347,7 @@ public class traversals : Algorithm
                 keys[i] = r.Next(1, 1000);
             }
 
-            q.Enqueue(new TravCommand(10, keys[i], 0, ""));
+            q.Enqueue(new TravCommand(Commands.UPDATE_BOARD, keys[i], 0, ""));
             insert(keys[i], 0);
         }
 
@@ -390,52 +390,51 @@ public class traversals : Algorithm
         {
             inttree[I] = key; 
 
-            q.Enqueue(new TravCommand(0, I, key, "")); // make new node
+            q.Enqueue(new TravCommand(Commands.CREATE_NODE, I, key, "")); // make new node
             
             if (I != 0) // if the new node isn't at index 0 (the root of the tree) draw a line to the parent node 
             {
-                q.Enqueue(new TravCommand(1, I, parentI(I), ""));
+                q.Enqueue(new TravCommand(Commands.LINK_NODE, I, parentI(I), ""));
             }
             return;
         }
 
-        q.Enqueue(new TravCommand(2, I, 1, "")); // null node not found, highlight current node to show insertion path
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 1, "")); // null node not found, highlight current node to show insertion path
         if (inttree[I] == key)
         {
-            q.Enqueue(new TravCommand(2, I, 0, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 0, ""));
             return;
         }
 
         if (inttree[I] > key) // go left
         {
-            q.Enqueue(new TravCommand(2, I, 10, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 10, ""));
             if(leftCI(I) < inttree.Length && inttree[leftCI(I)] != -1 )
             {
-                q.Enqueue(new TravCommand(5, leftCI(I), 1, ""));
+                q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 1, ""));
             }
             insert(key, leftCI(I));
         }
         else // go right
         {
-            q.Enqueue(new TravCommand(2, I, 10, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 10, ""));
             if (rightCI(I) < inttree.Length && inttree[rightCI(I)] != -1)
             {
-                q.Enqueue(new TravCommand(5, rightCI(I), 1, ""));
+                q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 1, ""));
             }
 
             insert(key, rightCI(I));
         }
         if (inttree[leftCI(I)] != -1)
         {
-            q.Enqueue(new TravCommand(5, leftCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, leftCI(I), 0, ""));
         }
         if (inttree[rightCI(I)] != -1)
         {
-            q.Enqueue(new TravCommand(5, rightCI(I), 0, ""));
+            q.Enqueue(new TravCommand(Commands.COLOR_BRANCH, rightCI(I), 0, ""));
         }
         
-        q.Enqueue(new TravCommand(8, I, 0, ""));
-        q.Enqueue(new TravCommand(2, I, 0, ""));
+        q.Enqueue(new TravCommand(Commands.COLOR_NODE, I, 0, ""));
 
         return;
     }
@@ -521,52 +520,6 @@ public class traversals : Algorithm
             Debug.Log("Depth " + i + "\t" + output);
         }
 
-    }
-
-    void colorTree(int i, int c)
-    {
-        if( !(i < inttree.Length)  || Nodetree[i] == null)
-        {
-            return;
-        }
-        switch (c)
-        {
-            case 0:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.white;
-                break;
-
-            case 1:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.red;
-                break;
-
-            case 2:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = new Color(0.945f, 0.518f, 0.031f, 1.0f);
-                break;
-
-            case 3:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.yellow;
-                break;
-
-            case 4:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.green;
-                break;
-
-            case 5:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.blue;
-                break;
-
-            case 6:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.magenta;
-                    break;
-
-            default:
-                Nodetree[i].o.GetComponent<Renderer>().material.color = Color.black;
-                    break;
-
-        }
-
-        colorTree(leftCI(i), c);
-        colorTree(rightCI(i), c);
     }
 
     void fixCoords()
@@ -689,11 +642,11 @@ public class traversals : Algorithm
             
             switch (instr.commandId)
             {
-                case -1:
+                case Commands.WAIT:
                     yield return new WaitForSeconds(this.time);
                     break;
 
-                case 0: // create a node, (0, index, value)
+                case Commands.CREATE_NODE: // create a node, (0, index, value)
                     Nodetree[instr.arg1] = new TravNode(instr.arg2, instr.arg1);
                     Nodetree[instr.arg1].o = GameObject.Instantiate(spherePrefab);
                     var t = Nodetree[instr.arg1].o.GetComponentInChildren<TextMeshPro>();
@@ -707,7 +660,7 @@ public class traversals : Algorithm
                     //Nodetree[instr.arg1].updateCoords();
                     break;
 
-                case 1: // link two nodes, (1, child, parent)
+                case Commands.LINK_NODE: // link two nodes, (1, child, parent)
                     Nodetree[instr.arg1].parentEdge = new GameObject("Line").AddComponent(typeof(LineRenderer)) as LineRenderer;
                     Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().material.color = Color.white;
                     Nodetree[instr.arg1].parentEdge.GetComponent<LineRenderer>().startWidth = .1f;
@@ -718,7 +671,7 @@ public class traversals : Algorithm
                     Nodetree[instr.arg1].parentEdge.SetPosition(1, new Vector3(Xcoords[instr.arg2], Ycoords[instr.arg2], 0));
                     break;
 
-                case 2: // color node (2, node, color), 0 = white, 1 = red, 2 = orange, 3 = yellow, 4 = green, 5 = blue, 6 = purble
+                case Commands.COLOR_NODE: // color node (2, node, color), 0 = white, 1 = red, 2 = orange, 3 = yellow, 4 = green, 5 = blue, 6 = purble
                     if(Nodetree[instr.arg1] != null)
                     {
                         switch (instr.arg2)
@@ -757,44 +710,10 @@ public class traversals : Algorithm
 
                         }
                     }
-                    
-
                     break;
-                    
+                
 
-                case 3: // move node (3, node, destination)
-                    Nodetree[instr.arg2] = new TravNode(Nodetree[instr.arg1].value, instr.arg2);
-                    Nodetree[instr.arg2].o = GameObject.Instantiate(spherePrefab);
-                    var T = Nodetree[instr.arg2].o.GetComponentInChildren<TextMeshPro>();
-                    T.text = Nodetree[instr.arg2].value.ToString();
-                    Nodetree[instr.arg2].o.GetComponent<Renderer>().material.color = Nodetree[instr.arg1].o.GetComponent<Renderer>().material.color;
-                    Nodetree[instr.arg2].updateCoords();
-                    Nodetree[instr.arg2].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
-                    Nodetree[instr.arg2].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "";
-                    Destroy(Nodetree[instr.arg1].o);
-                    Destroy(Nodetree[instr.arg1].parentEdge);
-                    Nodetree[instr.arg1] = null;
-
-                    if (instr.arg2 != 0)
-                    {
-                        Nodetree[instr.arg2].parentEdge = new GameObject("Line").AddComponent(typeof(LineRenderer)) as LineRenderer;
-                        Nodetree[instr.arg2].parentEdge.GetComponent<LineRenderer>().material.color = Color.white;
-                        Nodetree[instr.arg2].parentEdge.GetComponent<LineRenderer>().startWidth = .1f;
-                        Nodetree[instr.arg2].parentEdge.GetComponent<LineRenderer>().endWidth = .1f;
-                        Nodetree[instr.arg2].parentEdge.GetComponent<LineRenderer>().positionCount = 2;
-                        Nodetree[instr.arg2].parentEdge.GetComponent<LineRenderer>().useWorldSpace = true;
-                        Nodetree[instr.arg2].parentEdge.SetPosition(0, new Vector3(Xcoords[instr.arg2], Ycoords[instr.arg2], 0)); 
-                        Nodetree[instr.arg2].parentEdge.SetPosition(1, new Vector3(Xcoords[parentI(instr.arg2)], Ycoords[parentI(instr.arg2)], 0));
-                    }
-
-                    //yield return new WaitForSeconds(time);
-                    break;
-
-                case 4: // color tree(4, index, color)
-                    colorTree(instr.arg1, instr.arg2);
-                    break;
-
-                case 5: // color branch(5, index, color)
+                case Commands.COLOR_BRANCH: // color branch(5, index, color)
                      if(Nodetree[instr.arg1] != null)
                     {
                         switch (instr.arg2)
@@ -834,31 +753,8 @@ public class traversals : Algorithm
                         }
                     }
                     break;
-                case 6: // update balance on the left nodes. (6, index, value, "")
-                
-                    Nodetree[instr.arg1].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "Left Depth: " + instr.arg2;
-                    break;
-                
-                case 7: // update balance on the right nodes. (7, index, value, "")
-                
-                    Nodetree[instr.arg1].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "Right Depth: " + instr.arg2;
-                    break;
-                
-                case 8:// make balance invisable (8, index, null, "")
-                
-                    Nodetree[instr.arg1].o.transform.GetChild(1).GetComponent<TMP_Text>().text = "";
-                    Nodetree[instr.arg1].o.transform.GetChild(2).GetComponent<TMP_Text>().text = "";
-                    break;
-                case 9: // delete node (9, index, null, "")
-
-                    Destroy(Nodetree[instr.arg1].o);
-                    Destroy(Nodetree[instr.arg1].parentEdge);
-                    Nodetree[instr.arg1] = null;
-
-                    //fixCoords();
-
-                    break;
-                case 10: // update board (10, key, insert/delete, "")
+               
+                case Commands.UPDATE_BOARD: // update board (10, key, insert/delete, "")
 
                     if (instr.arg2 == 0)
                     {
@@ -871,14 +767,11 @@ public class traversals : Algorithm
                         canvas.transform.GetChild(14).GetChild(0).GetComponent<TMP_Text>().text = "Deleting:";
                     }
                     break;
-                case 11: // update coords after delete (11, null, null, "")
-                    fixCoords();
-                    break;
-                case 12: // add number to printField (12, index, value to add, "")
+                case Commands.UPDATE_MESSAGE: // add number to printField (12, index, value to add, "")
                     canvas.transform.GetChild(15).GetComponent<TMP_Text>().text += " " + instr.arg2.ToString();
                     break;
 
-                case 13: // add/remove number to queueField (13, value to add, add/remove, "")
+                case Commands.UPDATE_QUEUE_MESSAGE: // add/remove number to queueField (13, value to add, add/remove, "")
                     switch(instr.arg2)
                     {
                         case 0:

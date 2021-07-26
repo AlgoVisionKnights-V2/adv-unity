@@ -34,7 +34,19 @@ public abstract class Algorithm : MonoBehaviour
         UPDATE_QUEUE_MESSAGE,
         UPDATE_VERTEX,
         EDGE_CANCEL,
-        EDGE_UPDATE
+        EDGE_UPDATE,
+        CREATE_NODE,
+        LINK_NODE,
+        COLOR_NODE,
+        MOVE_NODE,
+        COLOR_TREE,
+        COLOR_BRANCH,
+        UPDATE_BALANCE_LEFT,
+        UPDATE_BALANCE_RIGHT,
+        HIDE_BALANCE,
+        DELETE_NODE,
+        UPDATE_BOARD,
+        UPDATE_COORDS
     }
     public enum Array {
         MAIN,
