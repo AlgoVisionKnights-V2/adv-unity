@@ -35,7 +35,7 @@ public class LinkedList : Algorithm
     }
 
     public class QueueCommand{
-        public short commandId;
+        public Commands commandId;
         public LinkedListNode node1, node2;
         public short additionalInfo;
         public short textColorId;
@@ -43,27 +43,27 @@ public class LinkedList : Algorithm
 
         public QueueCommand()
         {
-            commandId = 0;
+            commandId = Commands.WAIT;
         }
-        public QueueCommand(short commandId,LinkedListNode node1, short additionalInfo){
+        public QueueCommand(Commands commandId,LinkedListNode node1, short additionalInfo){
             this.commandId = commandId;
             this.node1 = node1;
             this.additionalInfo = additionalInfo;
         }
-        public QueueCommand(short commandId,LinkedListNode node1, LinkedListNode node2, short additionalInfo){
+        public QueueCommand(Commands commandId,LinkedListNode node1, LinkedListNode node2, short additionalInfo){
             this.commandId = commandId;
             this.node1 = node1;
             this.node2 = node2;
             this.additionalInfo = additionalInfo;
         }
-        public QueueCommand(short commandId, LinkedListNode node1, LinkedListNode node2, string message)
+        public QueueCommand(Commands commandId, LinkedListNode node1, LinkedListNode node2, string message)
         {
             this.commandId = commandId;
             this.node1 = node1;
             this.node2 = node2;
             this.message = message;
         }
-        public QueueCommand(short commandId, string message, short textColorId, int nums)
+        public QueueCommand(Commands commandId, string message, short textColorId, int nums)
         {
             this.commandId = commandId;
             this.message = message;
@@ -72,13 +72,13 @@ public class LinkedList : Algorithm
     }
 
     public bool compare(LinkedListNode a, LinkedListNode b){
-        queue.Enqueue(new QueueCommand(1, a, 1));
-        queue.Enqueue(new QueueCommand(1, b, 1));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_NODE, a, 1));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_NODE, b, 1));
 
-        queue.Enqueue(new QueueCommand(0, null, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
 
-        queue.Enqueue(new QueueCommand(1, a, 0));
-        queue.Enqueue(new QueueCommand(1, b, 0));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_NODE, a, 0));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_NODE, b, 0));
 
         return true;
 
@@ -87,7 +87,7 @@ public class LinkedList : Algorithm
     public void delete(int value){
         if (head == null)
         {
-            queue.Enqueue(new QueueCommand(6, "List is empty", 1, 1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "List is empty", 1, 1));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
             return;
@@ -95,21 +95,21 @@ public class LinkedList : Algorithm
         LinkedListNode temp = head;
         // When the head is what we're deleting
         if (temp.value == value){
-            queue.Enqueue(new QueueCommand(1, temp, 1));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_NODE, temp, 1));
             queue.Enqueue(new QueueCommand());
             
-            queue.Enqueue(new QueueCommand(8, temp, 1));
+            queue.Enqueue(new QueueCommand(Commands.LOWER, temp, 1));
             if (head != null)
             {
-                queue.Enqueue(new QueueCommand(7, "", 1, 1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_HEAD, "", 1, 1));
             }
             head = temp.next;
             
             if (head != null)
             {
-                queue.Enqueue(new QueueCommand(7, "", 0, 0));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_HEAD, "", 0, 0));
             }
-            queue.Enqueue(new QueueCommand(2, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.REPOSITION, null, -1));
             queue.Enqueue(new QueueCommand());
             return;
         }
@@ -117,31 +117,31 @@ public class LinkedList : Algorithm
             temp = temp.next;
         }
         if (temp.next == null){
-            queue.Enqueue(new QueueCommand(6, "" + value + " not found", 1, 1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + value + " not found", 1, 1));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
             return;
         }
-        queue.Enqueue(new QueueCommand(1, temp.next, 1));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_NODE, temp.next, 1));
         queue.Enqueue(new QueueCommand());
 
-        queue.Enqueue(new QueueCommand(8, temp.next, 1));
+        queue.Enqueue(new QueueCommand(Commands.LOWER, temp.next, 1));
         queue.Enqueue(new QueueCommand());
 
         temp.next = temp.next.next;
         if (temp.next == null){
-            queue.Enqueue(new QueueCommand(9, temp, -1));
+            queue.Enqueue(new QueueCommand(Commands.DELETE_EDGE, temp, -1));
         }
         else{
 
-            queue.Enqueue(new QueueCommand(10, temp, temp.next, ""));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, temp, temp.next, ""));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
+            queue.Enqueue(new QueueCommand(Commands.LINK_NODE, temp, temp.next, -1));
         }
 
         queue.Enqueue(new QueueCommand());
-        queue.Enqueue(new QueueCommand(2, null, -1));
+        queue.Enqueue(new QueueCommand(Commands.REPOSITION, null, -1));
         queue.Enqueue(new QueueCommand());
 
 
@@ -151,35 +151,35 @@ public class LinkedList : Algorithm
 
         if (head == null)
         {
-            queue.Enqueue(new QueueCommand(6, "List is empty, creating new Head node", 1, 1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "List is empty, creating new Head node", 1, 1));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
         }
 
-        queue.Enqueue(new QueueCommand(6, "Locating Memory Address for new Node...", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Locating Memory Address for new Node...", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
 
         stringy = randomNumbers();
-        queue.Enqueue(new QueueCommand(6, "Memory space 0x" + stringy + " allocated for new node", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Memory space 0x" + stringy + " allocated for new node", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
         
         
         LinkedListNode newNode = new LinkedListNode(value);
-        queue.Enqueue(new QueueCommand(3, newNode, -1));
-        queue.Enqueue(new QueueCommand(4, newNode, steps));
-        queue.Enqueue(new QueueCommand(0, null, -1));
+        queue.Enqueue(new QueueCommand(Commands.CREATE_NODE, newNode, -1));
+        queue.Enqueue(new QueueCommand(Commands.RELOCATE, newNode, steps));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
         // make a new head
         if (head == null){
             head = newNode;
-            queue.Enqueue(new QueueCommand(2, null, -1));
-            queue.Enqueue(new QueueCommand(0, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.REPOSITION, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
 
-            queue.Enqueue(new QueueCommand(6, "Node has been entered", 1, 1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Node has been entered", 1, 1));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(7, "", 0, 0));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_HEAD, "", 0, 0));
 
             return;
         }
@@ -188,52 +188,52 @@ public class LinkedList : Algorithm
         if (pos <= 0){
             newNode.next = temp;
 
-            queue.Enqueue(new QueueCommand(7, "", 1, 1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_HEAD, "", 1, 1));
             head = newNode;
-            queue.Enqueue(new QueueCommand(7, "", 0, 0));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_HEAD, "", 0, 0));
 
-            queue.Enqueue(new QueueCommand(6, "Inserted Node is now the Head Node", 1, 1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Inserted Node is now the Head Node", 1, 1));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
 
 
-            queue.Enqueue(new QueueCommand(10, newNode, newNode.next, ""));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, newNode, newNode.next, ""));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
-            queue.Enqueue(new QueueCommand(0, null, -1));            
-            queue.Enqueue(new QueueCommand(2, null, -1));
-            queue.Enqueue(new QueueCommand(0, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.LINK_NODE, newNode, newNode.next, -1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));            
+            queue.Enqueue(new QueueCommand(Commands.REPOSITION, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
             return;
         }
 
 
         steps++; // 1
-        queue.Enqueue(new QueueCommand(4, newNode, steps));
-        queue.Enqueue(new QueueCommand(0, null, -1));
+        queue.Enqueue(new QueueCommand(Commands.RELOCATE, newNode, steps));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
         
         // check if newNode should go after temp
         while(temp.next != null && steps < pos){
             /*0 5 7; insert 9 at 2 */
             steps++;
-            queue.Enqueue(new QueueCommand(4, newNode, steps));
-            queue.Enqueue(new QueueCommand(0, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.RELOCATE, newNode, steps));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
             temp = temp.next;
             /*if (temp.next.value < value){
                 temp = temp.next;
                 steps++;
-                queue.Enqueue(new QueueCommand(4, newNode, steps));
-                queue.Enqueue(new QueueCommand(0, null, -1));
+                queue.Enqueue(new QueueCommand(Commands.RELOCATE, newNode, steps));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
 
             }
             else{
                 newNode.next = temp.next;
                 temp.next = newNode;
-                queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
-                queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
-                queue.Enqueue(new QueueCommand(0, null, -1));  
-                queue.Enqueue(new QueueCommand(2, null, -1));
-                queue.Enqueue(new QueueCommand(0, null, -1));
+                queue.Enqueue(new QueueCommand(Commands.LINK_NODE, temp, temp.next, -1));
+                queue.Enqueue(new QueueCommand(Commands.LINK_NODE, newNode, newNode.next, -1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));  
+                queue.Enqueue(new QueueCommand(Commands.REPOSITION, null, -1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
                 return;
             }*/
         }
@@ -242,36 +242,36 @@ public class LinkedList : Algorithm
             newNode.next = temp.next;
             temp.next = newNode;
 
-            queue.Enqueue(new QueueCommand(10, temp, temp.next, ""));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, temp, temp.next, ""));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
+            queue.Enqueue(new QueueCommand(Commands.LINK_NODE, temp, temp.next, -1));
 
-            queue.Enqueue(new QueueCommand(10, newNode, newNode.next, ""));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, newNode, newNode.next, ""));
             queue.Enqueue(new QueueCommand());
             queue.Enqueue(new QueueCommand());
-            queue.Enqueue(new QueueCommand(5, newNode, newNode.next, -1));
-            queue.Enqueue(new QueueCommand(0, null, -1));  
-            queue.Enqueue(new QueueCommand(2, null, -1));
-            queue.Enqueue(new QueueCommand(0, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.LINK_NODE, newNode, newNode.next, -1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));  
+            queue.Enqueue(new QueueCommand(Commands.REPOSITION, null, -1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
             return;            
         }
         // At this point we've reached end of the line
         temp.next = newNode;
 
-        queue.Enqueue(new QueueCommand(6, "Tail has been reached, entering new node as the tail", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Tail has been reached, entering new node as the tail", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
 
-        queue.Enqueue(new QueueCommand(10, temp, temp.next, ""));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_OBJECT_TEXT, temp, temp.next, ""));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
-        queue.Enqueue(new QueueCommand(5, temp, temp.next, -1));
-        queue.Enqueue(new QueueCommand(0, null, -1));  
-        queue.Enqueue(new QueueCommand(2, null, -1));
-        queue.Enqueue(new QueueCommand(0, null, -1));
+        queue.Enqueue(new QueueCommand(Commands.LINK_NODE, temp, temp.next, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));  
+        queue.Enqueue(new QueueCommand(Commands.REPOSITION, null, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, null, -1));
 
-        queue.Enqueue(new QueueCommand(6, "Node has been entered", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Node has been entered", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
     }
@@ -282,7 +282,7 @@ public class LinkedList : Algorithm
         insertButton = canvas.transform.GetChild(8).gameObject;
         deleteButton = canvas.transform.GetChild(9).gameObject;
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
-        queue.Enqueue(new QueueCommand(6, "New Linked List, Enter First Node", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "New Linked List, Enter First Node", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
 
@@ -343,32 +343,32 @@ public class LinkedList : Algorithm
             q = queue.Dequeue();
             Debug.Log(q.commandId);
             switch(q.commandId){
-                case 0: // wait
+                case Commands.WAIT: // wait
                     yield return new WaitForSeconds(time);
                     break;
-                case 1: // change color of a node
+                case Commands.COLOR_NODE: // change color of a node
                     changeColor(q.node1, q.additionalInfo);
                     break;
-                case 2: // reposition everything
+                case Commands.REPOSITION: // reposition everything
                     reposition();
                     break;
-                case 3: // build the node
+                case Commands.CREATE_NODE: // build the node
                     q.node1.Object = GameObject.Instantiate(boxPrefab);
                     q.node1.Object.name = q.node1.value.ToString();
                     q.node1.Object.transform.GetChild(0).GetComponent<TMP_Text>().text = q.node1.value.ToString();
                     q.node1.Object.transform.GetChild(2).GetComponent<TMP_Text>().text = "0x" + stringy;
                     break;
-                case 4: // Relocate the new node
+                case Commands.RELOCATE: // Relocate the new node
                     q.node1.Object.transform.position = new Vector3(q.additionalInfo*2 - 1, 2, 0);
                     break;
-                case 5: // connect the nextEdge of node1 to node2
+                case Commands.LINK_NODE: // connect the nextEdge of node1 to node2
                     q.node1.nextEdge.SetPosition(0, new Vector3(q.node1.Object.transform.position.x, q.node1.Object.transform.position.y, 0));
                     q.node1.nextEdge.SetPosition(1, new Vector3(q.node2.Object.transform.position.x, q.node2.Object.transform.position.y, 0));
                     break;
-                case 6: // ChangeText
+                case Commands.UPDATE_MESSAGE: // ChangeText
                     canvas.transform.GetChild(3).GetComponent<TMP_Text>().text = q.message;
                     break;
-                case 7: // Head Indicators
+                case Commands.UPDATE_HEAD: // Head Indicators
                     if (q.textColorId == 0)
                     {
                         head.Object.transform.GetChild(3).gameObject.SetActive(true);
@@ -381,16 +381,16 @@ public class LinkedList : Algorithm
                         UIhead = head;
                     }
                     break;
-                case 8: // Move index down before deletion
+                case Commands.LOWER: // Move index down before deletion
                     q.node1.Object.transform.position = new Vector3(q.node1.Object.transform.position.x, q.node1.Object.transform.position.y - 2, 0);
                     q.node1.nextEdge.GetComponent<LineRenderer>().enabled = false;
                     q.node1.Object.SetActive(false);
                     break;
-                case 9: // delete an edge
+                case Commands.DELETE_EDGE: // delete an edge
                     q.node1.nextEdge.SetPosition(0, new Vector3(0,0,0));
                     q.node1.nextEdge.SetPosition(1, new Vector3(0,0,0));
                     break;
-                case 10: // Edge Messaging
+                case Commands.UPDATE_OBJECT_TEXT: // Edge Messaging
                     canvas.transform.GetChild(3).GetComponent<TMP_Text>().text = "Connecting " + q.node1.value + "'s Next Pointer to " + q.node2.value + "'s Memory Address";
                     q.node1.nextEdge.SetPosition(0, new Vector3(0, 0, 0));
                     q.node1.nextEdge.SetPosition(1, new Vector3(0, 0, 0));
@@ -413,12 +413,12 @@ public class LinkedList : Algorithm
 
     public void insertNode(int value, int pos)
     {
-        queue.Enqueue(new QueueCommand(6, "Inserting " + value + " at Position " + pos, 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Inserting " + value + " at Position " + pos, 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
         
         insert(value, pos);
-        queue.Enqueue(new QueueCommand(6, "Insert or Delete a new Node", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Insert or Delete a new Node", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
         traverse();
@@ -427,13 +427,13 @@ public class LinkedList : Algorithm
     public void deleteNode(int value, int pos)
     {
         
-        queue.Enqueue(new QueueCommand(6, "Deleting " + value + " from the linked list", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Deleting " + value + " from the linked list", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
 
         delete(value);
         
-        queue.Enqueue(new QueueCommand(6, "Insert or Delete a new Node", 1, 1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Insert or Delete a new Node", 1, 1));
         queue.Enqueue(new QueueCommand());
         queue.Enqueue(new QueueCommand());
         traverse();

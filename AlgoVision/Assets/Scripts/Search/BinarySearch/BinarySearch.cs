@@ -34,24 +34,24 @@ public class BinarySearch : Algorithm
     }
 
     class QueueCommand{
-        public short commandId;
+        public Commands CommandId;
         public int index1;
         public int index2;
         public short additionalInfo;
         public string message;
-        public QueueCommand(short commandId, int index1, short additionalInfo){
-            this.commandId = commandId;
+        public QueueCommand(Commands CommandId, int index1, short additionalInfo){
+            this.CommandId = CommandId;
             this.index1 = index1;
             this.additionalInfo = additionalInfo;
         }
-        public QueueCommand(short commandId, int index1, int index2, short additionalInfo){
-            this.commandId = commandId;
+        public QueueCommand(Commands CommandId, int index1, int index2, short additionalInfo){
+            this.CommandId = CommandId;
             this.index1 = index1;
             this.index2 = index2;
             this.additionalInfo = additionalInfo;
         }
-        public QueueCommand(short commandId, string message){
-            this.commandId = commandId;
+        public QueueCommand(Commands CommandId, string message){
+            this.CommandId = CommandId;
             this.message = message;
         }
     }
@@ -64,9 +64,9 @@ public class BinarySearch : Algorithm
         array = new ArrayIndex[size];
         showText = canvas.transform.GetChild(5).GetComponent<TMP_Text>();
 
-        queue.Enqueue(new QueueCommand(3, "Generating random sorted array array..."));
-        queue.Enqueue(new QueueCommand(0, -1, -1));
-        queue.Enqueue(new QueueCommand(0, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Generating random sorted array array..."));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
 
         for(i = 0; i < size; i++){
             array[i] = new ArrayIndex(r.Next(21), i, boxPrefab);
@@ -79,8 +79,8 @@ public class BinarySearch : Algorithm
         this.searchToken = searchToken;
         setCam();
 
-        queue.Enqueue(new QueueCommand(3, "Choose a value to search for"));
-        queue.Enqueue(new QueueCommand(0, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Choose a value to search for"));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
 
         StartCoroutine(readQueue());
 
@@ -110,89 +110,89 @@ public class BinarySearch : Algorithm
 
         searchToken = searchValue;
 
-        queue.Enqueue(new QueueCommand(2, min, max, 4));
+        queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, min, max, 4));
 
-        queue.Enqueue(new QueueCommand(3, "Searching for " + searchToken));
-        queue.Enqueue(new QueueCommand(0, -1,-1));
-        queue.Enqueue(new QueueCommand(0, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Searching for " + searchToken));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
 
         while(max - min > 0){
-            queue.Enqueue(new QueueCommand(3, "Calculating midpoint from index " + min + " to " + max));
-            queue.Enqueue(new QueueCommand(0, -1,-1));
-            queue.Enqueue(new QueueCommand(1, middle, 1));
-            queue.Enqueue(new QueueCommand(0, -1,-1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "Calculating midpoint from index " + min + " to " + max));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, middle, 1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
 
             if(searchToken < array[middle].value){
-                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is less than "+array[middle].value));
-                queue.Enqueue(new QueueCommand(0, -1,-1));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
-                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is not between indices "+middle + " and "+ max));
-                queue.Enqueue(new QueueCommand(0, -1,-1));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
-                queue.Enqueue(new QueueCommand(2, middle, max, 3));
-                queue.Enqueue(new QueueCommand(0, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " is less than "+array[middle].value));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " is not between indices "+middle + " and "+ max));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, middle, max, 3));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
                 max = middle -1;
                 middle = (max+min)/2;
                 continue;
             }
             else if(searchToken > array[middle].value){
-                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is greater than "+array[middle].value));
-                queue.Enqueue(new QueueCommand(0, -1,-1));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
-                queue.Enqueue(new QueueCommand(3,"" + searchToken + " is not between indices "+min + " and "+ middle));
-                queue.Enqueue(new QueueCommand(0, -1,-1));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
-                queue.Enqueue(new QueueCommand(2, min, middle, 3));
-                queue.Enqueue(new QueueCommand(0, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " is greater than "+array[middle].value));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " is not between indices "+min + " and "+ middle));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, min, middle, 3));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
                 min = middle + 1;
                 middle = (max+min)/2;
                 continue;
             }
             else{
-                queue.Enqueue(new QueueCommand(1, middle, 2));
-                queue.Enqueue(new QueueCommand(3,"" + searchToken + " found at index "+ middle));
-                queue.Enqueue(new QueueCommand(0, -1,-1));
-                queue.Enqueue(new QueueCommand(0, -1, -1));
+                queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, middle, 2));
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " found at index "+ middle));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+                queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
                 return;
             }
         }
-        queue.Enqueue(new QueueCommand(3,"One element left"));
-        queue.Enqueue(new QueueCommand(0, -1,-1));
-        queue.Enqueue(new QueueCommand(0, -1, -1));
+        queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"One element left"));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+        queue.Enqueue(new QueueCommand(Commands.WAIT, -1, -1));
         if(max == min && array[max].value == searchToken){
 
-            queue.Enqueue(new QueueCommand(1, max, 1));
-            queue.Enqueue(new QueueCommand(0, -1,-1));
-            queue.Enqueue(new QueueCommand(1, max, 2));
-            queue.Enqueue(new QueueCommand(3,"" + searchToken + " found at index "+ middle));
-            queue.Enqueue(new QueueCommand(0, -1,-1));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, max, 1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, max, 2));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " found at index "+ middle));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
         }
         else if (max < 0){
-            queue.Enqueue(new QueueCommand(3,"" + searchToken + " not in array"));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " not in array"));
         }
         else {
-            queue.Enqueue(new QueueCommand(1, max, 1));
-            queue.Enqueue(new QueueCommand(0, -1,-1));
-            queue.Enqueue(new QueueCommand(3,"" + searchToken + " not in array"));
-            queue.Enqueue(new QueueCommand(1, max, 3));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, max, 1));
+            queue.Enqueue(new QueueCommand(Commands.WAIT, -1,-1));
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE,"" + searchToken + " not in array"));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, max, 3));
 
         }
     }
-    public IEnumerator readQueue(){ // FIXME NEED TO DEQUE COMMANDS
+    public IEnumerator readQueue(){ // FIXME NEED TO DEQUE CommandS
         foreach(QueueCommand q in queue){
-            switch(q.commandId){
-                case 0:
+            switch(q.CommandId){
+                case Commands.WAIT:
                     yield return new WaitForSeconds(time);
                     break;
-                case 1: // change color of single item
+                case Commands.COLOR_ONE: // change color of single item
                     changeColor(q.index1, q.additionalInfo);
                     break;
-                case 2: // change Color color of several items
+                case Commands.COLOR_ALL: // change Color color of several items
                     for(int i = q.index1; i<= q.index2; i++ ){
                         changeColor(i, q.additionalInfo);
                     }
                     break;
-                case 3: // update message
+                case Commands.UPDATE_MESSAGE: // update message
                     showText.text = q.message;
                     break;
             }

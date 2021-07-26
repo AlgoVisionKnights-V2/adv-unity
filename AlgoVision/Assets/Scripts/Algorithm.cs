@@ -46,7 +46,11 @@ public abstract class Algorithm : MonoBehaviour
         HIDE_BALANCE,
         DELETE_NODE,
         UPDATE_BOARD,
-        UPDATE_COORDS
+        UPDATE_COORDS,
+        REPOSITION,
+        RELOCATE,
+        UPDATE_HEAD,
+        DELETE_EDGE
     }
     public enum Array {
         MAIN,
