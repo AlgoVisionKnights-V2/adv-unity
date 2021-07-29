@@ -6,7 +6,7 @@ using TMPro;
 using System;
 public class BSTUI : MonoBehaviour
 {
-
+    bool toggleStatus;
     [SerializeField] BST a;
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject canvas;
@@ -23,6 +23,11 @@ public class BSTUI : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         speedSlider = canvas.transform.GetChild(1).GetComponent<Slider>();
         canvas.transform.GetChild(13).gameObject.SetActive(false);
+        toggleStatus = false;
+        canvas.transform.GetChild(15).GetChild(1).gameObject.SetActive(false);
+        canvas.transform.GetChild(15).GetChild(2).gameObject.SetActive(false);
+        canvas.transform.GetChild(14).GetChild(1).GetComponent<TMP_Text>().text = "";
+        canvas.transform.GetChild(14).GetChild(0).GetComponent<TMP_Text>().text = "";
         switch (startSize)
         {
             case 0:
@@ -79,23 +84,28 @@ public class BSTUI : MonoBehaviour
         a.time = speedSlider.value;
     }
 
-    void insertKeys()// attach inputfield on the canvas to this functionStartCoroutine(a.readQueue());
+    public void tipToggle()
     {
+        Debug.Log(FindObjectOfType<TMP_Dropdown>().value);
 
-        string inputs = "";//= canvas.transform.GetChild(13).GetComponent<TMP_Text>().text;// grab string from canvas
+        if (toggleStatus)
+        {
+            toggleStatus = false;
+            canvas.transform.GetChild(15).GetChild(1).gameObject.SetActive(false);
+            if (FindObjectOfType<TMP_Dropdown>().value == 3)
+            {
+                canvas.transform.GetChild(15).GetChild(2).gameObject.SetActive(false);
+            }
 
-        // clear text input field
-
-        string[] textInputs = inputs.Split(',');// split string into tokens by the commas
-        int[] keys = new int[textInputs.Length];
-
-
-        // converting string into arrays
-            // check if its a valid string
-                // no letters
-                // no 0's
-
-        // send that shit to customInsert()
-        // StartCoroutine(a.readQueue());
+        }
+        else
+        {
+            toggleStatus = true;
+            canvas.transform.GetChild(15).GetChild(1).gameObject.SetActive(true);
+            if (FindObjectOfType<TMP_Dropdown>().value == 3)
+            {
+                canvas.transform.GetChild(15).GetChild(2).gameObject.SetActive(true);
+            }
+        }
     }
 }

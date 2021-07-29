@@ -67,9 +67,11 @@ public class AVL : Algorithm
             this.message = m;
         }
     }
-
+     
+  
     void Start()
     {
+        
         canvas = GameObject.Find("Canvas");
     }
 

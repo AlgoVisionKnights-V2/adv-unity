@@ -6,7 +6,7 @@ using TMPro;
 using System;
 public class TravUI : MonoBehaviour
 {
-
+    bool toggleStatus;
     [SerializeField] traversals a;
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject canvas;
@@ -25,6 +25,9 @@ public class TravUI : MonoBehaviour
         canvas.transform.GetChild(13).gameObject.SetActive(false);
         canvas.transform.GetChild(15).GetComponent<TMP_Text>().text = "Print order:";
         canvas.transform.GetChild(16).GetComponent<TMP_Text>().text = "";
+        toggleStatus = false;
+        canvas.transform.GetChild(14).GetChild(1).gameObject.SetActive(false);
+        canvas.transform.GetChild(14).GetChild(2).gameObject.SetActive(false);        
         switch (startSize)
         {
             case 0:
@@ -74,23 +77,20 @@ public class TravUI : MonoBehaviour
         a.time = speedSlider.value;
     }
 
-    void insertKeys()// attach inputfield on the canvas to this functionStartCoroutine(a.readQueue());
+    public void tipToggle()
     {
+        Debug.Log(FindObjectOfType<TMP_Dropdown>().value);
 
-        string inputs = "";//= canvas.transform.GetChild(13).GetComponent<TMP_Text>().text;// grab string from canvas
-
-        // clear text input field
-
-        string[] textInputs = inputs.Split(',');// split string into tokens by the commas
-        int[] keys = new int[textInputs.Length];
-
-
-        // converting string into arrays
-            // check if its a valid string
-                // no letters
-                // no 0's
-
-        // send that shit to customInsert()
-        // StartCoroutine(a.readQueue());
+        if (toggleStatus)
+        {
+            toggleStatus = false;
+            canvas.transform.GetChild(14).GetChild(1).gameObject.SetActive(false);
+            
+        }
+        else
+        {
+            toggleStatus = true;
+            canvas.transform.GetChild(14).GetChild(1).gameObject.SetActive(true);
+        }
     }
 }
