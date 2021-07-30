@@ -30,6 +30,7 @@ public class CameraFit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        startSize = FindObjectOfType<TMP_Dropdown>().value;
         if (maitainWidth)
         {
             Camera.main.orthographicSize = defaultWidth / Camera.main.aspect;
