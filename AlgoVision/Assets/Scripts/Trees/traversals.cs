@@ -346,8 +346,6 @@ public class traversals : Algorithm
             {
                 keys[i] = r.Next(1, 1000);
             }
-
-            q.Enqueue(new TravCommand(Commands.UPDATE_BOARD, keys[i], 0, ""));
             insert(keys[i], 0);
         }
 
@@ -754,19 +752,7 @@ public class traversals : Algorithm
                     }
                     break;
                
-                case Commands.UPDATE_BOARD: // update board (10, key, insert/delete, "")
-
-                    if (instr.arg2 == 0)
-                    {
-                        canvas.transform.GetChild(14).GetChild(1).GetComponent<TMP_Text>().text = "" + instr.arg1;
-                        canvas.transform.GetChild(14).GetChild(0).GetComponent<TMP_Text>().text = "Inserting:";
-                    }
-                    else
-                    {
-                        canvas.transform.GetChild(14).GetChild(1).GetComponent<TMP_Text>().text = "" + instr.arg1;
-                        canvas.transform.GetChild(14).GetChild(0).GetComponent<TMP_Text>().text = "Deleting:";
-                    }
-                    break;
+               
                 case Commands.UPDATE_MESSAGE: // add number to printField (12, index, value to add, "")
                     canvas.transform.GetChild(15).GetComponent<TMP_Text>().text += " " + instr.arg2.ToString();
                     break;
