@@ -50,7 +50,9 @@ public abstract class Algorithm : MonoBehaviour
         REPOSITION,
         RELOCATE,
         UPDATE_HEAD,
-        DELETE_EDGE
+        DELETE_EDGE,
+        COMPARE,
+        HEAP_COLOR
     }
     public enum Array {
         MAIN,

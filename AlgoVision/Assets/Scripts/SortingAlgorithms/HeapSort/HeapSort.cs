@@ -54,6 +54,7 @@ public class HeapSort : Algorithm
             vizArray[i] = new ArrayNode(inttree[i], i, boxPrefab, size);
             
             p.Enqueue(new queueCommand(Commands.MAKE_HEAP_NODE, inttree[i], i, ""));
+            p.Enqueue(new queueCommand(Commands.COLOR_ONE, i, Colors.BLUE, ""));
             p.Enqueue(new queueCommand(Commands.WAIT, 0, 0,"Made node " + inttree[i]));
         }
     }
@@ -79,6 +80,14 @@ public class HeapSort : Algorithm
             this.arg1 = a1;
             this.colorID = a2;
             this.message = mess;
+        }
+        public queueCommand(Commands cID, int a1, int a2, Colors c)
+        {
+            this.commandID = cID;
+            this.arg1 = a1;
+            this.arg2 = a2;
+            this.colorID = c;
+            this.message = "";
         }
     }
     public class ArrayNode
@@ -180,7 +189,7 @@ public class HeapSort : Algorithm
                     n = n + 2;
                     
                     Xcoords[j] = 3.1f * x;
-                    Ycoords[j] = 3 * y;
+                    Ycoords[j] = 1.3f * y - 3.5f;
                 }
             }
         }
@@ -198,7 +207,7 @@ public class HeapSort : Algorithm
                     n = n + 2;
 
                     Xcoords[j] = 3.1f*x;
-                    Ycoords[j] = 3 * y;
+                    Ycoords[j] = 1.3f * y - 3.5f;
                 }
             }
         }
@@ -211,18 +220,31 @@ public class HeapSort : Algorithm
 
     public void sort()
     {
+        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Beginning Heapify Process."));
         heapify();
+        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Array has been Heapified!"));
 
-        for(int i = size-1; i > 0; i--)
+        for (int i = size-1; i > 0; i--)
         {
+            p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Swapping the top element of the heap with the lowest element,"));
             swap(0, i);
+            p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Removing the lowest element from the heap."));
             p.Enqueue(new queueCommand(Commands.DELETE_HEAP_NODE, i, 0, ""));
             p.Enqueue(new queueCommand(Commands.COLOR_ONE, i, Colors.GREEN, ""));
 
-            Percolate(i);
+            if(i > 1)
+            {
+                p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Array is no longer in a heap. Percolating the top node down."));
+                Percolate(i);
+                p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "The Heap has been restored."));
+            }
         }
+        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Removing the last element from the heap"));
+
         p.Enqueue(new queueCommand(Commands.DELETE_HEAP_NODE, 0, 0, ""));
         p.Enqueue(new queueCommand(Commands.COLOR_ONE, 0, Colors.GREEN, ""));
+
+        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Heapsort is completed!"));
     }
 
     private void Percolate(int bound)
@@ -236,33 +258,64 @@ public class HeapSort : Algorithm
 
             if (right < bound)
             {
-                if(inttree[left] < inttree[right]) // if the right child is greater
+                if(compare(left, right) && inttree[left] < inttree[right]) // if the right child is greater
                 {
-                    if (inttree[right] > inttree[parent])
+                    p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[right] + " is the biggest child of " + inttree[parent]));
+                    uncompare(left, right);
+
+                    if (compare(parent, right) && inttree[right] > inttree[parent])
                     {
+                        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[right] + " is bigger than " + inttree[parent]));
                         swap(right, parent);
+                        uncompare(parent, right);
                         parent = right;
                     }
-                    else return;
+                    else
+                    {
+                        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[right] + " is less than " + inttree[parent]));
+                        uncompare(right, parent);
+                        //p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "The heap has been restored."));
+                        return;
+                    }
                 }
                 else // if the left child is greater
                 {
-                    if (inttree[left] > inttree[parent])
+                    p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[left] + " is the biggest child of " + inttree[parent]));
+                    uncompare(left, right);
+
+                    if (compare(parent, left) && inttree[left] > inttree[parent])
                     {
+                        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[left] + " is bigger than " + inttree[parent]));
                         swap(left, parent);
+                        uncompare(parent, left);
                         parent = left;
                     }
-                    else return;
+                    else
+                    {
+                        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[left] + " is less than " + inttree[parent]));
+                        uncompare(left, parent);
+                        //p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "The heap has been restored."));
+                        return; 
+                    }
                 }
             }
             else if (left < bound)
             {
-                if (inttree[left] > inttree[parent])
+                p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[left] + " is the only child of " + inttree[parent]));
+                if (compare(parent, left) && inttree[left] > inttree[parent])
                 {
+                    p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[left] + " is bigger than " + inttree[parent]));
                     swap(left, parent);
+                    uncompare(parent, left);
                     parent = left;
                 }
-                else return;
+                else
+                {
+                    p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[left] + " is less than " + inttree[parent]));
+                    uncompare(left, parent);
+                    //p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "The heap has been restored."));
+                    return;
+                }
             }
             else return;
         }
@@ -274,13 +327,24 @@ public class HeapSort : Algorithm
         {
             int child = i;
             int parent = parentI(child);
-            while(parent >= 0 && inttree[child] > inttree[parent])
+            p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, " "));
+
+            while (parent >= 0 && inttree[child] > inttree[parent] && compare(child, parent))
             {
+                p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[child] + " is greater than " + inttree[parent]));
                 swap(child, parent);
+                uncompare(child, parent);
 
                 child = parent;
                 parent = parentI(child);
             }
+
+            if (parent >= 0 && child >= 0 && inttree[child] <= inttree[parent] && compare(parent, child))
+            {
+                p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, inttree[child] + " is less than " + inttree[parent]));
+                uncompare(child, parent);
+            }
+            
         }
     }
 
@@ -291,11 +355,27 @@ public class HeapSort : Algorithm
         inttree[j] = temp;
 
         p.Enqueue(new queueCommand(Commands.SWAP, i, j, ""));
-        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "SWAPPED"));
+        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Swapping " + inttree[j] + " and " + inttree[i]));
+    }
+
+    private bool compare(int i, int j)
+    {
+        p.Enqueue(new queueCommand(Commands.COLOR_TWO, i, j, Colors.RED));
+        p.Enqueue(new queueCommand(Commands.COMPARE, i, j, ""));
+        p.Enqueue(new queueCommand(Commands.WAIT, 0, 0, "Comparing " + inttree[i] + " to " + inttree[j]));
+
+        return true;
+    }
+
+    private void uncompare(int i, int j)
+    {
+        p.Enqueue(new queueCommand(Commands.COLOR_TWO, i, j, Colors.BLUE));
     }
 
     public IEnumerator readQueue()
     {
+        int swaps = 0;
+        int compares = 0;
         GameObject canvas = GameObject.Find("Canvas");
         while(p.Count != 0)
         {
@@ -306,7 +386,10 @@ public class HeapSort : Algorithm
                 canvas.transform.GetChild(5).GetComponent<TMP_Text>().text = instr.message;
             }
 
-            switch(instr.commandID)
+            canvas.transform.GetChild(12).GetChild(0).GetComponent<TMP_Text>().text = ("Compares: " + compares.ToString());
+            canvas.transform.GetChild(12).GetChild(1).GetComponent<TMP_Text>().text = ("Swaps: " + swaps.ToString());
+
+            switch (instr.commandID)
             {
                 case Commands.WAIT:
                 
@@ -321,7 +404,8 @@ public class HeapSort : Algorithm
                 
 
                 case Commands.SWAP: // arg1 = parent, arg2 = child
-                
+                    swaps++;
+
                     int parentValue = vizArray[instr.arg1].value;
                     int childValue = vizArray[instr.arg2].value;
 
@@ -341,7 +425,7 @@ public class HeapSort : Algorithm
                     vizHeap[instr.arg1] = null;
                     break;
 
-                case Commands.COLOR_ONE: // arg1 = index, arg2 = color
+                case Commands.COLOR_ONE: // arg1 = index, colorID = color
                     if(vizHeap[instr.arg1] != null)
                     {
                         switch(instr.colorID)
@@ -358,6 +442,11 @@ public class HeapSort : Algorithm
                             case Colors.GREEN:
                                 var green = new Color(0.533f, 0.671f, 0.459f);
                                 vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = green;
+                                break;
+
+                            case Colors.BLUE:
+                                float frac = (float)(Math.Ceiling(Math.Log(instr.arg1 + 1.1, 2)) / (Math.Log(size, 2) + 1));
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = new Color(frac, frac, 1.0f);
                                 break;
                         }
                     }
@@ -377,9 +466,98 @@ public class HeapSort : Algorithm
                             var green = new Color(0.533f, 0.671f, 0.459f);
                             vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = green;
                             break;
+                        case Colors.BLUE:
+                            float frac = (float)(Math.Ceiling(Math.Log(instr.arg1 + 1.1, 2)) / (Math.Log(size, 2) + 1));
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = new Color(frac, frac, 1.0f);
+                            break;
                     }
 
                     break;
+
+                case Commands.COLOR_TWO: // arg1 = index1, arg2 = index2, colorID = color
+                    if (vizHeap[instr.arg1] != null)
+                    {
+                        switch (instr.colorID)
+                        {
+                            case Colors.WHITE:
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = Color.white;
+                                break;
+
+                            case Colors.RED:
+                                var red = new Color(1f, .2f, .361f, 1);
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = red;
+                                break;
+
+                            case Colors.GREEN:
+                                var green = new Color(0.533f, 0.671f, 0.459f);
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = green;
+                                break;
+
+                            case Colors.BLUE:
+                                float frac = (float)(Math.Ceiling(Math.Log(instr.arg1 + 1.1, 2)) / (Math.Log(size, 2) + 1));
+                                vizHeap[instr.arg1].o.GetComponent<Renderer>().material.color = new Color(frac, frac, 1.0f);
+                                break;
+                        }
+                    }
+
+                    if (vizHeap[instr.arg2] != null)
+                    {
+                        switch (instr.colorID)
+                        {
+                            case Colors.WHITE:
+                                vizHeap[instr.arg2].o.GetComponent<Renderer>().material.color = Color.white;
+                                break;
+
+                            case Colors.RED:
+                                var red = new Color(1f, .2f, .361f, 1);
+                                vizHeap[instr.arg2].o.GetComponent<Renderer>().material.color = red;
+                                break;
+
+                            case Colors.GREEN:
+                                var green = new Color(0.533f, 0.671f, 0.459f);
+                                vizHeap[instr.arg2].o.GetComponent<Renderer>().material.color = green;
+                                break;
+
+                            case Colors.BLUE:
+                                float frac = (float)(Math.Ceiling(Math.Log(instr.arg2 + 1.1, 2)) / (Math.Log(size, 2) + 1));
+                                vizHeap[instr.arg2].o.GetComponent<Renderer>().material.color = new Color(frac, frac, 1.0f);
+                                break;
+                        }
+                    }
+
+                    switch (instr.colorID)
+                    {
+                        case Colors.WHITE:
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = Color.white;
+                            vizArray[instr.arg2].o.GetComponent<Renderer>().material.color = Color.white;
+                            break;
+
+                        case Colors.RED:
+                            var red = new Color(1f, .2f, .361f, 1);
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = red;
+                            vizArray[instr.arg2].o.GetComponent<Renderer>().material.color = red;
+                            break;
+
+                        case Colors.GREEN:
+                            var green = new Color(0.533f, 0.671f, 0.459f);
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = green;
+                            vizArray[instr.arg2].o.GetComponent<Renderer>().material.color = green;
+                            break;
+
+                        case Colors.BLUE:
+                            float frac = (float)(Math.Ceiling(Math.Log(instr.arg1 + 1.1, 2)) / (Math.Log(size, 2) + 1));
+                            float frac2 = (float)(Math.Ceiling(Math.Log(instr.arg2 + 1.1, 2)) / (Math.Log(size, 2) + 1));
+                            vizArray[instr.arg1].o.GetComponent<Renderer>().material.color = new Color(frac, frac, 1.0f);
+                            vizArray[instr.arg2].o.GetComponent<Renderer>().material.color = new Color(frac2, frac2, 1.0f);
+                            break;
+                    }
+
+                    break;
+
+                case Commands.COMPARE:
+                    compares++;
+                    break;
+               
 
             }
         }
