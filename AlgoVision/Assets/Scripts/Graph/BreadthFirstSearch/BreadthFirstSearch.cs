@@ -58,6 +58,8 @@ public class BreadthFirstSearch : SearchGraph
             if(count != 0){
                 count--;
                 head = head.next;
+                createQueueString();
+
             }
             return;
         }
@@ -65,7 +67,7 @@ public class BreadthFirstSearch : SearchGraph
             queueString = "";
             ListNode temp = head;
             while(temp != null){
-                queueString += temp.vertex.value.ToString() + "│";
+                queueString += " " + temp.vertex.value.ToString() + " " + (temp.next == null ? "" : "|");
                 temp = temp.next;
             }
         }
@@ -102,6 +104,7 @@ public class BreadthFirstSearch : SearchGraph
         queue.Enqueue(new QueueCommand(Commands.WAIT));
         while(list.count > 0){
             queue.Enqueue(new QueueCommand(Commands.UPDATE_VERTEX, list.head.vertex.value.ToString(), Colors.DEFAULT));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, list.head.vertex.value, -1, Colors.YELLOW));
 
             for (i = 0; i < list.head.vertex.neighbors.Count; i++){
                 v = (BFSVertex)(list.head.vertex.neighbors[i]);
@@ -125,8 +128,10 @@ public class BreadthFirstSearch : SearchGraph
 
             }
             queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, list.head.vertex.value, -1, Colors.BLACK));
-            queue.Enqueue(new QueueCommand(Commands.WAIT));
             list.next();
+            queue.Enqueue(new QueueCommand(Commands.UPDATE_QUEUE_MESSAGE, list.queueString, Colors.DEFAULT));
+            queue.Enqueue(new QueueCommand(Commands.WAIT));
+
         }
     }
     protected override void extendCommands(QueueCommand command)
