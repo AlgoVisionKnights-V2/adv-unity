@@ -17,12 +17,12 @@ public class CameraFitAVL : MonoBehaviour
         
         if (startSize != 2)
         {
-            defaultWidth = 14.0f * 1.825866f;
+            defaultWidth = 16.0f * 1.825866f;
 
         }
         else
         {
-            defaultWidth = 24.0f * 1.825866f;
+            defaultWidth = 26.0f * 1.825866f;
         }
 
     }
@@ -49,12 +49,13 @@ public class CameraFitAVL : MonoBehaviour
 
         if (startSize != 2)
         {
-            defaultWidth = 6.0f * 2.625866f;
+            defaultWidth = 16.0f * 1.825866f;
+
 
         }
         else
         {
-            defaultWidth = 8.5f * 2.625866f;
+            defaultWidth = 26.0f * 1.825866f;
         }
 
     }
