@@ -6,7 +6,6 @@ using TMPro;
 using System;
 public class AVLUI : MonoBehaviour
 {
-    bool toggleStatus;
     [SerializeField] AVL a;
     [SerializeField] GameObject spherePrefab;
     [SerializeField] GameObject canvas;
@@ -18,7 +17,6 @@ public class AVLUI : MonoBehaviour
     {
         a = new AVL(0, spherePrefab);
         int startSize = FindObjectOfType<TMP_Dropdown>().value;
-        toggleStatus = false;
         //FindObjectOfType<TMP_InputField>.SetActive(false); // makes input field invisible
         //a.time = speedSlider.value;
         canvas = GameObject.Find("Canvas");
@@ -80,7 +78,7 @@ public class AVLUI : MonoBehaviour
         a.time = speedSlider.value;
     }
 
-    public void tipToggle()
+    /*public void tipToggle()
     {
         Debug.Log(FindObjectOfType<TMP_Dropdown>().value);
 
@@ -103,5 +101,5 @@ public class AVLUI : MonoBehaviour
                 canvas.transform.GetChild(15).GetChild(2).gameObject.SetActive(true);
             }
         }
-    }
+    }*/
 }

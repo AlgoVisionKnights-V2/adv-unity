@@ -6385,14 +6385,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1880129611}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee66ca538d785be4db8588a7b3ee4ffb, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fb6ec74aef88b44caeb14940ae657b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  a: {fileID: 0}
-  spherePrefab: {fileID: 0}
-  canvas: {fileID: 0}
-  cam: {fileID: 0}
-  speedSlider: {fileID: 0}
+  canvas: {fileID: 1271266868}
 --- !u!114 &1880129614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6438,7 +6434,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1880129613}
-        m_TargetAssemblyTypeName: BSTUI, Assembly-CSharp
+        m_TargetAssemblyTypeName: treeTipToggle, Assembly-CSharp
         m_MethodName: tipToggle
         m_Mode: 1
         m_Arguments:

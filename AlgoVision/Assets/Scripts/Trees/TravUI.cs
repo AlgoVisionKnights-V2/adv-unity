@@ -17,6 +17,7 @@ public class TravUI : MonoBehaviour
     void Start()
     {
         a = new traversals(0, spherePrefab);
+        
         int startSize = FindObjectOfType<TMP_Dropdown>().value;
         //FindObjectOfType<TMP_InputField>.SetActive(false); // makes input field invisible
         //a.time = speedSlider.value;
@@ -27,7 +28,7 @@ public class TravUI : MonoBehaviour
         canvas.transform.GetChild(16).GetComponent<TMP_Text>().text = "";
         toggleStatus = false;
         canvas.transform.GetChild(14).GetChild(1).gameObject.SetActive(false);
-        canvas.transform.GetChild(14).GetChild(2).gameObject.SetActive(false);        
+             
         switch (startSize)
         {
             case 0:
@@ -44,7 +45,7 @@ public class TravUI : MonoBehaviour
                     StartCoroutine(a.readQueue());
                     break;
                 }
-            case 2:
+            case 3:
                 {
 
                     Camera.main.orthographicSize = 14;
@@ -52,12 +53,10 @@ public class TravUI : MonoBehaviour
                     StartCoroutine(a.readQueue());
                     break;
                 }
-            case 3:
+            case 4:
                 {
                     canvas.transform.GetChild(16).GetComponent<TMP_Text>().text = "Queue:";
                     Camera.main.orthographicSize = 14;
-                    /*canvas.transform.GetChild(5).GetComponent<TMP_Text>().text = "Choose Values To Insert or Delete!";
-                    canvas.transform.GetChild(13).gameObject.SetActive(true);*/
                     a.printOrder(3);
                     StartCoroutine(a.readQueue());
                     break;
