@@ -72,6 +72,10 @@ public class DepthFirstSearch : SearchGraph
 
                 queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, node, -1, Colors.YELLOW));
             }
+            else{
+                queue.Enqueue(new QueueCommand(Commands.UPDATE_MESSAGE, "" + v.value + " has been previously reached", Colors.BLUE));
+                queue.Enqueue(new QueueCommand(Commands.WAIT));
+            }
             // we'll want to change the connecting edge back to white
             queue.Enqueue(new QueueCommand(Commands.COLOR_EDGE, vertices[node].neighborEdges[i].id, Colors.WHITE));
             queue.Enqueue(new QueueCommand(Commands.WAIT));
