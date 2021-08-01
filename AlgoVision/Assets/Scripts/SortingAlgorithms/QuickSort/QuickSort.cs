@@ -52,10 +52,11 @@ public class QuickSort : SortingAlgorithm1
             queue.Enqueue(new QueueCommand());
 
             split = partition(low, high);
+            queue.Enqueue(new QueueCommand(Commands.LOWER_ALL, low, high, Array.MAIN));
             queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, low, split - 1, Array.MAIN, Colors.WHITE));
             queue.Enqueue(new QueueCommand(Commands.COLOR_ALL, split + 1, high, Array.MAIN, Colors.WHITE));
+            queue.Enqueue(new QueueCommand(Commands.COLOR_ONE, split, Array.MAIN, Colors.GREEN));
             
-            queue.Enqueue(new QueueCommand(Commands.LOWER_ALL, low, high, Array.MAIN));
             queue.Enqueue(new QueueCommand());
             quickSort(low, split - 1);
             quickSort(split + 1, high);
