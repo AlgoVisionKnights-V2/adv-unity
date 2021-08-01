@@ -69,6 +69,9 @@ public class NQueens : Algorithm
             labelText2[i].transform.position = new Vector3(i * 1.28f, 0, 0);
         }
         setCam();
+        canvas.transform.GetChild(12).GetChild(0).GetComponent<TMP_Text>().text = "Stack Calls: " + stackCalls;
+        canvas.transform.GetChild(12).GetChild(1).GetComponent<TMP_Text>().text = "Backtracks: " + backTracks;
+
     }
     public void setCam()
     {
