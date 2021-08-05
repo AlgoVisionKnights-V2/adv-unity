@@ -29,7 +29,7 @@ public class AVL : Algorithm
 
         for (int i = 0; i < inttree.Length; i++)
         {
-            inttree[i] = -1; // if a node is null, it's key is -1
+            inttree[i] = -1; // if a node is null, its key is -1
             heights[i] = 0; // default height is zero
         }
     }
@@ -87,7 +87,7 @@ public class AVL : Algorithm
 
         for (int i = 0; i < inttree.Length; i++)
         {
-            inttree[i] = -1; // if a node is null, it's key is -1
+            inttree[i] = -1; // if a node is null, its key is -1
             heights[i] = 0; // default height is zero
         }
 
@@ -202,7 +202,7 @@ public class AVL : Algorithm
 
         for (int i = 0; i < inttree.Length; i++)
         {
-            inttree[i] = -1; // if a node is null, it's key is -1
+            inttree[i] = -1; // if a node is null, its key is -1
             heights[i] = 0; // default height is zero
         }
 
@@ -307,7 +307,7 @@ public class AVL : Algorithm
             if (I != 0) // if the new node isn't at index 0 (the root of the tree) draw a line to the parent node 
             {
                 q.Enqueue(new AVLCommand(Commands.WAIT, 0, 0, ""));
-                q.Enqueue(new AVLCommand(Commands.LINK_NODE, I, parentI(I), "Linking node to it's new parent."));
+                q.Enqueue(new AVLCommand(Commands.LINK_NODE, I, parentI(I), "Linking node to its new parent."));
             }
             q.Enqueue(new AVLCommand(Commands.WAIT, 0, 0, ""));
             return;

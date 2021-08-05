@@ -30,7 +30,7 @@ public class traversals : Algorithm
 
         for (int i = 0; i < inttree.Length; i++)
         {
-            inttree[i] = -1; // if a node is null, it's key is -1
+            inttree[i] = -1; // if a node is null, its key is -1
         }
     }
 
@@ -323,7 +323,7 @@ public class traversals : Algorithm
 
         for (int i = 0; i < inttree.Length; i++)
         {
-            inttree[i] = -1; // if a node is null, it's key is -1
+            inttree[i] = -1; // if a node is null, its key is -1
         }
 
         keys = new int[size];
